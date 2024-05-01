@@ -1,34 +1,88 @@
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+#include <TinyGPS++.h>
+#include <SoftwareSerial.h>
 #include <esp_now.h>
 #include <WiFi.h>
+#include <Arduino.h>
 
-typedef struct structMessage {
-	String lat;
-	String lon;
-	String speed;
-} structMessage;
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+#define OLED_SDA 8
+#define OLED_SCL 9
+#define OLED_RESET -1
 
-structMessage receivedMessage;
+#define GPS_RX 14
+#define GPS_TX 12
 
-void OnDataReceived(const uint8_t* mac, const uint8_t* incomingData, int len)
+struct MessageData {
+    String lat;
+    String lon;
+    String speed;
+};
+
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+
+SoftwareSerial gpsSerial(GPS_RX, GPS_TX);
+TinyGPSPlus gps;
+
+esp_now_peer_info_t peerInfo;
+
+const uint8_t broadcastAddress[] = { 0xE8, 0x6B, 0xEA, 0xE0, 0x0A, 0xA4 };
+
+MessageData message;
+
+void displayData(String text)
 {
-	memcpy(&receivedMessage, incomingData, sizeof(receivedMessage));
-	Serial.println(receivedMessage.lat);
-	Serial.println(receivedMessage.lon);
-	Serial.println(receivedMessage.speed);
-	delay(1000);
+    display.clearDisplay();
+    display.setTextSize(1);
+    display.setTextColor(SSD1306_WHITE);
+    display.setCursor(0, 0);
+    display.write(text.c_str());
+    display.display();
 }
 
 void setup()
 {
-	Serial.begin(115200);
+    Wire.begin(OLED_SDA, OLED_SCL);
 
-	WiFi.mode(WIFI_STA);
+    display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+    display.clearDisplay();
 
-	esp_now_init();
-	esp_now_register_recv_cb(OnDataReceived);
+    gpsSerial.begin(9600);
+
+    WiFi.mode(WIFI_STA);
+
+    ESP_ERROR_CHECK(esp_now_init());
+
+    memcpy(peerInfo.peer_addr, broadcastAddress, 6);
+    peerInfo.channel = 0;
+    peerInfo.encrypt = false;
+
+    ESP_ERROR_CHECK(esp_now_add_peer(&peerInfo));
 }
 
 void loop()
 {
+    String displayOutput = "";
+    while (gpsSerial.available())
+    {
+        if (gps.encode(gpsSerial.read()))
+        {
+            displayOutput += "SATS: " + String(gps.satellites.value()) + "\n";
+            displayOutput += "LAT: " + String(gps.location.lat(), 6) + "\n";
+            displayOutput += "LON: " + String(gps.location.lng(), 6) + "\n";
+            displayOutput += "ALT: " + String(gps.altitude.meters()) + " m\n";
+            displayOutput += "SPEED: " + String(gps.speed.kmph()) + " km/h\n";
+            displayOutput += "DATE: " + String(gps.date.day()) + "/" + String(gps.date.month()) + "/" + String(gps.date.year()) + "\n";
+            displayOutput += "TIME: " + String(gps.time.hour()) + ":" + String(gps.time.minute()) + ":" + String(gps.time.second()) + "\n";
+            displayData(displayOutput);
 
+            message.lat = String(gps.location.lat(), 6);
+            message.lon = String(gps.location.lng(), 6);
+            message.speed = String(gps.speed.kmph());
+            ESP_ERROR_CHECK(esp_now_send(broadcastAddress, (uint8_t*)&message, sizeof(message)));
+        }
+    }
 }
