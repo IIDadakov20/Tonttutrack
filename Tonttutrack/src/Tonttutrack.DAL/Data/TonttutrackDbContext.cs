@@ -13,8 +13,6 @@ public class TonttutrackDbContext : IdentityDbContext<User, IdentityRole<Guid>, 
 
     public DbSet<Device> Devices { get; set; }
 
-    public override DbSet<User> Users { get; set; }
-
     public DbSet<UserDevice> UserDevices { get; set; }
 
     public DbSet<Route> Routes { get; set; }

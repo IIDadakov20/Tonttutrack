@@ -1,13 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using Tonttutrack.DAL.Data;
+using Tonttutrack.BLL;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<TonttutrackDbContext>(options =>options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<TonttutrackDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddServices();
 
 var app = builder.Build();
 
