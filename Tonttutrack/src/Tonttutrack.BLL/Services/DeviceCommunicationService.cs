@@ -7,13 +7,11 @@ internal class DeviceCommunicationService : IDeviceCommunicationService
 {
     private SerialPort? _port;
 
-    public async Task<bool> AuthorizeDeviceConnectionAsync()
+    public async Task<bool> AuthorizeDeviceConnectionAsync(string authorizationCode)
     {
-        string authorizationCode = "123456";
-
         foreach (var portName in SerialPort.GetPortNames())
         {
-            SerialPort port = new SerialPort(portName, 115200);
+            SerialPort port = new(portName, 115200);
             port.Open();
             port.Write("Authentication code required");
 

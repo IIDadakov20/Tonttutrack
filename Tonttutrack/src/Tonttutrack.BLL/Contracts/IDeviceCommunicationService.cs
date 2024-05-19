@@ -4,7 +4,7 @@ namespace Tonttutrack.BLL.Contracts;
 
 public interface IDeviceCommunicationService
 {
-    Task<bool> AuthorizeDeviceConnectionAsync();
+    Task<bool> AuthorizeDeviceConnectionAsync(string authorizationCode);
 
     Task<string> ReceiveDeviceDataAsync(SerialPort port);
 
