@@ -4,13 +4,12 @@ using Tonttutrack.BLL.Services;
 
 namespace Tonttutrack.BLL;
 
-public static class DependencyInjection
+public static class DependencyInjectionConfig
 {
     public static void AddServices(this IServiceCollection servicesCollection)
     {
         servicesCollection
             .AddScoped<IDeviceCommunicationService, DeviceCommunicationService>()
-            .AddScoped<IDeviceService, DeviceService>()
             .AddScoped<IUserAuthService, UserAuthService>();
     }
 }
