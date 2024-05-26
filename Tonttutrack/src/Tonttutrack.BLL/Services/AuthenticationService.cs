@@ -4,11 +4,11 @@ using Tonttutrack.DAL.Data.Models;
 
 namespace Tonttutrack.BLL.Services;
 
-internal class UserAuthService : IUserAuthService
+internal class AuthenticationService : IAuthenticationService
 {
     private readonly UserManager<User> _userManager;
 
-    public UserAuthService(UserManager<User> userManager)
+    public AuthenticationService(UserManager<User> userManager)
     {
         _userManager = userManager;
     }

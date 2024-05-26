@@ -1,6 +1,6 @@
 ﻿namespace Tonttutrack.BLL.Contracts;
 
-public interface IUserAuthService
+public interface IAuthenticationService
 {
     Task<bool> CheckUserExistsByEmailAsync(string email);
 

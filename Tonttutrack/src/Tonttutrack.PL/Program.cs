@@ -14,6 +14,8 @@ builder.Services
 
 builder.Services.AddServices();
 
+builder.Services.AddAutoMapper(typeof(ModelMapper));
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 

@@ -4,10 +4,11 @@ using Tonttutrack.SharedModels.DTO;
 
 namespace Tonttutrack.BLL;
 
-internal class ModelMapper : Profile
+public class ModelMapper : Profile
 {
 	internal ModelMapper()
 	{
 		CreateMap<RegisterDTO, User>();
-	}
+        CreateMap<User, UserDTO>();
+    }
 }
