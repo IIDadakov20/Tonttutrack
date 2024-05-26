@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Tonttutrack.PL.Models;
+namespace Tonttutrack.SharedModels.DTO;
 
-public class RegisterViewModel
+public class RegisterDTO
 {
 	[Required(ErrorMessage = "This field is required.")]
 	[StringLength(50, MinimumLength = 2)]

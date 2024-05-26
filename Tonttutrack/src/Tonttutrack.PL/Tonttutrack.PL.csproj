@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tonttutrack.BLL\Tonttutrack.BLL.csproj" />
-    <ProjectReference Include="..\Tonttutrack.DAL\Tonttutrack.DAL.csproj" />
   </ItemGroup>
 
 </Project>

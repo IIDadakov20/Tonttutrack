@@ -1,5 +1,13 @@
-﻿namespace Tonttutrack.BLL;
+﻿using AutoMapper;
+using Tonttutrack.DAL.Data.Models;
+using Tonttutrack.SharedModels.DTO;
 
-internal class ModelMapper
+namespace Tonttutrack.BLL;
+
+internal class ModelMapper : Profile
 {
+	internal ModelMapper()
+	{
+		CreateMap<RegisterDTO, User>();
+	}
 }

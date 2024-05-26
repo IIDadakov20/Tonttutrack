@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Tonttutrack.PL.Models;
+namespace Tonttutrack.SharedModels.DTO;
 
-public class LoginViewModel
+public class LoginDTO
 {
 	[Required(ErrorMessage = "This field is required.")]
 	[DataType(DataType.EmailAddress)]

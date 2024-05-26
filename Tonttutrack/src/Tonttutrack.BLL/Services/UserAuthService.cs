@@ -13,17 +13,17 @@ internal class UserAuthService : IUserAuthService
         _userManager = userManager;
     }
 
-    public async Task<bool> CheckUserExistsByEmail(string email)
+    public async Task<bool> CheckUserExistsByEmailAsync(string email)
     {
         return await _userManager.FindByEmailAsync(email) != null;
     }
 
-    public async Task<bool> CheckUserExistsByUsername(string username)
+    public async Task<bool> CheckUserExistsByUsernameAsync(string username)
     {
         return await _userManager.FindByNameAsync(username) != null;
     }
 
-    public async Task<bool> VerifyUserPassword(string email, string password)
+    public async Task<bool> VerifyUserPasswordAsync(string email, string password)
     {
         var user = await _userManager.FindByEmailAsync(email);
 

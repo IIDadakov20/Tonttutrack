@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tonttutrack.DAL", "src\Tonttutrack.DAL\Tonttutrack.DAL.csproj", "{296940C6-5443-46E9-97C8-7608B1A81F35}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tonttutrack.DAL", "src\Tonttutrack.DAL\Tonttutrack.DAL.csproj", "{296940C6-5443-46E9-97C8-7608B1A81F35}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tonttutrack.BLL", "src\Tonttutrack.BLL\Tonttutrack.BLL.csproj", "{D56F1114-D606-43B2-9077-F6E0461C41A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tonttutrack.BLL", "src\Tonttutrack.BLL\Tonttutrack.BLL.csproj", "{D56F1114-D606-43B2-9077-F6E0461C41A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tonttutrack.PL", "src\Tonttutrack.PL\Tonttutrack.PL.csproj", "{5B30CC6A-A365-44C9-BA1E-6F28102D7664}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tonttutrack.PL", "src\Tonttutrack.PL\Tonttutrack.PL.csproj", "{5B30CC6A-A365-44C9-BA1E-6F28102D7664}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tonttutrack.SharedModels", "src\Tonttutrack.SharedModels\Tonttutrack.SharedModels.csproj", "{D2198B2D-4103-4CE4-9FFB-6F0BB2153C2E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{5B30CC6A-A365-44C9-BA1E-6F28102D7664}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B30CC6A-A365-44C9-BA1E-6F28102D7664}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B30CC6A-A365-44C9-BA1E-6F28102D7664}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2198B2D-4103-4CE4-9FFB-6F0BB2153C2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2198B2D-4103-4CE4-9FFB-6F0BB2153C2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2198B2D-4103-4CE4-9FFB-6F0BB2153C2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2198B2D-4103-4CE4-9FFB-6F0BB2153C2E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
