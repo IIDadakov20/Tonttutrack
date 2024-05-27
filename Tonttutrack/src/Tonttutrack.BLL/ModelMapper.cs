@@ -6,9 +6,9 @@ namespace Tonttutrack.BLL;
 
 public class ModelMapper : Profile
 {
-	internal ModelMapper()
-	{
-		CreateMap<RegisterDTO, User>();
+    public ModelMapper()
+    {
+        CreateMap<RegisterDTO, User>();
         CreateMap<User, UserDTO>();
     }
 }

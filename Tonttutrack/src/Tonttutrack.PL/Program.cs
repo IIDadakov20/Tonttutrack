@@ -9,7 +9,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<TonttutrackDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services
-	.AddIdentity<User, IdentityRole<Guid>>()
+	.AddIdentity<User, IdentityRole<Guid>>(options =>
+    {
+        options.Password.RequireLowercase = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequireNonAlphanumeric = false;
+    })
 	.AddEntityFrameworkStores<TonttutrackDbContext>();
 
 builder.Services.AddServices();

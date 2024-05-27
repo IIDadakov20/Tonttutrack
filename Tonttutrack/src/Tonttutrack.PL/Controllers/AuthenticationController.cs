@@ -19,36 +19,36 @@ public class AuthenticationController : Controller
 
 	public IActionResult Register()
 	{
-		return View();
+		return View("~/Views/Account/Register.cshtml");
 	}
 
 	[HttpPost]
 	public async Task<IActionResult> RegisterAsync(RegisterDTO userInput)
 	{
-		if (ModelState.IsValid)
+		if (await _userAuthService.CheckUserExistsByEmailAsync(userInput.Email))
 		{
-			if (await _userAuthService.CheckUserExistsByEmailAsync(userInput.Email))
-			{
-				ModelState.AddModelError("Email", "User already exists with that email.");
-			}
-
-			if (await _userAuthService.CheckUserExistsByUsernameAsync(userInput.Username))
-			{
-				ModelState.AddModelError("Username", "User already exists with that username.");
-			}
-
-			var registrationResult = await _userService.CreateUserAsync(userInput);
-
-			if (!registrationResult.Succeeded)
-			{
-				ModelState.AddModelError("", "Problem occurred while creating your profile");
-				return View(userInput);
-			}
-
-			return RedirectToAction("Index", "Home");
+			ModelState.AddModelError("Email", "User already exists with that email.");
 		}
 
-		return View(userInput);
+		if (await _userAuthService.CheckUserExistsByUsernameAsync(userInput.Username))
+		{
+			ModelState.AddModelError("Username", "User already exists with that username.");
+		}
+
+		if (!ModelState.IsValid)
+		{
+            return View("~/Views/Account/Register.cshtml", userInput);
+        }
+
+        var registrationResult = await _userService.CreateUserAsync(userInput);
+
+		if (!registrationResult.Succeeded)
+		{
+			ModelState.AddModelError("", "Problem occurred while creating your profile");
+			return View("~/Views/Account/Register.cshtml", userInput);
+        }
+
+		return RedirectToAction("Index", "Home");
 	}
 
 	public IActionResult Login()
@@ -61,7 +61,6 @@ public class AuthenticationController : Controller
 	{
 		if (ModelState.IsValid)
 		{
-
 			if (!await _userAuthService.CheckUserExistsByEmailAsync(userInput.Email))
 			{
 				ModelState.AddModelError("Email", "Account with this email is not found.");
@@ -76,11 +75,11 @@ public class AuthenticationController : Controller
 
 			if (user != null)
 			{
-                return RedirectToAction("Index", "Home");
-            }
+				return RedirectToAction("Index", "Home");
+			}
 
-            ModelState.AddModelError("", "Problem occurred while login to your profile");
-            return View(userInput);
+			ModelState.AddModelError("", "Problem occurred while login to your profile");
+			return View(userInput);
 		}
 
 		return View(userInput);

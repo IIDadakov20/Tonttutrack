@@ -22,11 +22,6 @@ internal class UserService : IUserService
 		var user = _mapper.Map<User>(userInput);
 		var identityResult = await _userManager.CreateAsync(user, userInput.Password);
 
-		if (!identityResult.Succeeded)
-		{
-			return identityResult;
-		}
-
 		return identityResult;
 	}
 
