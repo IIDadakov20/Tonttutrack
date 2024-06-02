@@ -11,6 +11,5 @@ public class LoginDTO
 
 	[Required(ErrorMessage = "This field is required.")]
 	[DataType(DataType.Password)]
-	[StringLength(25, MinimumLength = 6)]
 	public string Password { get; set; } = string.Empty;
 }

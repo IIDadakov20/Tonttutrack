@@ -19,7 +19,7 @@ public class AuthenticationController : Controller
 
 	public IActionResult Register()
 	{
-		return View("~/Views/Account/Register.cshtml");
+		return View("Views/Account/Register.cshtml");
 	}
 
 	[HttpPost]
@@ -37,7 +37,7 @@ public class AuthenticationController : Controller
 
 		if (!ModelState.IsValid)
 		{
-            return View("~/Views/Account/Register.cshtml", userInput);
+            return View("Views/Account/Register.cshtml", userInput);
         }
 
         var registrationResult = await _userService.CreateUserAsync(userInput);
@@ -45,7 +45,7 @@ public class AuthenticationController : Controller
 		if (!registrationResult.Succeeded)
 		{
 			ModelState.AddModelError("", "Problem occurred while creating your profile");
-			return View("~/Views/Account/Register.cshtml", userInput);
+			return View("Views/Account/Register.cshtml", userInput);
         }
 
 		return RedirectToAction("Index", "Home");
@@ -53,37 +53,37 @@ public class AuthenticationController : Controller
 
 	public IActionResult Login()
 	{
-		return View();
+		return View("Views/Account/Login.cshtml");
 	}
 
 	[HttpPost]
-	public async Task<ActionResult<IActionResult>> LoginAsync(LoginDTO userInput)
+	public async Task<ActionResult<LoginDTO>> LoginAsync(LoginDTO userInput)
 	{
-		if (ModelState.IsValid)
+		if (!await _userAuthService.CheckUserExistsByEmailAsync(userInput.Email))
 		{
-			if (!await _userAuthService.CheckUserExistsByEmailAsync(userInput.Email))
-			{
-				ModelState.AddModelError("Email", "Account with this email is not found.");
-			}
-
-			if (!await _userAuthService.VerifyUserPasswordAsync(userInput.Email, userInput.Password))
-			{
-				ModelState.AddModelError("Password", "Incorrect password.");
-			}
-
-			var user = await _userService.GetUserByEmailAsync(userInput.Email);
-
-			if (user != null)
-			{
-				return RedirectToAction("Index", "Home");
-			}
-
-			ModelState.AddModelError("", "Problem occurred while login to your profile");
-			return View(userInput);
+			ModelState.AddModelError("Email", "Account with this email is not found.");
 		}
 
-		return View(userInput);
-	}
+		if (!await _userAuthService.VerifyUserPasswordAsync(userInput.Email, userInput.Password))
+		{
+			ModelState.AddModelError("Password", "Incorrect password.");
+		}
+
+        if (!ModelState.IsValid)
+        {
+            return View("Views/Account/Login.cshtml", userInput);
+        }
+
+        var user = await _userService.GetUserByEmailAsync(userInput.Email);
+
+		if (user == null)
+		{
+            ModelState.AddModelError("", "Problem occurred while login to your account");
+            return View("Views/Account/Login.cshtml", userInput);
+		}
+
+        return RedirectToAction("Index", "Home");
+    }
 
 	public IActionResult Logout()
 	{

@@ -1,21 +1,16 @@
 ﻿@using Tonttutrack.SharedModels.DTO;
-@model RegisterDTO;
+@model LoginDTO;
 
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Login";
 }
 
 <div class="row d-flex align-items-center justify-content-center">
     <div class="col-md-4 card p-3">
         <h1 class="text-center">@ViewData["Title"]</h1>
-        <hr/>
-        <form asp-action="Register" method="post">
+        <hr />
+        <form asp-action="Login" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="mb-3">
-                <label asp-for="Username" class="control-label"></label>
-                <input asp-for="Username" class="form-control" autocomplete="username" aria-required="true" />
-                <span asp-validation-for="Username" class="text-danger"></span>
-            </div>
             <div class="mb-3">
                 <label asp-for="Email"></label>
                 <input asp-for="Email" class="form-control" autocomplete="email" aria-required="true" />
@@ -26,18 +21,13 @@
                 <input asp-for="Password" class="form-control" autocomplete="new-password" aria-required="true" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
-            <div class="mb-3">
-                <label asp-for="ConfirmPassword">Confirm Password</label>
-                <input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true"/>
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-            </div>
             <div class="row">
                 <div class="col-8">
-                    <p class="m-0">Already have an account?</p>
-                    <a asp-action="Login" class="text-decoration-none float-start mt-0">Sign in</a>
+                    <p class="m-0">New to Tonttutrack?</p>
+                    <a asp-action="Register" class="text-decoration-none float-start mt-0">Create an account</a>
                 </div>
                 <div class="col-4">
-                    <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+                    <button id="loginSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Login</button>
                 </div>
             </div>
         </form>
