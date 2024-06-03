@@ -59,18 +59,17 @@ public class AuthenticationController : Controller
 	[HttpPost]
 	public async Task<ActionResult<LoginDTO>> LoginAsync(LoginDTO userInput)
 	{
-		if (!await _userAuthService.CheckUserExistsByEmailAsync(userInput.Email))
-		{
-			ModelState.AddModelError("Email", "Account with this email is not found.");
-		}
+        bool userExists = await _userAuthService.CheckUserExistsByEmailAsync(userInput.Email);
+        bool passwordIsValid = false;
 
-		if (!await _userAuthService.VerifyUserPasswordAsync(userInput.Email, userInput.Password))
-		{
-			ModelState.AddModelError("Password", "Incorrect password.");
-		}
-
-        if (!ModelState.IsValid)
+        if (userExists)
         {
+            passwordIsValid = await _userAuthService.VerifyUserPasswordAsync(userInput.Email, userInput.Password);
+        }
+
+        if (!userExists || !passwordIsValid)
+        {
+            ModelState.AddModelError("", "Invalid email or password.");
             return View("Views/Account/Login.cshtml", userInput);
         }
 
