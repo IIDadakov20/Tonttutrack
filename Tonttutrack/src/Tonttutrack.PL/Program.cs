@@ -3,6 +3,7 @@ using Tonttutrack.DAL.Data;
 using Tonttutrack.DAL.Data.Models;
 using Tonttutrack.BLL;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,13 @@ builder.Services.AddAutoMapper(typeof(ModelMapper));
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.ConfigureApplicationCookie(e =>
+{
+    e.Cookie.MaxAge = TimeSpan.FromMinutes(1);
+    e.ExpireTimeSpan = TimeSpan.FromMinutes(1);
+    e.Cookie.HttpOnly = true;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -39,6 +47,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

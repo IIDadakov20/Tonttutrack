@@ -48,7 +48,9 @@ public class AuthenticationController : Controller
 			return View("Views/Account/Register.cshtml", userInput);
         }
 
-		return RedirectToAction("Index", "Home");
+        await _userAuthService.UserSignInAsync(userInput.Email);
+
+        return RedirectToAction("Index", "Home");
 	}
 
 	public IActionResult Login()
@@ -57,35 +59,36 @@ public class AuthenticationController : Controller
 	}
 
 	[HttpPost]
-	public async Task<ActionResult<LoginDTO>> LoginAsync(LoginDTO userInput)
+	public async Task<IActionResult> LoginAsync(LoginDTO userInput)
 	{
-        bool userExists = await _userAuthService.CheckUserExistsByEmailAsync(userInput.Email);
-        bool passwordIsValid = false;
+		bool userExists = await _userAuthService.CheckUserExistsByEmailAsync(userInput.Email);
+		bool passwordIsValid = false;
 
-        if (userExists)
-        {
-            passwordIsValid = await _userAuthService.VerifyUserPasswordAsync(userInput.Email, userInput.Password);
-        }
-
-        if (!userExists || !passwordIsValid)
-        {
-            ModelState.AddModelError("", "Invalid email or password.");
-            return View("Views/Account/Login.cshtml", userInput);
-        }
-
-        var user = await _userService.GetUserByEmailAsync(userInput.Email);
-
-		if (user == null)
+		if (userExists)
 		{
-            ModelState.AddModelError("", "Problem occurred while login to your account");
-            return View("Views/Account/Login.cshtml", userInput);
+			passwordIsValid = await _userAuthService.VerifyUserPasswordAsync(userInput.Email, userInput.Password);
 		}
 
+		if (!userExists || !passwordIsValid)
+		{
+			ModelState.AddModelError("", "Invalid email or password.");
+			return View("Views/Account/Login.cshtml", userInput);
+		}
+
+		await _userAuthService.UserSignInAsync(userInput.Email);
+
+		if(User.Identity == null || !User.Identity.IsAuthenticated)
+		{
+			ModelState.AddModelError("", "Problem occurred while login to your account");
+			return View("Views/Account/Login.cshtml", userInput);
+		}
+
+		return RedirectToAction("Index", "Home");
+	}
+
+    public async Task<IActionResult> Logout()
+	{
+		await _userAuthService.UserSignOutAsync();
         return RedirectToAction("Index", "Home");
     }
-
-	public IActionResult Logout()
-	{
-		return View();
-	}
 }

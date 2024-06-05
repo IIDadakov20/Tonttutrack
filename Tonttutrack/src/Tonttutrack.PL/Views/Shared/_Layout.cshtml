@@ -26,23 +26,32 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
-                    <ul class="navbar-nav ml-auto d-none d-md-inline-flex">
-                        <li class="nav-item mx-sm-3">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Authentication" asp-action="Login">Log in</a>
-                        </li>
-                        <li class="nav-item mx-sm-3">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Authentication" asp-action="Register">Sign in</a>
-                        </li>
-                    </ul>
+                    @if (User.Identity == null || !User.Identity.IsAuthenticated)
+                    {
+                        <ul class="navbar-nav ml-auto d-none d-md-inline-flex">
+                            <li class="nav-item mx-sm-3">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Authentication" asp-action="Login">Log in</a>
+                            </li>
+                            <li class="nav-item mx-sm-3">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Authentication" asp-action="Register">Sign up</a>
+                            </li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul class="navbar-nav ml-auto d-none d-md-inline-flex">
+                            <li class="nav-item mx-sm-3">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Authentication" asp-action="Logout">Log out</a>
+                            </li>
+                        </ul>
+                    }
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+    <main role="main" class="container box">
             @RenderBody()
-        </main>
-    </div>
+    </main>
 
     <footer class="border-top footer text-muted">
         <div class="container">
