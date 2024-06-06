@@ -52,7 +52,3 @@ button.accept-policy {
     display: flex;
     flex-grow: 1;
 }
-
-.footer1 {
-  position: fixed; 
-  bottom:0%;}

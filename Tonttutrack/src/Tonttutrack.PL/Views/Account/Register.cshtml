@@ -5,12 +5,8 @@
     ViewData["Title"] = "Register";
 }
 
-<home>
-    <link rel="stylesheet" href="~/css/register.css" />
-</home>
-
 <div class="col d-flex align-items-center justify-content-center form">
-    <div class="col-md-4 card p-3">
+    <div class="col-md-4 cardBox p-4">
         <h1 class="text-center">@ViewData["Title"]</h1>
         <hr/>
         <form asp-action="Register" method="post">
@@ -35,7 +31,7 @@
                 <input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true"/>
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
-            <div class="row">
+            <div class="row align-items-center">
                 <div class="col-8">
                     <p class="m-0">Already have an account?</p>
                     <a asp-action="Login" class="text-decoration-none float-start mt-0">Sign in</a>

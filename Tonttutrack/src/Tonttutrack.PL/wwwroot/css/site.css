@@ -1,5 +1,7 @@
 html {
   font-size: 14px;
+  font-family: 'Arial', sans-serif;
+  color: #0E080B;
 }
 
 @media (min-width: 768px) {
@@ -25,9 +27,4 @@ body {
 
 * {
     margin: 0;
-}
-
-.form{
-    position: relative;
-    top: -5vh;
 }

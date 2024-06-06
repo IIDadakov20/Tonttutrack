@@ -6,39 +6,25 @@
     overflow: hidden;
 }
 
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #FBF6F6; /* Background color */
-    color: #0E080B; /* Text color */
-}
-
 /* Aligning the form in the center */
 .form {
     display: flex;
-    align-items: center;
     justify-content: center;
     min-height: 100vh;
+    width: 100%;
 }
 
 /* Card styling */
-.card {
+.cardBox {
+    align-self: start;
+    position:relative;
+    top: 10vh;
     width: 100%;
     max-width: 400px;
     background: #FFF;
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Title styling */
-h1 {
-    margin-bottom: 1rem;
-    text-align: center;
-}
-
-/* Form styling */
-form {
-    width: 100%;
 }
 
 /* Input fields styling */
@@ -49,6 +35,13 @@ input.form-control {
     border: 1px solid #ccc;
     border-radius: 4px;
 }
+
+input.form-control:focus {
+    outline: none;
+    border: 1px solid #2F5431;
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.5);
+}
+
 
 /* Button styling */
 button.btn-primary {
