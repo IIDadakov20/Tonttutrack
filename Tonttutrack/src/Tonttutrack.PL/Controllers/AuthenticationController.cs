@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Tonttutrack.BLL.Contracts;
-using Tonttutrack.SharedModels.DTO;
+using Tonttutrack.BLL.DTO;
+using Tonttutrack.PL.Models;
 
 namespace Tonttutrack.PL.Controllers;
 
@@ -23,7 +24,7 @@ public class AuthenticationController : Controller
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> RegisterAsync(RegisterDTO userInput)
+	public async Task<IActionResult> RegisterAsync(UserDTO userInput)
 	{
 		if (await _userAuthService.CheckUserExistsByEmailAsync(userInput.Email))
 		{
@@ -37,7 +38,7 @@ public class AuthenticationController : Controller
 
 		if (!ModelState.IsValid)
 		{
-            return View("Views/Account/Register.cshtml", userInput);
+            return View("Views/Account/Register.cshtml");
         }
 
         var registrationResult = await _userService.CreateUserAsync(userInput);
@@ -45,7 +46,7 @@ public class AuthenticationController : Controller
 		if (!registrationResult.Succeeded)
 		{
 			ModelState.AddModelError("", "Problem occurred while creating your profile");
-			return View("Views/Account/Register.cshtml", userInput);
+			return View("Views/Account/Register.cshtml");
         }
 
         await _userAuthService.UserSignInAsync(userInput.Email);
@@ -59,7 +60,7 @@ public class AuthenticationController : Controller
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> LoginAsync(LoginDTO userInput)
+	public async Task<IActionResult> LoginAsync(LoginViewModel userInput)
 	{
 		bool userExists = await _userAuthService.CheckUserExistsByEmailAsync(userInput.Email);
 		bool passwordIsValid = false;
@@ -69,7 +70,7 @@ public class AuthenticationController : Controller
 			passwordIsValid = await _userAuthService.VerifyUserPasswordAsync(userInput.Email, userInput.Password);
 		}
 
-		if (!userExists || !passwordIsValid)
+		if (!passwordIsValid)
 		{
 			ModelState.AddModelError("", "Invalid email or password.");
 			return View("Views/Account/Login.cshtml", userInput);

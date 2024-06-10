@@ -18,7 +18,7 @@
 .cardBox {
     align-self: start;
     position:relative;
-    top: 10vh;
+    top: 7vh;
     width: 100%;
     max-width: 400px;
     background: #FFF;
@@ -31,7 +31,7 @@
 input.form-control {
     width: 100%;
     padding: 0.75rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.25rem;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
@@ -41,7 +41,6 @@ input.form-control:focus {
     border: 1px solid #2F5431;
     box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.5);
 }
-
 
 /* Button styling */
 button.btn-primary {
@@ -59,6 +58,12 @@ button.btn-primary:hover {
     background-color: #2F5431; /* Secondary color */
 }
 
+button.btn-primary:focus:active {
+    outline: none;
+    background-color: #2a4c2c;
+    box-shadow: 0 0 0 0;
+}
+
 /* Link styling */
 a.text-decoration-none {
     color: #701423; /* Accent color */
@@ -70,4 +75,8 @@ a.text-decoration-none {
     .card {
         margin: 1rem;
     }
+}
+
+ul{
+    padding: 0;
 }

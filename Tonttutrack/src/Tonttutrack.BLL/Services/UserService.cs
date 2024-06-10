@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Tonttutrack.BLL.Contracts;
 using Tonttutrack.DAL.Data.Models;
-using Tonttutrack.SharedModels.DTO;
+using Tonttutrack.BLL.DTO;
 using AutoMapper;
 
 namespace Tonttutrack.BLL.Services;
@@ -17,7 +17,7 @@ internal class UserService : IUserService
 		_mapper = mapper;
 	}
 
-	public async Task<IdentityResult> CreateUserAsync(RegisterDTO userInput)
+	public async Task<IdentityResult> CreateUserAsync(UserDTO userInput)
 	{
 		var user = _mapper.Map<User>(userInput);
 		var identityResult = await _userManager.CreateAsync(user, userInput.Password);

@@ -1,9 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Tonttutrack.DAL.Data;
 using Tonttutrack.DAL.Data.Models;
-using Tonttutrack.BLL;
+using Tonttutrack.BLL.Common;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 

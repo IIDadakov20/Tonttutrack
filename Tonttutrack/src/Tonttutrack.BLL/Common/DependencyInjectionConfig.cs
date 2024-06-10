@@ -2,7 +2,7 @@
 using Tonttutrack.BLL.Contracts;
 using Tonttutrack.BLL.Services;
 
-namespace Tonttutrack.BLL;
+namespace Tonttutrack.BLL.Common;
 
 public static class DependencyInjectionConfig
 {

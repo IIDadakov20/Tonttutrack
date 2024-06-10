@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tonttutrack.DAL\Tonttutrack.DAL.csproj" />
-    <ProjectReference Include="..\Tonttutrack.SharedModels\Tonttutrack.SharedModels.csproj" />
   </ItemGroup>
 
 </Project>

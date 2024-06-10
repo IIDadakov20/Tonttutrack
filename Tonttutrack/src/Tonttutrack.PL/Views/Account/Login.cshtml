@@ -1,5 +1,5 @@
-﻿@using Tonttutrack.SharedModels.DTO;
-@model LoginDTO;
+﻿@using Tonttutrack.PL.Models;
+@model LoginViewModel;
 
 @{
     ViewData["Title"] = "Login";
@@ -12,12 +12,12 @@
         <form asp-action="Login" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="mb-3">
-                <label asp-for="Email" class="form-label">Email</label>
+                <label asp-for="Email" class="mb-1">Email</label>
                 <input asp-for="Email" class="form-control" autocomplete="email" aria-required="true" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                <label asp-for="Password" class="form-label">Password</label>
+                <label asp-for="Password" class="mb-1">Password</label>
                 <input asp-for="Password" class="form-control" autocomplete="new-password" aria-required="true" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
