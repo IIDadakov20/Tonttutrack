@@ -62,15 +62,9 @@ public class AuthenticationController : Controller
 	[HttpPost]
 	public async Task<IActionResult> LoginAsync(LoginViewModel userInput)
 	{
-		bool userExists = await _userAuthService.CheckUserExistsByEmailAsync(userInput.Email);
-		bool passwordIsValid = false;
+		bool areCredentialsValid = await _userAuthService.VerifyUserCredentialsAsync(userInput.Email, userInput.Password);
 
-		if (userExists)
-		{
-			passwordIsValid = await _userAuthService.VerifyUserPasswordAsync(userInput.Email, userInput.Password);
-		}
-
-		if (!passwordIsValid)
+		if (!areCredentialsValid)
 		{
 			ModelState.AddModelError("", "Invalid email or password.");
 			return View("Views/Account/Login.cshtml", userInput);

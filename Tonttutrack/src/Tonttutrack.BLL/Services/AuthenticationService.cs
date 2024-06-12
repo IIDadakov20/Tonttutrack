@@ -27,7 +27,7 @@ internal class AuthenticationService : IAuthenticationService
         return await _userManager.FindByNameAsync(username) != null;
     }
 
-    public async Task<bool> VerifyUserPasswordAsync(string email, string password)
+    public async Task<bool> VerifyUserCredentialsAsync(string email, string password)
     {
         var user = await _userManager.FindByEmailAsync(email);
 

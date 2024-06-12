@@ -51,4 +51,5 @@ button.accept-policy {
 .box{
     display: flex;
     flex-grow: 1;
+    min-width: 100vw;
 }
