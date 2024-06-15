@@ -1,117 +1,151 @@
-/* Base styles */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
+*{
+    overflow: auto;
 }
-
 body {
-    background-color: #FBF6F6;
-    color: #0E080B;
-    font-family: Arial, sans-serif;
+    background-color: #F2F7F4;
+    color: #080908;
+    overflow-y: hidden; /* Ensure vertical scrollability */
 }
 
-/* Hero section styling */
-.hero {
-    background-color: #A4ADA5;
-    color: #FBF6F6;
-    text-align: center;
-}
-
-.hero .btn-primary {
-    background-color: #701423;
-    border: none;
-}
-
-.hero .btn-primary:hover {
-    background-color: #2F5431;
-}
-
-.hero img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-}
-
-/* Scrollable section styling */
-.scrollable-section {
-    background-color: #FBF6F6;
-    overflow-x: auto;
-    white-space: nowrap;
-    padding-top: 50px;
-    padding-bottom: 50px;
-}
-
-.scrollable-content {
-    display: flex;
-}
-
-.image-with-text {
-    position: relative;
-    margin-right: 10px;
-}
-
-.image-with-text img {
-    width: 70%;
-    height: auto;
+/* Hero Section */
+.hero-section {
+    background-color: #F2F7F4;
+    padding: 3rem 0;
+    padding-bottom: 3rem;
+    text-align: center; /* Center align content */
+    align-self:self-start;
     display: block;
 }
 
-.text-overlay {
+.hero-heading {
+    color: #0E080B;
+    font-size: 2.5rem;
+    font-weight: bold;
+    overflow: hidden;
+}
+
+.hero-lead {
+    color: #0E080B;
+    font-size: 1.25rem;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+.hero-btn {
+    background-color: #A4ADA5;
+    border-color: #A4ADA5;
+    color: #fff;
+}
+
+.hero-btn:hover {
+    background-color: #2F5431;
+    border-color: #2F5431;
+}
+
+.hero-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.hero-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;
+}
+
+/* Photo Section */
+.photo-section {
+    background-color: #F2F7F4;
+    padding: 3rem 0; /* Adjust padding as necessary */
+    padding-top: 3rem;
+    position: bottom;
+    display: block;
+}
+
+.photo-box {
+    margin-bottom: 2rem;
+    border: 1px solid #A4ADA5;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.photo-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 300px; /* Adjust height as needed */
+    background-color: #DADADA; /* Fallback background color */
+}
+
+.photo-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.photo-overlay {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(255, 255, 255, 0.7);
-    padding: 20px;
-    border-radius: 8px;
-    width: 50%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(112, 20, 35, 0.8); /* Accent color with opacity */
+    height: 0;
+    transition: height 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.photo-overlay-text {
+    color: #fff;
+    font-size: 1.5rem;
+    padding: 1rem;
     text-align: center;
-    backdrop-filter: blur(10px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
-.text-overlay h2,
-.text-overlay p {
-    margin: 0;
-    color: #0E080B;
+.photo-container:hover .photo-image {
+    transform: scale(1.1);
+    filter: blur(3px);
 }
 
-/* Additional content section styling */
-.additional-content {
-    background-color: #FBF6F6;
+.photo-container:hover .photo-overlay {
+    height: 50%;
+}
+
+.photo-container:hover .photo-overlay-text {
+    opacity: 1;
+}
+
+.photo-text {
+    color: #080908;
     text-align: center;
+    padding: 1rem;
 }
 
-.additional-content .col-md-4 {
-    padding: 20px;
-}
-
-.additional-content h3 {
-    color: #701423;
-}
-
-.additional-content p {
-    color: #0E080B;
-}
-
-/* Responsive styling */
+/* Media Queries */
 @media (max-width: 768px) {
-    .hero .col-md-6 {
+    .hero-section {
         text-align: center;
     }
 
-    .scrollable-content {
-        flex-direction: column;
+    .hero-heading {
+        font-size: 2rem;
+    }
+
+    .hero-lead {
+        font-size: 1rem;
+    }
+
+    .hero-buttons {
         align-items: center;
     }
 
-    .scrollable-content .image-with-text {
-        margin-bottom: 20px;
-        margin-right: 0;
-    }
-
-    .text-overlay {
-        width: 80%;
+    .photo-container {
+        height: 200px; /* Adjust height for smaller screens if needed */
     }
 }

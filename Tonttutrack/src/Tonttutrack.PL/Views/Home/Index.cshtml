@@ -1,72 +1,71 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
-<section class="hero d-flex align-items-center py-5">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-md-6">
-                <h1>Heading Here</h1>
-                <p class="lead">Description goes here. This is a descriptive paragraph explaining the content of the section.</p>
-                <a class="btn btn-primary btn-lg" href="#">Call to Action</a>
-            </div>
-            <div class="col-md-6 order-md-last">
-                <img src="~/images/your_image.jpg" class="img-fluid rounded-3" alt="Image description">
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/homepage.css" />
+</head>
+<body>
+    <div class="hero-section d-flex align-items-center">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="">
+                    <h1 class="hero-heading">The leading family safety and location-sharing app.</h1> 
+                    <p class="hero-lead">Protect each family member with advanced driving, digital, and location safety features. Choose the plan that fits your family's size and life stage.</p>
+                    <div class="hero-buttons">
+                        <a class="btn btn-primary btn-lg hero-btn" href="~/Authentication/Login">Join for free</a>
+                    </div>
+                </div>
+                <div class="">
+                    <img src="~/assets/preview.png" class="img-fluid rounded-3 hero-image" alt="App Image">
+                </div>
             </div>
         </div>
     </div>
-</section>
 
-<section class="scrollable-section py-5">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="scrollable-content">
-                    <div class="image-with-text">
-                        <img src="~/images/tall_image1.jpg" class="img-fluid" alt="Tall image 1">
-                        <div class="text-overlay">
-                            <h2>Overlay Heading</h2>
-                            <p>Some overlay text here with a blurred background effect.</p>
+    <!-- New Section with Photos -->
+    <div class="photo-section">
+        <div class="container">
+            <div class="row">
+                <div class="">
+                    <div class="photo-box">
+                        <div class="photo-container">
+                            <img src="~/assets/photo1.jpg" class="img-fluid photo-image" alt="Photo 1">
+                            <div class="overlay photo-overlay">
+                                <div class="overlay-text photo-overlay-text">Safety First</div>
+                            </div>
                         </div>
+                        <p class="photo-text">Ensure your family's safety with our advanced tracking features.</p>
                     </div>
-                    <div class="image-with-text">
-                        <img src="~/images/tall_image2.jpg" class="img-fluid" alt="Tall image 2">
-                        <div class="text-overlay">
-                            <h2>Overlay Heading</h2>
-                            <p>Some overlay text here with a blurred background effect.</p>
+                </div>
+                <div class="">
+                    <div class="photo-box">
+                        <div class="photo-container">
+                            <img src="~/assets/photo2.jpg" class="img-fluid photo-image" alt="Photo 2">
+                            <div class="overlay photo-overlay">
+                                <div class="overlay-text photo-overlay-text">Stay Connected</div>
+                            </div>
                         </div>
+                        <p class="photo-text">Keep in touch with your loved ones no matter where they are.</p>
                     </div>
-                    <div class="image-with-text">
-                        <img src="~/images/tall_image3.jpg" class="img-fluid" alt="Tall image 3">
-                        <div class="text-overlay">
-                            <h2>Overlay Heading</h2>
-                            <p>Some overlay text here with a blurred background effect.</p>
+                </div>
+                <div class="">
+                    <div class="photo-box">
+                        <div class="photo-container">
+                            <img src="~/assets/photo3.jpg" class="img-fluid photo-image" alt="Photo 3">
+                            <div class="overlay photo-overlay">
+                                <div class="overlay-text photo-overlay-text">Peace of Mind</div>
+                            </div>
                         </div>
+                        <p class="photo-text">Gain peace of mind knowing your family is safe and sound.</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</section>
 
-<section class="additional-content py-5">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <h3>Feature 1</h3>
-                <p>Description for feature 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </div>
-            <div class="col-md-4">
-                <h3>Feature 2</h3>
-                <p>Description for feature 2. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </div>
-            <div class="col-md-4">
-                <h3>Feature 3</h3>
-                <p>Description for feature 3. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </div>
-        </div>
-    </div>
-</section>
+    <!-- Your existing JavaScript imports or scripts if any -->
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+</body>
+</html>
