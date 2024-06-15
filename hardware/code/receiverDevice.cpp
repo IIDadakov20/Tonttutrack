@@ -8,7 +8,7 @@ struct MessageData {
     String speed;
 };
 
-String authorizationCode = "123456";
+String authorizationCode = "E8:6B:EA:E0:0A:A4";
 String receivedMessage = "";
 
 MessageData receivedData;

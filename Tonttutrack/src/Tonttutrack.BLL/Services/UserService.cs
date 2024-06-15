@@ -11,7 +11,9 @@ internal class UserService : IUserService
 	private readonly UserManager<User> _userManager;
 	private readonly IMapper _mapper;
 
-	public UserService(UserManager<User> userManager, IMapper mapper)
+	public UserService(
+		UserManager<User> userManager,
+		IMapper mapper)
 	{
 		_userManager = userManager;
 		_mapper = mapper;

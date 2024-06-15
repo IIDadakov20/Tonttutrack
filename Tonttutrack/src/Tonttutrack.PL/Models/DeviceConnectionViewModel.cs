@@ -2,7 +2,7 @@
 
 namespace Tonttutrack.PL.Models;
 
-public class DeviceConnectionViewModelcs
+public class DeviceConnectionViewModel
 {
     [Required(ErrorMessage = "This field is required.")]
     public string Code { get; set; } = string.Empty;
