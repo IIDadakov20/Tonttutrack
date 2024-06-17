@@ -6,7 +6,6 @@ public class LoginViewModel
 {
 	[Required(ErrorMessage = "This field is required.")]
 	[DataType(DataType.EmailAddress)]
-	[StringLength(100)]
 	public string Email { get; set; } = string.Empty;
 
 	[Required(ErrorMessage = "This field is required.")]
