@@ -10,3 +10,7 @@ document.getElementById('togglePassword').addEventListener('change', function() 
         confirmPasswordInput.type = 'password';
     }
 });
+document.getElementById('togglePassword').onmousedown = function (event) {
+    // Toggle checkstate logic
+    event.preventDefault(); // this would stop mousedown from continuing and would not focus
+}
