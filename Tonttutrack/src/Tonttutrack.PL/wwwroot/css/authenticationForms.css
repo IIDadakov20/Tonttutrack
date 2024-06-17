@@ -3,7 +3,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    overflow: hidden;
+    overflow: auto;
 }
 
 /* Aligning the form in the center */
@@ -12,6 +12,7 @@
     justify-content: center;
     min-height: 100vh;
     width: 100%;
+    overflow: hidden;
 }
 
 /* Card styling */
@@ -25,6 +26,7 @@
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
 
 /* Input fields styling */
@@ -34,6 +36,7 @@ input.form-control {
     margin-bottom: 0.25rem;
     border: 1px solid #ccc;
     border-radius: 4px;
+    overflow: hidden;
 }
 
 input.form-control:focus {
@@ -79,4 +82,17 @@ a.text-decoration-none {
 
 ul{
     padding: 0;
+}
+
+#togglePassword:checked {
+    background-color: #2F5431;
+}
+
+/* Remove focus border */
+#togglePassword:focus {
+    outline: none;
+    box-shadow: none;
+}
+.centCard{
+    overflow: hidden;
 }
