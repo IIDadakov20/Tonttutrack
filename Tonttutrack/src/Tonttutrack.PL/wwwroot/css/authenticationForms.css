@@ -3,7 +3,6 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    overflow: hidden;
 }
 
 /* Aligning the form in the center */
@@ -79,4 +78,8 @@ a.text-decoration-none {
 
 ul{
     padding: 0;
+}
+
+#deviceConnectionForm{
+    height: 108px;
 }

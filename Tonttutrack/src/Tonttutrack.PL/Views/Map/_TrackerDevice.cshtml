@@ -1,15 +1,15 @@
 ﻿@using Tonttutrack.PL.Models;
-@model DeviceConnectionViewModelcs;
+@model DeviceConnectionViewModel;
 
-<div class="mx-5 w-100 mt-4">
-    <form asp-action="Connect" asp-controller="TrackerDevice" method="post" class="d-md-inline-flex col-xl-7 col-md-12 justify-content-md-around" style="height:108px">
+<div class="mx-5 w-100 h-25 mt-4">
+    <form id="deviceConnectionForm" class=" d-md-inline-flex col-xl-7 col-md-12 justify-content-md-around">
         <div class="align-self-start">
-            <label asp-for="Code">Code</label>
+            <label asp-for="Code" class="mb-1">Code</label>
             <input asp-for="Code" class="form-control"/>
             <span asp-validation-for="Code" class="text-danger"></span>
         </div>
         <div class="align-self-start">
-            <label asp-for="Password">Password</label>
+            <label asp-for="Password" class="mb-1">Password</label>
             <input asp-for="Password" class="form-control"/>
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
@@ -24,7 +24,6 @@
         </div>
     </form>
 </div>
-
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
