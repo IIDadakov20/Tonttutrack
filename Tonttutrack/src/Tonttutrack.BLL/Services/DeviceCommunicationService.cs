@@ -15,7 +15,7 @@ internal class DeviceCommunicationService : IDeviceCommunicationService
             SerialPort port = new(portName, 115200);
             port.Open();
             port.Write("Authentication code required");
-            await Task.Delay(5000);
+            await Task.Delay(1500);
             string receivedCode = await ReceiveDeviceDataAsync(port);
 
             if (receivedCode == authorizationCode)
@@ -33,13 +33,6 @@ internal class DeviceCommunicationService : IDeviceCommunicationService
 
     public async Task<string> ReceiveDeviceDataAsync(SerialPort port)
     {
-        int retryCount = 0;
-        while (port.BytesToRead == 0 && retryCount < 5)
-        {
-            await Task.Delay(1);
-            retryCount++;
-        }
-
         if (port.BytesToRead == 0)
             return string.Empty;
 
