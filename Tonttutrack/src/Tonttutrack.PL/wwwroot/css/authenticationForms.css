@@ -80,6 +80,6 @@ ul{
     padding: 0;
 }
 
-#deviceConnectionForm{
+#deviceConnectionForm, #deviceInfoView{
     height: 108px;
 }

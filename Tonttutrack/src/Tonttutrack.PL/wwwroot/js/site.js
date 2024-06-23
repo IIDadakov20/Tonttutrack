@@ -14,8 +14,10 @@
             contentType: 'application/json',
             data: JSON.stringify(formData),
             success: function (response) {
-                if (response === true) {
+                if (response.success === true) {
                     sessionStorage.setItem('shouldInitReadRoutePoints', 'true');
+                    sessionStorage.setItem('connectedDeviceName', response.deviceName);
+                    toggleDeviceViewMode();
                     readRoutePoints();
                 }
             },
@@ -57,5 +59,25 @@ window.addEventListener("load", (event) => {
     if (sessionStorage.getItem('shouldInitReadRoutePoints') === 'true')
     {
         readRoutePoints();
+        toggleDeviceViewMode();
     }
 });
+
+function toggleDeviceViewMode() {
+    var deviceConnectionForm = document.getElementById('deviceConnectionForm');
+    var deviceInfoView = document.getElementById('deviceInfoView');
+
+    if (sessionStorage.getItem('connectedDeviceName') != null) {
+        document.getElementById("connectedDeviceName").innerText = sessionStorage.getItem('connectedDeviceName');
+        deviceConnectionForm.classList.remove("d-md-inline-flex");
+        deviceConnectionForm.classList.add("d-none");
+        deviceInfoView.classList.add("d-md-inline-flex");
+        deviceInfoView.classList.remove("d-none");
+    }
+    else {
+        deviceInfoView.classList.remove("d-md-inline-flex");
+        deviceInfoView.classList.add("d-none");
+        deviceConnectionForm.classList.add("d-md-inline-flex");
+        deviceConnectionForm.classList.remove("d-none");
+    }
+}

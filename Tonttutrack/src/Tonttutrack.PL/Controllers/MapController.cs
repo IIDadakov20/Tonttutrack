@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Tonttutrack.PL.Controllers;
 
+[Authorize]
 public class MapController : Controller
 {
     public IActionResult MapTrackerLayout()

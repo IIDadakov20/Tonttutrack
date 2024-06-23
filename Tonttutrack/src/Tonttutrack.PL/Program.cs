@@ -24,11 +24,12 @@ builder.Services.AddAutoMapper(typeof(ModelMapper));
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.ConfigureApplicationCookie(e =>
+builder.Services.ConfigureApplicationCookie(options =>
 {
-    e.Cookie.MaxAge = TimeSpan.FromMinutes(1);
-    e.ExpireTimeSpan = TimeSpan.FromMinutes(1);
-    e.Cookie.HttpOnly = true;
+    options.LoginPath = "/Authentication/Login";
+    options.Cookie.MaxAge = TimeSpan.FromMinutes(1);
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
+    options.Cookie.HttpOnly = true;
 });
 
 var app = builder.Build();

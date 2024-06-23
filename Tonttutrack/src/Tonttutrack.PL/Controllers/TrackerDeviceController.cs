@@ -19,11 +19,6 @@ public class TrackerDeviceController : Controller
         _deviceService = deviceService;
     }
 
-    public IActionResult TrackerDevice()
-    {
-        return View("Views/Map/_TrackerDevice.cshtml");
-    }
-
     [HttpPost("connectDevice")]
     public async Task<IActionResult> ConnectDeviceAsync([FromBody] DeviceConnectionViewModel userInput)
     {
@@ -42,7 +37,15 @@ public class TrackerDeviceController : Controller
             return BadRequest(new {message = "Problem occurred while connecting to your device." });
         }
 
-        return Json(true);
+        string? deviceName = await _deviceService.FetchConnectedDeviceName(userInput.Code);
+
+        var response = new
+        {
+            Success = true,
+            DeviceName = deviceName
+        };
+
+        return Json(response);
     }
 
     [HttpGet("readRoutePoint")]

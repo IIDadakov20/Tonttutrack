@@ -1,8 +1,8 @@
 ﻿@using Tonttutrack.PL.Models;
 @model DeviceConnectionViewModel;
 
-<div class="w-100 h-auto mt-4">
-    <form id="deviceConnectionForm" class=" d-md-inline-flex col-xl-7 col-md-12 justify-content-md-around">
+<div class="w-100 h-auto mt-2">
+    <form id="deviceConnectionForm" class="d-md-inline-flex col-xl-8 col-md-12 justify-content-md-around">
         <div class="align-self-start">
             <label asp-for="Code" class="mb-1">Code</label>
             <input asp-for="Code" class="form-control"/>
@@ -14,13 +14,22 @@
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
         <div class="align-self-center">
-            <input type="checkbox" class="form-check-input mx-2">
-            <label class="form-check-label">Save device</label>
+            <input id="saveDevice" type="checkbox" class="form-check-input mx-2">
+            <label for="saveDevice" class="form-check-label">Save device</label>
         </div>
-        <div class="row align-self-center">
-            <div>
-                <button type="submit" class="w-100 btn btn-lg btn-primary">Connect</button>
-            </div>
+        <div class="align-self-center">
+            <button type="submit" class="w-100 btn btn-lg btn-primary">Connect</button>
         </div>
     </form>
+    <div id="deviceInfoView" class="d-none col-auto justify-content-md-between">
+        <div class="align-self-center me-5">
+            <p class="mb-1 fs-5">Connected Device</p>
+        </div>
+        <div class="align-self-center me-5">
+            <p id="connectedDeviceName" class="mb-1 fs-5">Connected Device</p>
+        </div>
+        <div class="align-self-center">
+            <button id="disconnectButton" class="w-100 btn btn-lg btn-primary">Disconnect</button>
+        </div>
+    </div>
 </div>
