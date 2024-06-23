@@ -109,6 +109,11 @@ input#togglePassword::before:checked:focus {
     border-color: #2a4c2c;
     outline: #2a4c2c;
 }
-.centCard{
+
+.centCard {
     overflow: hidden;
+}
+
+#deviceConnectionForm, #deviceInfoView{
+    height: 108px;
 }

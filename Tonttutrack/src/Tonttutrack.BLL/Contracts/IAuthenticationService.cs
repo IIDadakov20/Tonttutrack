@@ -6,7 +6,7 @@ public interface IAuthenticationService
 
     Task<bool> CheckUserExistsByUsernameAsync(string username);
 
-    Task<bool> VerifyUserPasswordAsync(string email, string password);
+    Task<bool> VerifyUserCredentialsAsync(string email, string password);
 
     Task UserSignInAsync(string email);
 

@@ -1,4 +1,5 @@
 ﻿using System.IO.Ports;
+using Tonttutrack.BLL.DTO;
 
 namespace Tonttutrack.BLL.Contracts;
 
@@ -8,5 +9,5 @@ public interface IDeviceCommunicationService
 
     Task<string> ReceiveDeviceDataAsync(SerialPort port);
 
-    Task<List<string>> GetRoutePointDataAsync();
+    Task<RoutePointDTO> GetRoutePointDataAsync();
 }
