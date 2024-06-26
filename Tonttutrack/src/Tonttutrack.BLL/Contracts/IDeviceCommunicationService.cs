@@ -7,7 +7,7 @@ public interface IDeviceCommunicationService
 {
     Task<bool> AuthorizeDeviceConnectionAsync(string authorizationCode);
 
-    Task<string> ReceiveDeviceDataAsync(SerialPort port);
-
     Task<RoutePointDTO> GetRoutePointDataAsync();
+
+    Task<bool> DisconnectDeviceAsync();
 }

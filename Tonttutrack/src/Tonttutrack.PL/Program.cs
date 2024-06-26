@@ -27,8 +27,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Authentication/Login";
-    options.Cookie.MaxAge = TimeSpan.FromMinutes(1);
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
+    options.Cookie.MaxAge = TimeSpan.FromDays(10);
+    options.ExpireTimeSpan = TimeSpan.FromDays(10);
     options.Cookie.HttpOnly = true;
 });
 

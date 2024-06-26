@@ -7,7 +7,6 @@
             Password: $('#Password').val()
         };
 
-        // Send AJAX request
         $.ajax({
             url: '/trackerDevice/connectDevice',
             type: 'POST',
@@ -31,13 +30,29 @@
 function readRoutePoints() {
     var marker;
 
-    setInterval(function () {
+    var intervalId = setInterval(function () {
         $.ajax({
             url: '/trackerDevice/readRoutePoint',
             type: 'GET',
             contentType: 'application/json',
             success: function (data) {
+                if (data === 'break') {
+                    sessionStorage.removeItem('connectedDeviceName');
+                    sessionStorage.removeItem('shouldInitReadRoutePoints');
+                    clearInterval(intervalId)
+                    if (marker) {
+                        map.removeLayer(marker);
+                    }
+                    toggleDeviceViewMode();
+                    return;
+                }
+
                 console.log(data);
+
+                if (marker) {
+                    map.removeLayer(marker);
+                }
+
                 marker = L.marker([data.latitude, data.longitude]);
                 marker.bindPopup(`${data.latitude} <br> ${data.longitude} <br> ${data.currentSpeed}`).openPopup();
                 map.addLayer(marker);
@@ -47,20 +62,19 @@ function readRoutePoints() {
                 console.error(xhr.responseJSON.message);
             }
         });
-
-        if (marker)
-        {
-            map.removeLayer(marker);
-        }
     }, 5000);
 }
 
-window.addEventListener("load", (event) => {
+window.addEventListener("load", () => {
     if (sessionStorage.getItem('shouldInitReadRoutePoints') === 'true')
     {
         readRoutePoints();
         toggleDeviceViewMode();
     }
+});
+
+window.addEventListener('beforeunload', () => {
+    disconnectDevice();
 });
 
 function toggleDeviceViewMode() {
@@ -80,4 +94,12 @@ function toggleDeviceViewMode() {
         deviceConnectionForm.classList.add("d-md-inline-flex");
         deviceConnectionForm.classList.remove("d-none");
     }
+}
+
+function disconnectDevice() {
+    $.ajax({
+        url: '/trackerDevice/disconnectDevice',
+        type: 'DELETE',
+        contentType: 'application/json',
+    });
 }

@@ -8,6 +8,15 @@ internal class DeviceCommunicationService : IDeviceCommunicationService
 {
     private static SerialPort? _port;
 
+    private static async Task<string> ReceiveDeviceDataAsync(SerialPort port)
+    {
+        if (port.BytesToRead == 0)
+            return string.Empty;
+
+        string receivedData = await Task.Run(() => port.ReadLine());
+        return receivedData.TrimEnd('\r');
+    }
+
     public async Task<bool> AuthorizeDeviceConnectionAsync(string authorizationCode)
     {
         foreach (var portName in SerialPort.GetPortNames())
@@ -31,20 +40,12 @@ internal class DeviceCommunicationService : IDeviceCommunicationService
         return false;
     }
 
-    public async Task<string> ReceiveDeviceDataAsync(SerialPort port)
-    {
-        if (port.BytesToRead == 0)
-            return string.Empty;
-
-        string receivedData = await Task.Run(() => port.ReadLine());
-        return receivedData.TrimEnd('\r');
-    }
-
     public async Task<RoutePointDTO> GetRoutePointDataAsync()
     {
         if (_port == null || !_port.IsOpen)
         {
-            return new RoutePointDTO();
+            _port = null;
+            return new RoutePointDTO { CurrentSpeed = -1 };
         }
 
         List<string> routePoint = new();
@@ -59,7 +60,7 @@ internal class DeviceCommunicationService : IDeviceCommunicationService
 
         _port.DiscardInBuffer();
 
-        if (routePoint[0] == string.Empty)
+        if (string.IsNullOrEmpty(routePoint.FirstOrDefault()))
         {
             return new RoutePointDTO();
         }
@@ -70,5 +71,26 @@ internal class DeviceCommunicationService : IDeviceCommunicationService
             Longitude = decimal.Parse(routePoint[1]),
             CurrentSpeed = decimal.Parse(routePoint[2])
         };
+    }
+
+    public async Task<bool> DisconnectDeviceAsync()
+    {
+        if (_port == null || !_port.IsOpen)
+        {
+            return true;
+        }
+
+        _port.Write("break");
+        await Task.Delay(1000);
+        string response = await ReceiveDeviceDataAsync(_port);
+
+        if (response == "break")
+        {
+            _port.Close();
+            _port = null;
+            return true;
+        }
+
+        return false;
     }
 }

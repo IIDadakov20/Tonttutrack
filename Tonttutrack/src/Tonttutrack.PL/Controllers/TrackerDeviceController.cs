@@ -53,11 +53,29 @@ public class TrackerDeviceController : Controller
     {
         RoutePointDTO routePoint = await _deviceCommunicationService.GetRoutePointDataAsync();
 
+        if (routePoint.CurrentSpeed == -1)
+        {
+            return Json("break");
+        }
+
         if (!(routePoint.CurrentSpeed.ToString()).Contains('.'))
         {
             return BadRequest(new { message = "Problem occurred while connecting to your device." });
         }
 
         return Json(new {routePoint.Latitude, routePoint.Longitude, routePoint.CurrentSpeed });
+    }
+
+    [HttpDelete("disconnectDevice")]
+    public async Task<IActionResult> DisconnectDeviceAsync()
+    {
+        bool deviceIsDisconnected = await _deviceCommunicationService.DisconnectDeviceAsync();
+
+        if (!deviceIsDisconnected)
+        {
+            return BadRequest(new { message = "Problem occurred while disconnecting your device." });
+        }
+
+        return Json(true);
     }
 }
