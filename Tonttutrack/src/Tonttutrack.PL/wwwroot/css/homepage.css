@@ -6,14 +6,14 @@
 body {
     background-color: #F2F7F4;
     color: #080908;
-    overflow-y: hidden; /* Ensure vertical scrollability */
+    overflow-y: hidden;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 .container-fluid {
-    padding-left: 15px; /* Adjust as needed */
-    padding-right: 15px; /* Adjust as needed */
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 /* Hero Section */
@@ -22,8 +22,8 @@ body {
     padding-bottom: 3rem;
     text-align: left;
     max-width: 100%;
-    margin: 0 auto; /* Center content */
-    margin-bottom: 3rem; /* Increase space between sections */
+    margin: 0 auto;
+    margin-bottom: 3rem;
 
 }
 
@@ -46,8 +46,8 @@ body {
     background-color: #A4ADA5;
     border-color: #A4ADA5;
     color: #fff;
-    padding: 10px 20px; /* Adjust button padding */
-    font-size: 1.2rem; /* Increase button font size */
+    padding: 10px 20px;
+    font-size: 1.2rem;
 }
 
 .hero-btn:hover {
@@ -66,17 +66,17 @@ body {
     width: 100%;
     height: auto;
     border-radius: 15px;
-    margin-top: 3rem; /* Add margin to separate from hero image */
+    margin-top: 3rem;
 
 }
 
 /* Photo Section */
 .photo-section {
     background-color: #F2F7F4;
-    padding: 3rem 0; /* Adjust padding */
+    padding: 3rem 0;
     max-width: 100%;
-    margin: 0 auto; /* Center content */
-    margin-bottom: 3rem; /* Increase space between sections */
+    margin: 0 auto;
+    margin-bottom: 3rem;
 
 }
 
@@ -92,8 +92,8 @@ body {
     position: relative;
     overflow: hidden;
     width: 100%;
-    height: 350px; /* Adjust height as needed */
-    background-color: #DADADA; /* Fallback background color */
+    height: 350px;
+    background-color: #DADADA;
 }
 
 .photo-image {
@@ -108,7 +108,7 @@ body {
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: rgba(112, 20, 35, 0.8); /* Accent color with opacity */
+    background-color: rgba(112, 20, 35, 0.8);
     height: 0;
     transition: height 0.3s ease;
     display: flex;
@@ -142,10 +142,20 @@ body {
     color: #080908;
     text-align: center;
     padding: 1rem;
+font-size: 150%;
+}
+
+a {
+    color: #b3112c;
+    text-decoration: none;
+}
+#hvr {
+    color: #ff8d8d;
 }
 
 /* Media Queries */
-@media (max-width: 768px) {
+
+@media (max-width: 991px) {
     .hero-section {
         text-align: center;
     }
@@ -163,6 +173,6 @@ body {
     }
 
     .photo-container {
-        height: 250px; /* Adjust height for smaller screens if needed */
+        height: 250px;
     }
 }
