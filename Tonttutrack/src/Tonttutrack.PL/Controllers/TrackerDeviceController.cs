@@ -30,7 +30,11 @@ public class TrackerDeviceController : Controller
         }
 
         bool deviceIsConnected = await _deviceCommunicationService.AuthorizeDeviceConnectionAsync(userInput.Code);
-        deviceIsConnected |= await _deviceCommunicationService.AuthorizeDeviceConnectionAsync(userInput.Code);
+
+        if(!deviceIsConnected)
+        {
+            deviceIsConnected = await _deviceCommunicationService.AuthorizeDeviceConnectionAsync(userInput.Code);
+        }
 
         if (!deviceIsConnected)
         {

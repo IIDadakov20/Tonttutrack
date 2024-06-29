@@ -50,6 +50,7 @@ void setup()
     display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
     display.clearDisplay();
 
+    Serial.begin(115200);
     gpsSerial.begin(9600);
 
     WiFi.mode(WIFI_STA);

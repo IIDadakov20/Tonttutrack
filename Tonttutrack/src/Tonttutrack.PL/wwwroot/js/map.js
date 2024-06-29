@@ -6,7 +6,7 @@ const baselayers = {};
 styles.forEach((style) =>
     baselayers[style] = L.tileLayer(
         `https://tile.jawg.io/${style}/{z}/{x}/{y}.png?lang=en&access-token=${accessToken}`, {
-        maxZoom: 16,
+        maxZoom: 17,
         minZoom: 3
     })
 );

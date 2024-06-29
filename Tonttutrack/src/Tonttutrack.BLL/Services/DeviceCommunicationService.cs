@@ -81,13 +81,17 @@ internal class DeviceCommunicationService : IDeviceCommunicationService
         }
 
         _port.Write("break");
-        await Task.Delay(1000);
         string response = await ReceiveDeviceDataAsync(_port);
+
+        while(response != "break")
+        {
+            await Task.Delay(100);
+            response = await ReceiveDeviceDataAsync(_port);
+        }
 
         if (response == "break")
         {
             _port.Close();
-            _port = null;
             return true;
         }
 

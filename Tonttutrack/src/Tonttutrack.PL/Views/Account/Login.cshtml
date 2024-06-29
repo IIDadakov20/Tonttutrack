@@ -4,11 +4,8 @@
 @{
     ViewData["Title"] = "Log in";
 }
-<head>
-    <link rel="stylesheet" href="~/css/authenticationForms.css" />
-</head>
-<body>
-    <img src="~/assets/authenticationFormsBackground.jpg" alt="Background Image" class="background-image" />
+
+<img src="~/assets/authenticationFormsBackground.jpg" alt="Background Image" class="background-image" />
 <div class="col d-flex align-items-center justify-content-center form">
     <div class="col-md-4 cardBox p-4">
         <h1 class="text-center p-1">@ViewData["Title"]</h1>
@@ -41,7 +38,7 @@
         </form>
     </div>
 </div>
-</body>
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script src="~/js/togglePassword.js"></script>

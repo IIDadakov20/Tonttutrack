@@ -25,6 +25,16 @@
             }
         });
     });
+
+    $('#disconnectButton').on('click', function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: '/trackerDevice/disconnectDevice',
+            type: 'DELETE',
+            contentType: 'application/json',
+        });
+    });
 });
 
 function readRoutePoints() {
@@ -47,16 +57,18 @@ function readRoutePoints() {
                     return;
                 }
 
-                console.log(data);
+                if (window.location.pathname === "/Map/MapTrackerLayout") {
+                    console.log(data);
 
-                if (marker) {
-                    map.removeLayer(marker);
+                    if (marker) {
+                        map.removeLayer(marker);
+                    }
+
+                    marker = L.marker([data.latitude, data.longitude]);
+                    marker.bindPopup(`${data.latitude} <br> ${data.longitude} <br> ${data.currentSpeed}`).openPopup();
+                    map.addLayer(marker);
+                    map.setView(new L.LatLng(data.latitude, data.longitude), 16);
                 }
-
-                marker = L.marker([data.latitude, data.longitude]);
-                marker.bindPopup(`${data.latitude} <br> ${data.longitude} <br> ${data.currentSpeed}`).openPopup();
-                map.addLayer(marker);
-                map.setView(new L.LatLng(data.latitude, data.longitude), 10);
             },
             error: function (xhr, status, error) {
                 console.error(xhr.responseJSON.message);
@@ -66,40 +78,29 @@ function readRoutePoints() {
 }
 
 window.addEventListener("load", () => {
-    if (sessionStorage.getItem('shouldInitReadRoutePoints') === 'true')
-    {
+    if (sessionStorage.getItem('shouldInitReadRoutePoints') === 'true') {
         readRoutePoints();
         toggleDeviceViewMode();
     }
 });
 
-window.addEventListener('beforeunload', () => {
-    disconnectDevice();
-});
-
 function toggleDeviceViewMode() {
-    var deviceConnectionForm = document.getElementById('deviceConnectionForm');
-    var deviceInfoView = document.getElementById('deviceInfoView');
+    if (window.location.pathname === "/Map/MapTrackerLayout") {
+        var deviceConnectionForm = document.getElementById('deviceConnectionForm');
+        var deviceInfoView = document.getElementById('deviceInfoView');
 
-    if (sessionStorage.getItem('connectedDeviceName') != null) {
-        document.getElementById("connectedDeviceName").innerText = sessionStorage.getItem('connectedDeviceName');
-        deviceConnectionForm.classList.remove("d-md-inline-flex");
-        deviceConnectionForm.classList.add("d-none");
-        deviceInfoView.classList.add("d-md-inline-flex");
-        deviceInfoView.classList.remove("d-none");
+        if (sessionStorage.getItem('connectedDeviceName') != null) {
+            document.getElementById("connectedDeviceName").innerText = sessionStorage.getItem('connectedDeviceName');
+            deviceConnectionForm.classList.remove("d-md-inline-flex");
+            deviceConnectionForm.classList.add("d-none");
+            deviceInfoView.classList.add("d-md-inline-flex");
+            deviceInfoView.classList.remove("d-none");
+        }
+        else {
+            deviceInfoView.classList.remove("d-md-inline-flex");
+            deviceInfoView.classList.add("d-none");
+            deviceConnectionForm.classList.add("d-md-inline-flex");
+            deviceConnectionForm.classList.remove("d-none");
+        }
     }
-    else {
-        deviceInfoView.classList.remove("d-md-inline-flex");
-        deviceInfoView.classList.add("d-none");
-        deviceConnectionForm.classList.add("d-md-inline-flex");
-        deviceConnectionForm.classList.remove("d-none");
-    }
-}
-
-function disconnectDevice() {
-    $.ajax({
-        url: '/trackerDevice/disconnectDevice',
-        type: 'DELETE',
-        contentType: 'application/json',
-    });
 }
