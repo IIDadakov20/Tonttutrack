@@ -2,7 +2,7 @@
     ViewData["Title"] = "Map";
 }
 
-<div class="w-100 h=100 mx-5">
+<div class="w-100 mx-5">
     @await Html.PartialAsync("_TrackerDevice")
     @await Html.PartialAsync("_Map")
 </div>
@@ -10,4 +10,5 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script src="~/js/map.js" asp-append-version="true"></script>
+    <script src="~/js/togglePassword.js"></script>
 }

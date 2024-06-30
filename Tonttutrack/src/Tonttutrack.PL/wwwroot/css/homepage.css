@@ -152,8 +152,19 @@ a {
     color: #b3112c;
     text-decoration: none;
 }
+
 #hvr {
     color: #ff8d8d;
+}
+
+@media (max-width: 1200px) {
+    .hero-heading {
+        font-size: 2rem;
+    }
+
+    .hero-lead {
+        font-size: 1.25rem;
+    }
 }
 
 /* Media Queries */

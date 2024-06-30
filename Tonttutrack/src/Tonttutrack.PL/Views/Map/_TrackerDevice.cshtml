@@ -2,20 +2,20 @@
 @model DeviceConnectionViewModel;
 
 <div class="w-100 h-auto mt-2">
-    <form id="deviceConnectionForm" class="d-md-inline-flex col-xl-8 col-md-12 justify-content-md-around">
-        <div class="align-self-start">
+    <form id="deviceConnectionForm" class="d-md-inline-flex col-auto justify-content-md-around">
+        <div class="align-self-start me-lg-4 me-sm-2">
             <label asp-for="Code" class="mb-1">Code</label>
             <input asp-for="Code" class="form-control"/>
             <span asp-validation-for="Code" class="text-danger"></span>
         </div>
-        <div class="align-self-start">
+        <div class="align-self-start me-lg-4 me-sm-1">
             <label asp-for="Password" class="mb-1">Password</label>
-            <input asp-for="Password" class="form-control"/>
+            <input asp-for="Password" class="form-control" id="passwordInput"/>
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
-        <div class="align-self-center">
-            <input id="saveDevice" type="checkbox" class="form-check-input mx-2">
-            <label for="saveDevice" class="form-check-label">Save device</label>
+        <div class="align-self-center me-lg-4 me-sm-2">
+            <input type="checkbox" id="togglePassword" class="form-check-input" />
+            <label for="togglePassword" class="form-check-label">Show Password</label>
         </div>
         <div class="align-self-center">
             <button type="submit" class="w-100 btn btn-lg btn-primary">Connect</button>
