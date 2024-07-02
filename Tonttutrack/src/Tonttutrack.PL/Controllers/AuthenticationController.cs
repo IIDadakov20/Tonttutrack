@@ -81,7 +81,7 @@ public class AuthenticationController : Controller
 		return RedirectToAction("Index", "Home");
 	}
 
-    public async Task<IActionResult> Logout()
+    public async Task<IActionResult> Signout()
 	{
 		await _userAuthService.UserSignOutAsync();
         return RedirectToAction("Index", "Home");

@@ -1,1 +1,28 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/8w5OIgyE)
+﻿﻿
+<h1 align = "center"> Tonttutrack </h1>
+
+## 💻 Description
+
+The Tonttutrack project is an innovative system for tracking a person's location and speed in real time using a combination of hardware and software components. The main goal is to provide reliable and accurate tracking through a web application that visualizes the data on an interactive map. 
+
+ - User Registration and Login;
+ - Connect and Disconnect tracker device;
+ - View your current location and statistics
+ 
+<br>
+
+## </> Tech Stack
+
+<p align="left">
+  <a href="https://skillicons.dev">
+    <img src="https://skillicons.dev/icons?i=github,git,visualstudio,cs,net,html,css,js" />
+  </a>
+</p>
+
+<br>
+
+## ⚙ Installation
+
+To download the project paste the following code in your CMD:
+<pre>https://github.com/codingburgas/arduino-projects-11a-IIDadakov20.git
+Select Tonttutrack.Pl as Startup Project and start the project</pre>
