@@ -1,125 +1,127 @@
 * {
-    overflow: auto;
-
+    margin: 0;
+    padding: 0;
 }
 
 body {
     background-color: #F2F7F4;
     color: #080908;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    overflow-y: scroll;
 }
 
-.container-fluid {
-    padding-left: 15px;
-    padding-right: 15px;
+main {
+    display: flex;
+    flex-direction: column;
 }
 
-/* Hero Section */
 .hero-section {
-    background-color: #F2F7F4;
-    padding-bottom: 3rem;
-    text-align: left;
-    max-width: 100%;
-    margin: 0 auto;
-    margin-bottom: 3rem;
+    display: flex;
+    justify-content: center;
+    margin: 6% 2% 8% 2%;
+}
 
+.hero-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+/* Hero Text */
+
+.hero-text {
+    width:32%;
 }
 
 .hero-heading {
-    color: #0E080B;
     font-size: 2.8rem;
     font-weight: bold;
+    color: #0E080B;
     margin-bottom: 1rem;
-    overflow: hidden;
 }
 
 .hero-lead {
-    color: #0E080B;
     font-size: 1.5rem;
-    margin-top: 1rem;
+    color: #0E080B;
     margin-bottom: 1.5rem;
 }
 
 .hero-btn {
     background-color: #A4ADA5;
-    border-color: #A4ADA5;
-    color: #fff;
+    border: none;
     padding: 10px 20px;
     font-size: 1.2rem;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .hero-btn:hover {
     background-color: #2F5431;
-    border-color: #2F5431;
+    color: white;
 }
 
-.hero-buttons {
+/* Hero Image */
+
+.hero-image-container {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    justify-content: center;
+    width:40%;
 }
 
 .hero-image {
-    max-width: none;
-    width: 100%;
-    height: auto;
-    border-radius: 15px;
-    margin-top: 3rem;
-
+    border-radius: 6px;
+    width:100%;
 }
 
-/* Photo Section */
-.photo-section {
-    background-color: #F2F7F4;
-    padding: 3rem 0;
-    max-width: 100%;
-    margin: 0 auto;
-    margin-bottom: 3rem;
 
+/* Photo Section */
+
+.photo-section {
+    text-align: center;
+    margin: 0 2% 0 2%;
+}
+
+
+.photo-container {
+    width:100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
 .photo-box {
-    margin-bottom: 2rem;
-    border: 1px solid #A4ADA5;
+    position: relative;
+    width: 24%;
+    overflow: hidden;
     border-radius: 10px;
-    overflow: hidden;
-    position: relative;
-}
-
-.photo-container {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    height: 350px;
-    background-color: #DADADA;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .photo-image {
     width: 100%;
-    height: 100%;
+    height: 300px;
     object-fit: cover;
-    object-position: 50% 30%;
     transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-.photo-overlay {
+.overlay {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     background-color: rgba(112, 20, 35, 0.8);
     height: 0;
+    overflow: hidden;
     transition: height 0.3s ease;
     display: flex;
-    align-items: center;
     justify-content: center;
-    overflow: hidden;
+    align-items: center;
 }
 
-.photo-overlay-text {
-    color: #fff;
+.overlay-text {
+    color: white;
     font-size: 1.2rem;
     padding: 1rem;
     text-align: center;
@@ -127,70 +129,50 @@ body {
     transition: opacity 0.3s ease;
 }
 
-.photo-container:hover .photo-image {
+.photo-box:hover .photo-image {
     transform: scale(1.1);
     filter: blur(3px);
 }
 
-.photo-container:hover .photo-overlay {
+.photo-box:hover .overlay {
     height: 50%;
 }
 
-.photo-container:hover .photo-overlay-text {
+.photo-box:hover .overlay-text {
     opacity: 1;
 }
 
 .photo-text {
+    font-size: 1.5rem;
     color: #080908;
-    text-align: center;
-    padding: 1rem;
-    font-size: 150%;
-    margin: 0;
-}
-
-a {
-    color: #b3112c;
-    text-decoration: none;
-}
-
-#hvr {
-    color: #ff8d8d;
-}
-
-@media (max-width: 1200px) {
-    .hero-heading {
-        font-size: 2rem;
-    }
-
-    .hero-lead {
-        font-size: 1.25rem;
-    }
+    margin-top: 1rem;
 }
 
 /* Media Queries */
-
-@media (max-width: 991px) {
-    .hero-section {
-        text-align: center;
+@media (max-width: 768px) {
+    .hero-container {
+        flex-direction: column;
+        padding: 1rem;
     }
 
     .hero-heading {
-        font-size: 2.5rem;
+        font-size: 2.2rem;
     }
 
     .hero-lead {
-        font-size: 1.25rem;
-    }
-
-    .hero-buttons {
-        align-items: center;
+        font-size: 1.2rem;
     }
 
     .photo-container {
-        height: 350px;
+        flex-direction: column;
+        gap: 1.5rem;
     }
 
-    .photo-image {
-        object-position: 50% 25%;
+    .photo-box {
+        width: 100%;
+    }
+
+    .hero-image {
+        max-width: 90%;
     }
 }

@@ -4,60 +4,43 @@
 
 <link rel="stylesheet" href="~/css/homepage.css" />
 
-<div class="container-fluid">
-    <div class="hero-section d-flex align-items-center">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <h1 class="hero-heading">Real-Time GPS Tracking & Route Statistics.</h1> 
-                    <p class="hero-lead">Discover the ultimate tool for navigating your world with precision.  Our user-friendly web app offers a powerful combination of real-time GPS tracking and route statistics.</p>
-                    <div class="hero-buttons">
-                        <a class="btn btn-primary btn-lg hero-btn" href="~/Map/MapTrackerLayout">Join for free</a>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <img src="~/assets/homepagePhoto1.jpg" class="img-fluid rounded-3 hero-image" alt="App Image">
-                </div>
-            </div>
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-container">
+        <div class="hero-text">
+            <h1 class="hero-heading">Real-Time GPS Tracking & Route Statistics.</h1>
+            <p class="hero-lead">Discover the ultimate tool for navigating your world with precision. Our user-friendly web app offers a powerful combination of real-time GPS tracking and route statistics.</p>
+            <a class="btn hero-btn" href="~/Map/MapTrackerLayout">Join for free</a>
+        </div>
+        <div class="hero-image-container">
+            <img src="~/assets/homepagePhoto1.jpg" class="hero-image" alt="App Image">
         </div>
     </div>
-    <div class="photo-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4">
-                    <div class="photo-box">
-                        <div class="photo-container">
-                            <img src="~/assets/instruction1.jpg" class="img-fluid photo-image" alt="Photo 1">
-                            <div class="overlay photo-overlay">
-                                <div class="overlay-text photo-overlay-text">Connect the transmitter device to a USB power source and the receiver device to your computer</div>
-                            </div>
-                        </div>
-                        <p class="photo-text">Step One</p>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="photo-box">
-                        <div class="photo-container">
-                            <img src="~/assets/instruction2.jpg" class="img-fluid photo-image" alt="Photo 2">
-                            <div class="overlay photo-overlay">
-                                <div class="overlay-text photo-overlay-text">Make sure you are logged into your account. If you don't have an account, you can create one </div>
-                            </div>
-                        </div>
-                        <p class="photo-text">Step Two</p> 
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="photo-box">
-                        <div class="photo-container">
-                            <img src="~/assets/instruction3.jpg" class="img-fluid photo-image" alt="Photo 3">
-                            <div class="overlay photo-overlay">
-                                <div class="overlay-text photo-overlay-text">Enter the code of the transmitter device and the device password which have been given to you</div>
-                            </div>
-                        </div>
-                        <p class="photo-text">Step Three</p>
-                    </div>
-                </div>
+</section>
+
+<!-- Photo Section -->
+<section class="photo-section">
+    <div class="photo-container">
+        <div class="photo-box">
+            <img src="~/assets/instruction1.jpg" class="photo-image" alt="Step 1">
+            <div class="overlay">
+                <p class="overlay-text">Connect the transmitter device to a USB power source and the receiver device to your computer</p>
             </div>
+            <p class="photo-text">Step One</p>
+        </div>
+        <div class="photo-box">
+            <img src="~/assets/instruction2.jpg" class="photo-image" alt="Step 2">
+            <div class="overlay">
+                <p class="overlay-text">Make sure you are logged into your account. If you don't have an account, you can create one</p>
+            </div>
+            <p class="photo-text">Step Two</p>
+        </div>
+        <div class="photo-box">
+            <img src="~/assets/instruction3.jpg" class="photo-image" alt="Step 3">
+            <div class="overlay">
+                <p class="overlay-text">Enter the code of the transmitter device and the device password which have been given to you</p>
+            </div>
+            <p class="photo-text">Step Three</p>
         </div>
     </div>
-</div>
+</section>
