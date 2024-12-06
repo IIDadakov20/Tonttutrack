@@ -1,4 +1,4 @@
-﻿using Tonttutrack.DAL.Data;
+﻿using Tonttutrack.DataAccess.Data;
 using Tonttutrack.BLL.Contracts;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,7 +20,7 @@ internal class DeviceService : IDeviceService
         if (device == null)
             return false;
 
-        return device.Password == password;
+        return device.PasswordHash == password;
     }
 
     public async Task<string?> FetchConnectedDeviceName(string code)

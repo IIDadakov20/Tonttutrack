@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Tonttutrack.DAL.Data.Models;
+using Tonttutrack.DataAccess.Data.Models;
 using Tonttutrack.BLL.DTO;
 
 namespace Tonttutrack.BLL.Common;

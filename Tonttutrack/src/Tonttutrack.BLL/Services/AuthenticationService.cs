@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Tonttutrack.BLL.Contracts;
-using Tonttutrack.DAL.Data.Models;
+using Tonttutrack.DataAccess.Data.Models;
 
 namespace Tonttutrack.BLL.Services;
 

@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Tonttutrack.DAL.Data.Models;
+namespace Tonttutrack.DataAccess.Data.Models;
 
 public class Route
 {
@@ -15,19 +15,24 @@ public class Route
 
     [Key]
     public Guid Id { get; set; }
-    [Required]
+
     [StringLength(100)]
-    [Unicode(false)]
     public string Name { get; set; } = null!;
+
     [Required]
     public DateOnly Date { get; set; }
+
     [Required]
     public double Distance { get; set; }
+
     [Required]
     public TimeSpan Duration { get; set; }
 
+    [Required]
     public Guid UserId { get; set; }
+
+    [ForeignKey(nameof(UserId))]
     public User User { get; set; } = null!;
 
-    public ICollection<RoutePoint> RoutePoints { get; set; }
+    public ICollection<RoutePoint> RoutePoints { get; set; } = null!;
 }

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Tonttutrack.DAL.Data;
-using Tonttutrack.DAL.Data.Models;
+using Tonttutrack.DataAccess.Data;
+using Tonttutrack.DataAccess.Data.Models;
 using Tonttutrack.BLL.Common;
 using Microsoft.AspNetCore.Identity;
 

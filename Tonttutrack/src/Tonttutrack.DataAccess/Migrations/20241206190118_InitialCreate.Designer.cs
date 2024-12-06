@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Tonttutrack.DAL.Data;
+using Tonttutrack.DataAccess.Data;
 
 #nullable disable
 
-namespace Tonttutrack.DAL.Migrations
+namespace Tonttutrack.DataAccess.Migrations
 {
     [DbContext(typeof(TonttutrackDbContext))]
-    [Migration("20240502230205_InitialCreate")]
+    [Migration("20241206190118_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace Tonttutrack.DAL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.4")
+                .HasAnnotation("ProductVersion", "8.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -156,33 +156,94 @@ namespace Tonttutrack.DAL.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Tonttutrack.DAL.Models.Device", b =>
+            modelBuilder.Entity("Tonttutrack.DataAccess.Data.Models.Device", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("MacAddress")
+                    b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(17)
-                        .HasColumnType("nvarchar(17)");
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(17)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Devices");
                 });
 
-            modelBuilder.Entity("Tonttutrack.DAL.Models.User", b =>
+            modelBuilder.Entity("Tonttutrack.DataAccess.Data.Models.Route", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<double>("Distance")
+                        .HasColumnType("float");
+
+                    b.Property<TimeSpan>("Duration")
+                        .HasColumnType("time");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Routes");
+                });
+
+            modelBuilder.Entity("Tonttutrack.DataAccess.Data.Models.RoutePoint", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("CurrentSpeed")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("decimal(5,2)");
+
+                    b.Property<decimal>("Latitude")
+                        .HasPrecision(9, 6)
+                        .HasColumnType("decimal(9,6)");
+
+                    b.Property<decimal>("Longitude")
+                        .HasPrecision(9, 6)
+                        .HasColumnType("decimal(9,6)");
+
+                    b.Property<DateTime>("RecordedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("RouteId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RouteId");
+
+                    b.ToTable("RoutePoints");
+                });
+
+            modelBuilder.Entity("Tonttutrack.DataAccess.Data.Models.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -251,7 +312,7 @@ namespace Tonttutrack.DAL.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Tonttutrack.DAL.Models.UserDevice", b =>
+            modelBuilder.Entity("Tonttutrack.DataAccess.Data.Models.UserDevice", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -277,7 +338,7 @@ namespace Tonttutrack.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Tonttutrack.DAL.Models.User", null)
+                    b.HasOne("Tonttutrack.DataAccess.Data.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -286,7 +347,7 @@ namespace Tonttutrack.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.HasOne("Tonttutrack.DAL.Models.User", null)
+                    b.HasOne("Tonttutrack.DataAccess.Data.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -301,7 +362,7 @@ namespace Tonttutrack.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Tonttutrack.DAL.Models.User", null)
+                    b.HasOne("Tonttutrack.DataAccess.Data.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -310,26 +371,69 @@ namespace Tonttutrack.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("Tonttutrack.DAL.Models.User", null)
+                    b.HasOne("Tonttutrack.DataAccess.Data.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Tonttutrack.DAL.Models.UserDevice", b =>
+            modelBuilder.Entity("Tonttutrack.DataAccess.Data.Models.Route", b =>
                 {
-                    b.HasOne("Tonttutrack.DAL.Models.Device", null)
-                        .WithMany()
+                    b.HasOne("Tonttutrack.DataAccess.Data.Models.User", "User")
+                        .WithMany("Routes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Tonttutrack.DataAccess.Data.Models.RoutePoint", b =>
+                {
+                    b.HasOne("Tonttutrack.DataAccess.Data.Models.Route", "Route")
+                        .WithMany("RoutePoints")
+                        .HasForeignKey("RouteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Route");
+                });
+
+            modelBuilder.Entity("Tonttutrack.DataAccess.Data.Models.UserDevice", b =>
+                {
+                    b.HasOne("Tonttutrack.DataAccess.Data.Models.Device", "Device")
+                        .WithMany("UserDevices")
                         .HasForeignKey("DeviceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Tonttutrack.DAL.Models.User", null)
-                        .WithMany()
+                    b.HasOne("Tonttutrack.DataAccess.Data.Models.User", "User")
+                        .WithMany("UserDevices")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Device");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Tonttutrack.DataAccess.Data.Models.Device", b =>
+                {
+                    b.Navigation("UserDevices");
+                });
+
+            modelBuilder.Entity("Tonttutrack.DataAccess.Data.Models.Route", b =>
+                {
+                    b.Navigation("RoutePoints");
+                });
+
+            modelBuilder.Entity("Tonttutrack.DataAccess.Data.Models.User", b =>
+                {
+                    b.Navigation("Routes");
+
+                    b.Navigation("UserDevices");
                 });
 #pragma warning restore 612, 618
         }
