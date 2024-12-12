@@ -1,0 +1,32 @@
+services:
+    tonttutrack-csharp:
+        container_name: tonttutrack-web
+        image: tonttutrack-csharp-image
+        ports:
+            - 5001:8080
+        volumes:
+            - ./Tonttutrack/src/Tonttutrack.PL/appsettings.json:/app/appsettings.json:ro
+            - ./Tonttutrack/src/Tonttutrack.PL/appsettings.Development.json:/app/appsettings.Development.json:ro
+        depends_on:
+            - mssql
+        networks:
+            - tonttutrack-network
+    mssql:
+        container_name: tonttutrack-database
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        restart: always
+        environment:
+            ACCEPT_EULA: Y
+            MSSQL_SA_PASSWORD: V3ryStr@ngP3ssw0rd
+        ports:
+            - 5000:1433
+        volumes:
+            - db-data:/var/opt/mssql
+        networks:
+            - tonttutrack-network
+volumes:
+    db-data: {}
+networks:
+  tonttutrack-network:
+    driver: bridge
+    name: tonttutrack-network
