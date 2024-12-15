@@ -1,12 +1,21 @@
 services:
-    tonttutrack-csharp:
+    mosquitto:
+        container_name: mqtt-broker
+        image: eclipse-mosquitto:2.0.20
+        restart: always
+        ports:
+            - 1883:1883
+        volumes:
+            - ./docker/mosquitto/config:/mosquitto/config
+            - ./docker/mosquitto/data:/mosquitto/data
+            - ./docker/mosquitto/log:/mosquitto/log
+        networks:
+            - tonttutrack-network
+    tonttutrack:
         container_name: tonttutrack-web
         image: tonttutrack-csharp-image
         ports:
             - 5001:8080
-        volumes:
-            - ./Tonttutrack/src/Tonttutrack.PL/appsettings.json:/app/appsettings.json:ro
-            - ./Tonttutrack/src/Tonttutrack.PL/appsettings.Development.json:/app/appsettings.Development.json:ro
         depends_on:
             - mssql
         networks:

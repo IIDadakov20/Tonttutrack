@@ -14,7 +14,7 @@ COPY ["src/Tonttutrack.BLL/Tonttutrack.BLL.csproj", "src/Tonttutrack.BLL/"]
 COPY ["src/Tonttutrack.DataAccess/Tonttutrack.DataAccess.csproj", "src/Tonttutrack.DataAccess/"]
 RUN dotnet restore "./src/Tonttutrack.PL/Tonttutrack.PL.csproj"
 COPY . .
-WORKDIR "/src/src/Tonttutrack.PL"
+WORKDIR "src/Tonttutrack.PL"
 RUN dotnet build "./Tonttutrack.PL.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage

@@ -1,10 +1,11 @@
+#include <SPI.h>
+#include <MQTT.h>
+#include <WiFi.h>
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include <TinyGPS++.h>
 #include <SoftwareSerial.h>
-#include <esp_now.h>
-#include <WiFi.h>
 #include <Arduino.h>
 
 #define SCREEN_WIDTH 128
@@ -16,22 +17,34 @@
 #define GPS_RX 14
 #define GPS_TX 12
 
-struct MessageData {
-    String lat;
-    String lon;
-    String speed;
-};
-
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 SoftwareSerial gpsSerial(GPS_RX, GPS_TX);
 TinyGPSPlus gps;
 
-esp_now_peer_info_t peerInfo;
+const char ssid[] = "";
+const char pass[] = "";
 
-const uint8_t broadcastAddress[] = { 0xE8, 0x6B, 0xEA, 0xE0, 0x0A, 0xA4 };
+WiFiClient net;
+MQTTClient client;
 
-MessageData message;
+unsigned long lastMillis = 0;
+String mac = WiFi.macAddress();
+
+void connect()
+{
+    displayData("Checking wifi...");
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(1000);
+    }
+
+    displayData("Connecting...");
+    while (!client.connect("arduino", "public", "public")) {
+        delay(1000);
+    }
+
+    displayData("Connected!");
+}
 
 void displayData(String text)
 {
@@ -45,32 +58,38 @@ void displayData(String text)
 
 void setup()
 {
-    Wire.begin(OLED_SDA, OLED_SCL);
-
+    Wire.begin();
     display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
-    display.clearDisplay();
 
-    Serial.begin(115200);
     gpsSerial.begin(9600);
 
     WiFi.mode(WIFI_STA);
+    WiFi.begin(ssid, pass);
+    client.begin("192.168.0.106", 1883, net);
 
-    ESP_ERROR_CHECK(esp_now_init());
-
-    memcpy(peerInfo.peer_addr, broadcastAddress, 6);
-    peerInfo.channel = 0;
-    peerInfo.encrypt = false;
-
-    ESP_ERROR_CHECK(esp_now_add_peer(&peerInfo));
+    connect();
 }
 
 void loop()
 {
+    client.loop();
+
+    if (!client.connected()) {
+        connect();
+    }
+
     String displayOutput = "";
     while (gpsSerial.available())
     {
         if (gps.encode(gpsSerial.read()))
         {
+            if (millis() - lastMillis > 1000) {
+                lastMillis = millis();
+                client.publish("car_statistics/" + mac + "/speed", String(gps.speed.kmph()));
+                client.publish("car_statistics/" + mac + "/latitude", String(gps.location.lat(), 6));
+                client.publish("car_statistics/" + mac + "/longitude", String(gps.location.lng(), 6));
+            }
+
             displayOutput += "SATS: " + String(gps.satellites.value()) + "\n";
             displayOutput += "LAT: " + String(gps.location.lat(), 6) + "\n";
             displayOutput += "LON: " + String(gps.location.lng(), 6) + "\n";
@@ -79,11 +98,6 @@ void loop()
             displayOutput += "DATE: " + String(gps.date.day()) + "/" + String(gps.date.month()) + "/" + String(gps.date.year()) + "\n";
             displayOutput += "TIME: " + String(gps.time.hour()) + ":" + String(gps.time.minute()) + ":" + String(gps.time.second()) + "\n";
             displayData(displayOutput);
-
-            message.lat = String(gps.location.lat(), 6);
-            message.lon = String(gps.location.lng(), 6);
-            message.speed = String(gps.speed.kmph());
-            ESP_ERROR_CHECK(esp_now_send(broadcastAddress, (uint8_t*)&message, sizeof(message)));
         }
     }
 }
