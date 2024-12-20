@@ -74,7 +74,7 @@ function readRoutePoints() {
                 console.error(xhr.responseJSON.message);
             }
         });
-    }, 5000);
+    }, 2000);
 }
 
 window.addEventListener("load", () => {

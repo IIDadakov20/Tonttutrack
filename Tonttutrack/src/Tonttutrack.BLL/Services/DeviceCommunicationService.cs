@@ -1,100 +1,79 @@
-﻿using System.IO.Ports;
+﻿using Microsoft.AspNetCore.Http;
+using MQTTnet.Client;
+using MQTTnet;
+using System.Security.Claims;
 using Tonttutrack.BLL.Contracts;
 using Tonttutrack.BLL.DTO;
+using System.Text;
 
 namespace Tonttutrack.BLL.Services;
 
-internal class DeviceCommunicationService : IDeviceCommunicationService
+public class DeviceCommunicationService : IDeviceCommunicationService
 {
-    private static SerialPort? _port;
+    private IMqttClient _mqttClient;
+    private MqttClientOptions _options;
+    private static string _mqttBrokerAddress = "192.168.0.102";
+    private static int _mqttBrokerPort = 1883;
+    private Dictionary<string, string> _routePoint = new();
 
-    private static async Task<string> ReceiveDeviceDataAsync(SerialPort port)
+    public DeviceCommunicationService(IHttpContextAccessor httpContextAccessor)
     {
-        if (port.BytesToRead == 0)
-            return string.Empty;
+        string clientId = httpContextAccessor.HttpContext.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-        string receivedData = await Task.Run(() => port.ReadLine());
-        return receivedData.TrimEnd('\r');
+        var factory = new MqttFactory();
+        _mqttClient = factory.CreateMqttClient();
+
+        _options = new MqttClientOptionsBuilder()
+            .WithTcpServer(_mqttBrokerAddress, _mqttBrokerPort)
+            .WithClientId(clientId.ToString())
+            .WithCleanSession()
+            .Build();
     }
 
-    public async Task<bool> AuthorizeDeviceConnectionAsync(string authorizationCode)
+    public async Task<bool> ConnectToBrokerAsync(string deviceCode)
     {
-        foreach (var portName in SerialPort.GetPortNames())
+        if (!this._mqttClient.IsConnected)
         {
-            SerialPort port = new(portName, 115200);
-            port.Open();
-            port.Write("Authentication code required");
-            await Task.Delay(1500);
-            string receivedCode = await ReceiveDeviceDataAsync(port);
+            var connectResult = await this._mqttClient.ConnectAsync(_options);
 
-            if (receivedCode == authorizationCode)
-            {
-                _port = port;
-                return true;
-            }
-            else
-            {
-                port.Close();
-            }
-        }
-        return false;
-    }
-
-    public async Task<RoutePointDTO> GetRoutePointDataAsync()
-    {
-        if (_port == null || !_port.IsOpen)
-        {
-            _port = null;
-            return new RoutePointDTO { CurrentSpeed = -1 };
+            if (connectResult.ResultCode != MqttClientConnectResultCode.Success)
+                return false;
         }
 
-        List<string> routePoint = new();
-        int messageCount = 0;
+        await _mqttClient.SubscribeAsync("car_statistics/" + deviceCode + "/speed");
+        await _mqttClient.SubscribeAsync("car_statistics/" + deviceCode + "/latitude");
+        await _mqttClient.SubscribeAsync("car_statistics/" + deviceCode + "/longitude");
 
-        while (messageCount < 3)
+        _mqttClient.ApplicationMessageReceivedAsync += e =>
         {
-            string routePointParameter = await ReceiveDeviceDataAsync(_port);
-            routePoint.Add(routePointParameter);
-            messageCount++;
-        }
-
-        _port.DiscardInBuffer();
-
-        if (string.IsNullOrEmpty(routePoint.FirstOrDefault()))
-        {
-            return new RoutePointDTO();
-        }
-
-        return new RoutePointDTO
-        {
-            Latitude = decimal.Parse(routePoint[0]),
-            Longitude = decimal.Parse(routePoint[1]),
-            CurrentSpeed = decimal.Parse(routePoint[2])
+            string receivedTopic = e.ApplicationMessage.Topic.Substring(e.ApplicationMessage.Topic.LastIndexOf('/') + 1);
+            string message = Encoding.UTF8.GetString(e.ApplicationMessage.PayloadSegment);
+            _routePoint.Add(receivedTopic, message);
+            return Task.CompletedTask;
         };
+
+        return true;
     }
 
-    public async Task<bool> DisconnectDeviceAsync()
+    public RoutePointDTO? GetRoutePointData()
     {
-        if (_port == null || !_port.IsOpen)
+        if (_routePoint["latitude"] != "0" &&
+            _routePoint["longitude"] != "0")
         {
-            return true;
+            var result = new RoutePointDTO
+            {
+                Latitude = decimal.Parse(_routePoint["latitude"]),
+                Longitude = decimal.Parse(_routePoint["longitude"]),
+                CurrentSpeed = decimal.Parse(_routePoint["speed"])
+            };
+
+            _routePoint.Remove("latitude");
+            _routePoint.Remove("longitude");
+            _routePoint.Remove("speed");
+
+            return result;
         }
 
-        _port.Write("break");
-        string response = await ReceiveDeviceDataAsync(_port);
-
-        while(response != "break")
-        {
-            await Task.Delay(100);
-            response = await ReceiveDeviceDataAsync(_port);
-        }
-
-        if (response == "break")
-        {
-            _port.Close();
-            return true;
-        }
-
-        return false;
+        return null;
     }
 }

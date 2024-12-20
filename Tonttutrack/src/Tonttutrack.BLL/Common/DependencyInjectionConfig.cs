@@ -9,7 +9,7 @@ public static class DependencyInjectionConfig
     public static void AddServices(this IServiceCollection servicesCollection)
     {
         servicesCollection
-            .AddScoped<IDeviceCommunicationService, DeviceCommunicationService>()
+            .AddSingleton<IDeviceCommunicationService, DeviceCommunicationService>()
             .AddScoped<IDeviceService, DeviceService>()
             .AddScoped<IAuthenticationService, AuthenticationService>()
             .AddScoped<IUserService, UserService>();

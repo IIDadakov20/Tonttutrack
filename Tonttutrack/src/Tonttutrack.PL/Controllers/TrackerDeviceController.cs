@@ -29,12 +29,7 @@ public class TrackerDeviceController : Controller
             return BadRequest(new { message = "Invalid device code or password." });
         }
 
-        bool deviceIsConnected = await _deviceCommunicationService.AuthorizeDeviceConnectionAsync(userInput.Code);
-
-        if(!deviceIsConnected)
-        {
-            deviceIsConnected = await _deviceCommunicationService.AuthorizeDeviceConnectionAsync(userInput.Code);
-        }
+        bool deviceIsConnected = await _deviceCommunicationService.ConnectToBrokerAsync(userInput.Code);
 
         if (!deviceIsConnected)
         {
@@ -55,22 +50,22 @@ public class TrackerDeviceController : Controller
     [HttpGet("readRoutePoint")]
     public async Task<IActionResult> ReadFromDeviceAsync()
     {
-        RoutePointDTO routePoint = await _deviceCommunicationService.GetRoutePointDataAsync();
+        RoutePointDTO routePoint = _deviceCommunicationService.GetRoutePointData();
 
-        if (routePoint.CurrentSpeed == -1)
+        if (routePoint == null)
         {
-            return Json("break");
+            return Json(new { message = "No Data" });
         }
 
-        if (!(routePoint.CurrentSpeed.ToString()).Contains('.'))
+        return Json(new
         {
-            return BadRequest(new { message = "Problem occurred while connecting to your device." });
-        }
-
-        return Json(new {routePoint.Latitude, routePoint.Longitude, routePoint.CurrentSpeed });
+            routePoint.Latitude,
+            routePoint.Longitude,
+            routePoint.CurrentSpeed
+        });
     }
 
-    [HttpDelete("disconnectDevice")]
+    /*[HttpDelete("disconnectDevice")]
     public async Task<IActionResult> DisconnectDeviceAsync()
     {
         bool deviceIsDisconnected = await _deviceCommunicationService.DisconnectDeviceAsync();
@@ -81,5 +76,5 @@ public class TrackerDeviceController : Controller
         }
 
         return Json(true);
-    }
+    }*/
 }
