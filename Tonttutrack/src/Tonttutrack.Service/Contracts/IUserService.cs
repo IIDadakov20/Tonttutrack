@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Tonttutrack.Service.DTO;
+using Tonttutrack.Domain.DTOs.Authentication;
 
 namespace Tonttutrack.Service.Contracts;
 
 public interface IUserService
 {
-    Task<IdentityResult> CreateUserAsync(UserDTO userInput);
+    Task<IdentityResult> CreateUserAsync(RegisterDTO userInput);
 
-    Task<UserDTO?> GetUserByEmailAsync(string email);
+    //Task<UserDTO?> GetUserByEmailAsync(string email);
 }

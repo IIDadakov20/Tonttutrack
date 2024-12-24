@@ -1,4 +1,4 @@
-﻿namespace Tonttutrack.Service.DTO;
+﻿namespace Tonttutrack.Domain.DTOs.Responses;
 
 public class RoutePointDTO
 {

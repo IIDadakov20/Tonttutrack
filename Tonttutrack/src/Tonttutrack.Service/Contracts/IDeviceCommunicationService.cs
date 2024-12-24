@@ -1,5 +1,4 @@
-﻿using System.IO.Ports;
-using Tonttutrack.Service.DTO;
+﻿using Tonttutrack.Domain.DTOs.Responses;
 
 namespace Tonttutrack.Service.Contracts;
 

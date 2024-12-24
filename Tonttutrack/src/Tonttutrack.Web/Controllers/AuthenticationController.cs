@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Tonttutrack.Service.Contracts;
-using Tonttutrack.Service.DTO;
-using Tonttutrack.Web.Models;
+using Tonttutrack.Domain.DTOs.Authentication;
 
 namespace Tonttutrack.Web.Controllers;
 
@@ -24,7 +23,7 @@ public class AuthenticationController : Controller
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> RegisterAsync(UserDTO userInput)
+	public async Task<IActionResult> RegisterAsync(RegisterDTO userInput)
 	{
 		if (await _userAuthService.CheckUserExistsByEmailAsync(userInput.Email))
 		{
@@ -60,7 +59,7 @@ public class AuthenticationController : Controller
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> LoginAsync(LoginViewModel userInput)
+	public async Task<IActionResult> LoginAsync(LoginDTO userInput)
 	{
 		bool areCredentialsValid = await _userAuthService.VerifyUserCredentialsAsync(userInput.Email, userInput.Password);
 

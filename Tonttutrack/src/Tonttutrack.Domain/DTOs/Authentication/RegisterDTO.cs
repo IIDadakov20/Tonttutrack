@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Tonttutrack.Web.Models;
+namespace Tonttutrack.Domain.DTOs.Authentication;
 
-public class RegisterViewModel
+public class RegisterDTO
 {
 	[Required(ErrorMessage = "This field is required.")]
 	[StringLength(25, MinimumLength = 2, ErrorMessage = "Username must be 2 - 25 characters long.")]

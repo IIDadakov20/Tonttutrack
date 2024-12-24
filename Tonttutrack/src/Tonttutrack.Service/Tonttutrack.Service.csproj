@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tonttutrack.DataAccess\Tonttutrack.DataAccess.csproj" />
+    <ProjectReference Include="..\Tonttutrack.Domain\Tonttutrack.Domain.csproj" />
   </ItemGroup>
 
 </Project>

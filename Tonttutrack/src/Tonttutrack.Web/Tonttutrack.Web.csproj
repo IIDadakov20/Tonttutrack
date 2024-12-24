@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Tonttutrack.Domain\Tonttutrack.Domain.csproj" />
     <ProjectReference Include="..\Tonttutrack.Service\Tonttutrack.Service.csproj" />
   </ItemGroup>
 

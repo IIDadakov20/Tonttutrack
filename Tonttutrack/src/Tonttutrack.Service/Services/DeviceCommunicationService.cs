@@ -3,7 +3,7 @@ using MQTTnet.Client;
 using MQTTnet;
 using System.Security.Claims;
 using Tonttutrack.Service.Contracts;
-using Tonttutrack.Service.DTO;
+using Tonttutrack.Domain.DTOs.Responses;
 using System.Text;
 
 namespace Tonttutrack.Service.Services;
