@@ -1,4 +1,4 @@
-﻿using Tonttutrack.Domain.DTOs.Responses;
+﻿using Tonttutrack.Domain.DTOs.Response;
 
 namespace Tonttutrack.Service.Contracts;
 

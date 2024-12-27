@@ -12,6 +12,7 @@ public static class DependencyInjectionConfig
             .AddSingleton<IDeviceCommunicationService, DeviceCommunicationService>()
             .AddScoped<IDeviceService, DeviceService>()
             .AddScoped<IAuthenticationService, AuthenticationService>()
-            .AddScoped<IUserService, UserService>();
+            .AddScoped<IUserService, UserService>()
+            .AddScoped<ICurrentUserService, CurrentUserService>();
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Tonttutrack.Service.Contracts;
-using Tonttutrack.Domain.DTOs.Responses;
+using Tonttutrack.Domain.DTOs.Response;
 using Tonttutrack.Web.Models;
 
 namespace Tonttutrack.Web.Controllers;
