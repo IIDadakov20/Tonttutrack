@@ -7,74 +7,64 @@ namespace Tonttutrack.Web.Controllers;
 public class AuthenticationController : Controller
 {
 	private readonly IAuthenticationService _userAuthService;
-	private readonly IUserService _userService;
 
 	public AuthenticationController(
-		IAuthenticationService userAuthService,
-		IUserService userService)
+		IAuthenticationService userAuthService)
 	{
 		_userAuthService = userAuthService;
-		_userService = userService;
 	}
 
 	public IActionResult Register()
 	{
-		return View("Views/Account/Register.cshtml");
+		return View("Register");
 	}
 
 	[HttpPost]
 	public async Task<IActionResult> RegisterAsync(RegisterDTO registerInfo)
 	{
-		if (await _userService.CheckUserExistsByEmailAsync(registerInfo.Email))
-		{
-			ModelState.AddModelError("Email", "User already exists with that email.");
-		}
+        var identityResult = await _userAuthService.RegisterUserAsync(registerInfo);
 
-		if (await _userService.CheckUserExistsByUsernameAsync(registerInfo.Username))
-		{
-			ModelState.AddModelError("Username", "User already exists with that username.");
-		}
+        if (!identityResult.Succeeded)
+        {
+            foreach (var error in identityResult.ErrorMessage)
+            {
+                ModelState.AddModelError(error.Key, error.Value);
+            }
+            return View("Register");
+        }
 
-		if (!ModelState.IsValid)
-		{
-			return View("Views/Account/Register.cshtml");
-		}
+        if (User.Identity == null || !User.Identity.IsAuthenticated)
+        {
+            ModelState.AddModelError("", "Problem occurred while login to your account");
+            return View("Login");
+        }
 
-		var registrationResult = await _userService.CreateUserAsync(registerInfo);
-
-		if (!registrationResult.Succeeded)
-		{
-			ModelState.AddModelError("", "Problem occurred while creating your profile");
-			return View("Views/Account/Register.cshtml");
-		}
-
-		await _userAuthService.UserSignInAsync(registerInfo.Email);
-
-		return RedirectToAction("Index", "Home");
-	}
+        return RedirectToAction("Index", "Home");
+    }
 
 	public IActionResult Login()
 	{
-		return View("Views/Account/Login.cshtml");
+		return View("Login");
 	}
 
 	[HttpPost]
 	public async Task<IActionResult> LoginAsync(LoginDTO loginInfo)
 	{
-		bool areCredentialsValid = await _userAuthService.VerifyUserCredentialsAsync(loginInfo.Email, loginInfo.Password);
+        var identityResult = await _userAuthService.LoginUserAsync(loginInfo);
 
-		if (!areCredentialsValid)
-		{
-			ModelState.AddModelError("", "Invalid email or password.");
-			return View("Views/Account/Login.cshtml", loginInfo);
-		}
+        if (!identityResult.Succeeded)
+        {
+            foreach (var error in identityResult.ErrorMessage)
+            {
+                ModelState.AddModelError(error.Key, error.Value);
+            }
+            return View("Login");
+        }
 
-		await _userAuthService.UserSignInAsync(loginInfo.Email);
-
-		if(User.Identity == null || !User.Identity.IsAuthenticated)
+        if (User.Identity == null || !User.Identity.IsAuthenticated)
 		{
 			ModelState.AddModelError("", "Problem occurred while login to your account");
-			return View("Views/Account/Login.cshtml", loginInfo);
+			return View("Login", loginInfo);
 		}
 
 		return RedirectToAction("Index", "Home");

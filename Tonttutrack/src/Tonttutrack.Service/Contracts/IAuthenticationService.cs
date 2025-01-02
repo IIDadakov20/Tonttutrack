@@ -1,14 +1,13 @@
-﻿namespace Tonttutrack.Service.Contracts;
+﻿using Tonttutrack.Domain.DTOs.Authentication;
+using Tonttutrack.Domain.DTOs.Response;
+
+namespace Tonttutrack.Service.Contracts;
 
 public interface IAuthenticationService
 {
-    Task<bool> CheckUserExistsByEmailAsync(string email);
+    Task<ErrorDTO> RegisterUserAsync(RegisterDTO registerInfo);
 
-    Task<bool> CheckUserExistsByUsernameAsync(string username);
-
-    Task<bool> VerifyUserCredentialsAsync(string email, string password);
-
-    Task UserSignInAsync(string email);
+    Task<ErrorDTO> LoginUserAsync(LoginDTO loginInfo);
 
     Task UserSignOutAsync();
 }

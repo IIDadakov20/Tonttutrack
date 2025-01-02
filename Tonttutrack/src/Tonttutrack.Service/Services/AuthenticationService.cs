@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Tonttutrack.Service.Contracts;
 using Tonttutrack.DataAccess.Data.Models;
+using Tonttutrack.Domain.DTOs.Authentication;
+using Tonttutrack.Domain.DTOs.Response;
+using AutoMapper;
 
 namespace Tonttutrack.Service.Services;
 
@@ -8,41 +11,81 @@ internal class AuthenticationService : IAuthenticationService
 {
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
+    private readonly IMapper _mapper;
 
     public AuthenticationService(
         UserManager<User> userManager,
-        SignInManager<User> signInManager)
+        SignInManager<User> signInManager,
+        IMapper mapper)
     {
         _userManager = userManager;
         _signInManager = signInManager;
+        _mapper = mapper;
     }
 
-    public async Task<bool> CheckUserExistsByEmailAsync(string email)
+    public async Task<ErrorDTO> RegisterUserAsync(RegisterDTO registerInfo)
     {
-        return await _userManager.FindByEmailAsync(email) != null;
+        var result = new ErrorDTO();
+
+        if (await _userManager.FindByEmailAsync(registerInfo.Email) != null)
+        {
+            result.Succeeded = false;
+            result.ErrorMessage.Add("Email", "User already exists with this email.");
+        }
+
+        if (await _userManager.FindByNameAsync(registerInfo.Username) != null)
+        {
+            result.Succeeded = false;
+            result.ErrorMessage.Add("Username", "User already exists with this username.");
+        }
+
+        if (result.ErrorMessage.Any())
+        {
+            return result;
+        }
+
+        var user = _mapper.Map<User>(registerInfo);
+        var identityResult = await _userManager.CreateAsync(user, registerInfo.Password);
+
+        if (!identityResult.Succeeded)
+        {
+            result.Succeeded = false;
+            result.ErrorMessage.Add("", "Problem occurred while creating your account");
+            return result;
+        }
+
+        await _signInManager.SignInAsync(user, false);
+
+        result.Succeeded = true;
+        return result;
     }
 
-    public async Task<bool> CheckUserExistsByUsernameAsync(string username)
+    public async Task<ErrorDTO> LoginUserAsync(LoginDTO loginInfo)
     {
-        return await _userManager.FindByNameAsync(username) != null;
-    }
+        var result = new ErrorDTO();
 
-    public async Task<bool> VerifyUserCredentialsAsync(string email, string password)
-    {
-        var user = await _userManager.FindByEmailAsync(email);
+        var user = await _userManager.FindByEmailAsync(loginInfo.Email);
 
         if (user == null)
-            return false;
+        {
+            result.Succeeded = false;
+            result.ErrorMessage.Add("", "User not found");
+            return result;
+        }
 
-        return await _userManager.CheckPasswordAsync(user, password);
-    }
+        var isPasswordValid = await _userManager.CheckPasswordAsync(user, loginInfo.Password);
 
-    public async Task UserSignInAsync(string email)
-    {
-        var user = await _userManager.FindByEmailAsync(email);
+        if (!isPasswordValid)
+        {
+            result.Succeeded = false;
+            result.ErrorMessage.Add("", "Invalid email or password.");
+            return result;
+        }
 
-        if (user != null)
-            await _signInManager.SignInAsync(user, false);
+        await _signInManager.SignInAsync(user, false);
+
+        result.Succeeded = true;
+        return result;
     }
 
     public async Task UserSignOutAsync()
