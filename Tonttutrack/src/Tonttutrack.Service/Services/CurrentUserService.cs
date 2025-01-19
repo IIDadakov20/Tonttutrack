@@ -6,7 +6,7 @@ using Tonttutrack.DataAccess.Data.Models;
 
 namespace Tonttutrack.Service.Services;
 
-public class CurrentUserService : ICurrentUserService
+internal class CurrentUserService : ICurrentUserService
 {
     private readonly UserManager<User> _userManager;
     private readonly IHttpContextAccessor _httpContextAccessor;

@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Tonttutrack.Service.Services;
 
-public class DeviceCommunicationService : IDeviceCommunicationService
+internal class DeviceCommunicationService : IDeviceCommunicationService
 {
     private readonly IMqttClient _mqttClient;
     private readonly MqttClientOptions _options;
