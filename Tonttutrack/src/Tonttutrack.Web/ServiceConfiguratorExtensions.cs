@@ -11,7 +11,7 @@ public static class ServiceConfiguratorExtensions
     {
         builder.Services.AddDbContext<TonttutrackDbContext>(options =>
         {
-            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
         });
     }
 
