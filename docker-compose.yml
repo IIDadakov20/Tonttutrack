@@ -17,25 +17,27 @@ services:
         ports:
             - 5001:8080
         depends_on:
-            - mssql
+            - postgresql
         networks:
             - tonttutrack-network
-    mssql:
+    postgresql:
         container_name: tonttutrack-database
-        image: mcr.microsoft.com/mssql/server:2022-latest
+        image: postgres
         restart: always
-        environment:
-            ACCEPT_EULA: Y
-            MSSQL_SA_PASSWORD: V3ryStr@ngP3ssw0rd
         ports:
-            - 5000:1433
+            - 5432:5432
+        environment:
+            POSTGRES_USER: ${MQTT_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            POSTGRES_DB: ${POSTGRES_DB}
         volumes:
-            - db-data:/var/opt/mssql
+            - db-data:/var/lib/postgresql/data
         networks:
             - tonttutrack-network
 volumes:
-    db-data: {}
+    db-data:
+        name: tonttutrack-db-volume
 networks:
-  tonttutrack-network:
-    driver: bridge
-    name: tonttutrack-network
+    tonttutrack-network:
+        driver: bridge
+        name: tonttutrack-network
