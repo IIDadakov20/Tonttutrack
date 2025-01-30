@@ -10,6 +10,6 @@ public class ModelMapper : Profile
     public ModelMapper()
     {
         CreateMap<RegisterDTO, User>();
-        CreateMap<UserDTO, User>();
+        CreateMap<UserRequestDTO, User>();
     }
 }

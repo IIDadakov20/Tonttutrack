@@ -2,7 +2,7 @@
 
 namespace Tonttutrack.Domain.DTOs.Request;
 
-public class UserDTO
+public class UserRequestDTO
 {
     [StringLength(25, MinimumLength = 2, ErrorMessage = "Username must be 2 - 25 characters long.")]
     public string Username { get; set; } = null!;
@@ -19,6 +19,4 @@ public class UserDTO
     [DataType(DataType.Password)]
     [Compare("Password", ErrorMessage = "Password doesn't match.")]
     public string ConfirmPassword { get; set; } = null!;
-
-    public bool IsActive { get; set; }
 }

@@ -3,6 +3,7 @@ using Tonttutrack.Service.Contracts;
 using Tonttutrack.DataAccess.Data.Models;
 using AutoMapper;
 using Tonttutrack.Domain.DTOs.Request;
+using Tonttutrack.Domain.DTOs.Response;
 
 namespace Tonttutrack.Service.Services;
 
@@ -10,30 +11,50 @@ internal class UserService : IUserService
 {
     private readonly UserManager<User> _userManager;
     private readonly IMapper _mapper;
+    private readonly ICurrentUserService _currentUserService;
 
     public UserService(
         UserManager<User> userManager,
-        IMapper mapper)
+        IMapper mapper,
+        ICurrentUserService currentUserService)
     {
         _userManager = userManager;
         _mapper = mapper;
+        _currentUserService = currentUserService;
     }
 
-    public async Task<bool> CheckUserExistsByEmailAsync(string email, string? currentEmail = null)
+    public async Task<ErrorDTO> UpdateUserAsync(UserRequestDTO userInfo)
     {
-        return await _userManager.FindByEmailAsync(email) != null ^ email == currentEmail;
-    }
+        var result = new ErrorDTO();
 
-    public async Task<bool> CheckUserExistsByUsernameAsync(string username, string? currentUsername = null)
-    {
-        return await _userManager.FindByNameAsync(username) != null ^ username == currentUsername;
-    }
+        if (await _userManager.FindByEmailAsync(userInfo.Email) != null ^ userInfo.Email == _currentUserService.CurrentUser.Email)
+        {
+            result.Succeeded = false;
+            result.ErrorMessage.Add("Email", "User already exists with this email.");
+        }
 
-    public async Task<IdentityResult> UpdateUserAsync(UserDTO userInfo)
-    {
+        if (await _userManager.FindByNameAsync(userInfo.Username) != null ^ userInfo.Username == _currentUserService.CurrentUser.Username)
+        {
+            result.Succeeded = false;
+            result.ErrorMessage.Add("Username", "User already exists with this username.");
+        }
+
+        if (result.ErrorMessage.Any())
+        {
+            return result;
+        }
+
         var user = _mapper.Map<User>(userInfo);
         var identityResult = await _userManager.UpdateAsync(user);
 
-        return identityResult;
+        if (!identityResult.Succeeded)
+        {
+            result.Succeeded = false;
+            result.ErrorMessage.Add("", "Problem occurred while updating your account");
+            return result;
+        }
+
+        result.Succeeded = true;
+        return result;
     }
 }

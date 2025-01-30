@@ -23,7 +23,7 @@ internal class DeviceService : IDeviceService
         return device.PasswordHash == password;
     }
 
-    public async Task<string?> FetchConnectedDeviceName(string code)
+    public async Task<string?> FetchConnectedDeviceNameAsync(string code)
     {
         var device = await _context.Devices.FirstOrDefaultAsync(d => d.Code == code);
 

@@ -38,7 +38,7 @@ public class TrackerDeviceController : Controller
             return BadRequest(new {message = "Problem occurred while connecting to your device." });
         }
 
-        string? deviceName = await _deviceService.FetchConnectedDeviceName(userInput.Code);
+        string? deviceName = await _deviceService.FetchConnectedDeviceNameAsync(userInput.Code);
 
         var response = new
         {
