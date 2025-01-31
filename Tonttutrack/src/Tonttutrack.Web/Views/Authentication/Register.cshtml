@@ -10,7 +10,7 @@
     <div class="col-md-4 cardBox p-4">
         <h1 class="text-center p-1">@ViewData["Title"]</h1>
         <hr/>
-        <form asp-action="Register" method="post" class="centCard">
+        <form asp-action="Register" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="mb-3">
                 <label asp-for="Username" class="mb-1">Username</label>
@@ -42,7 +42,7 @@
                     <a asp-action="Login" class="text-decoration-none float-start mt-0">Sign in</a>
                 </div>
                 <div class="col-4">
-                    <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Sign up</button>
+                    <button type="submit" class="w-100 btn btn-lg btn-primary">Sign up</button>
                 </div>
             </div>
         </form>

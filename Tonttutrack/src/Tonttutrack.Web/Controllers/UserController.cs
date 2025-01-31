@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using Tonttutrack.Domain.DTOs.Request;
 using Tonttutrack.Service.Contracts;
 
@@ -17,22 +16,19 @@ public class UserController : Controller
         _userService = userService;
     }
 
-    /*[HttpPost]
-    public async IActionResult Update([FromBody] UserDTO user)
+    [HttpPost]
+    public async Task<IActionResult> UpdateUserAsync(UserRequestDTO user)
     {
-        if (await _userService.CheckUserExistsByEmailAsync(user.Email, User.FindFirstValue(ClaimTypes.Email)))
+        var identityResult = await _userService.UpdateUserAsync(user);
+
+        if (!identityResult.Succeeded)
         {
-            ModelState.AddModelError("Email", "User already exists with that email.");
+            foreach (var error in identityResult.ErrorMessage)
+            {
+                ModelState.AddModelError(error.Key, error.Value);
+            }
         }
 
-        if (await _userService.CheckUserExistsByUsernameAsync(user.Username, User.Identity.Name))
-        {
-            ModelState.AddModelError("Username", "User already exists with that username.");
-        }
-
-        if (!ModelState.IsValid)
-        {
-            return View("Views/Account/Register.cshtml");
-        }
-    }*/
+        return View("Register");
+    }
 }
