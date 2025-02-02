@@ -18,49 +18,44 @@
     </li>
 </ul>
 
+<!-- Контент за акаунт настройките в попъп -->
 <div id="settingsPopup" class="popup hidden">
     <div class="popup-content">
-        <button class="close-popup" id="closeSettingsPopup">✕</button>
-        <h3 class="popup-title">Settings</h3>
-        <hr>
-        <div class="popup-body">
-            <!-- Тъмна тема -->
-            <div class="toggle">
-                <span>Dark Theme</span>
-                <div class="switch">
-                    <input type="checkbox" id="themeToggle">
-                    <label for="themeToggle">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="mydict">
-                <span>Language</span>
-                <div>
-                    <label for="lang-en">
-                        <span>EN</span>
-                        <input type="radio" id="lang-en" name="language" value="en">
-                    </label>
-                    <label for="lang-bg">
-                        <span>BG</span>
-                        <input type="radio" id="lang-bg" name="language" value="bg">
-                    </label>
-                </div>
-            </div>
-            <!-- Бутони -->
-            <button id="updateAccountButton" class="update-btn">Update Account</button>
-            <button id="deleteAccountButton" class="delete-btn">Delete Account</button>
+        <div class="settings-header">
+            <h3 class="popup-title">Settings</h3>
+            <button class="close-popup" id="closeSettingsPopup">✕</button>
         </div>
-    </div>
-</div>
 
-<!-- Поп-ъп за "Update Account" -->
-<div id="updateAccountPopup" class="popup hidden">
-    <div class="popup-content">
-        <button class="close-popup" id="closeUpdateAccountPopup">✕</button>
-        <h3 class="popup-title">Update Account</h3>
-        <div class="popup-body">
+        <!-- Тъмна тема -->
+        <div class="toggle">
+            <span>Dark Theme</span>
+            <div class="switch">
+                <input type="checkbox" id="themeToggle">
+                <label for="themeToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="mydict">
+            <span>Language</span>
+            <div>
+                <label for="lang-en">
+                    <span>EN</span>
+                    <input type="radio" id="lang-en" name="language" value="en">
+                </label>
+                <label for="lang-bg">
+                    <span>BG</span>
+                    <input type="radio" id="lang-bg" name="language" value="bg">
+                </label>
+            </div>
+        </div>
+
+        <!-- Бутони за обновяване и изтриване на акаунт -->
+        <button id="updateAccountButton" class="update-btn">Update Account</button>
+        
+        <!-- Разкриване на полета за Update Account -->
+        <div id="updateAccountFields" class="hidden">
             <form asp-action="Update" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
                 <div class="mb-3">
@@ -73,20 +68,53 @@
                     <input asp-for="Email" class="form-control" value="@User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
-                <button type="submit" class="w-100 btn btn-lg btn-primary">Update</button>
+                <div class="col-4">
+                <button type="submit" class="btn btn-lg btn-primary">Update</button>
+                </div>
             </form>
         </div>
-    </div>
-</div>
 
-<!-- Поп-ъп за "Delete Account" -->
-<div id="deleteAccountPopup" class="popup hidden">
-    <div class="popup-content">
-        <button class="close-popup" id="closeDeleteAccountPopup">✕</button>
-        <h3 class="popup-title">Delete Account</h3>
-        <div class="popup-body">
-            <p>Are you sure you want to delete your account?</p>
-            <button id="confirmDeleteAccount">Yes, Delete</button>
+        <button id="updatePasswordFieldsButton" class="update-btn">Update Password</button>
+
+        <!-- Разкриване на полета за Update Password -->
+        <div id="updatePasswordFields" class="hidden">
+            <form asp-action="UpdatePassword" method="post">
+                <div class="mb-3">
+                    <label for="currentPassword" class="mb-1">Current Password</label>
+                    <input type="password" id="currentPassword" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label for="newPassword" class="mb-1">New Password</label>
+                    <input type="password" id="newPassword" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label for="confirmPassword" class="mb-1">Confirm New Password</label>
+                    <input type="password" id="confirmPassword" class="form-control" />
+                </div>
+                <div class="col-4">
+                    <button type="submit" class="btn btn-lg btn-primary">Update Password</button>
+                </div>
+                </form>
+        </div>
+
+        <button id="deleteAccountButton" class="delete-btn">Delete Account</button>
+
+        <!-- Разкриване на поле за Delete Account -->
+        <div id="deleteAccountFields" class="hidden">
+            <form asp-action="DeleteAccount" method="post">
+                <div class="mb-3">
+                    <label for="deletePassword" class="mb-1">Enter Password to Delete</label>
+                    <input type="password" id="deletePassword" class="form-control" />
+                </div>
+                <div class="col-4">
+                <button type="submit" class="btn btn-lg btn-danger">DELETE</button>
+                </div>
+            </form>
+            <div id="confirmationPopup" class="hidden">
+                <p>Are you sure you want to delete your account?</p>
+                <button id="cancelDeleteAccount" class="btn btn-secondary">Cancel</button>
+                <button id="confirmDeleteAccount" class="btn btn-danger">Yes, Delete</button>
+            </div>
         </div>
     </div>
 </div>

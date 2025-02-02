@@ -56,43 +56,6 @@
     });
 
     ////////////////////////////////////////////////////////////
-    // Функционалност за поп-ъпите
-    const settingsButton = document.getElementById("settingsButton");
-    const closeSettingsPopup = document.getElementById("closeSettingsPopup");
-    const settingsPopup = document.getElementById("settingsPopup");
-
-    const updateAccountButton = document.getElementById("updateAccountButton");
-    const closeUpdateAccountPopup = document.getElementById("closeUpdateAccountPopup");
-    const updateAccountPopup = document.getElementById("updateAccountPopup");
-
-    const deleteAccountButton = document.getElementById("deleteAccountButton");
-    const closeDeleteAccountPopup = document.getElementById("closeDeleteAccountPopup");
-    const deleteAccountPopup = document.getElementById("deleteAccountPopup");
-
-    const openPopup = (popup) => {
-        popup.classList.remove("hidden");
-        document.body.style.overflow = "hidden";
-    };
-
-    const closePopup = (popup) => {
-        popup.classList.add("hidden");
-        document.body.style.overflow = "";
-    };
-
-    if (settingsButton && closeSettingsPopup) {
-        settingsButton.addEventListener("click", () => openPopup(settingsPopup));
-        closeSettingsPopup.addEventListener("click", () => closePopup(settingsPopup));
-    }
-
-    if (updateAccountButton && closeUpdateAccountPopup) {
-        updateAccountButton.addEventListener("click", () => openPopup(updateAccountPopup));
-        closeUpdateAccountPopup.addEventListener("click", () => closePopup(updateAccountPopup));
-    }
-
-    if (deleteAccountButton && closeDeleteAccountPopup) {
-        deleteAccountButton.addEventListener("click", () => openPopup(deleteAccountPopup));
-        closeDeleteAccountPopup.addEventListener("click", () => closePopup(deleteAccountPopup));
-    }
 
     ////////////////////////////////////////////////////////////
     // Четене на точките от маршрута

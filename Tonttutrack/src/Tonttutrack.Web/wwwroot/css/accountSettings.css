@@ -1,0 +1,199 @@
+/* Popups */
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.popup-content {
+    position: relative;
+    background: var(--background-color);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    width: 500px; /* Задаваме фиксирана ширина */
+    max-width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: scale(0.9);
+    transition: transform var(--transition-speed) ease-in-out;
+}
+
+.popup-content.show {
+    transform: scale(1);
+}
+
+.popup-title {
+    text-align: center;
+    margin-bottom: 1.25rem;
+    font-size: 1.3rem;
+    color: #333;
+}
+
+.close-popup {
+    position: absolute;
+    top: 1.5rem;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0.15rem 0.5rem;
+    margin: 0 0.5rem;
+}
+.close-popup:hover {
+    border: none;
+    background-color: #ccc;
+    border-radius: 50px;
+    transition: var(--transition-speed);
+}
+
+.hidden {
+    display: none;
+}
+
+/* Form Fields inside Popup */
+.popup-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.popup-content input {
+    padding: 0.5rem;
+    border-radius: var(--border-radius);
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    width: 100%;
+}
+
+.popup-content input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.popup-content .update-btn, .popup-content .delete-btn {
+    display: inline-block;
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    text-align: center;
+    border-radius: var(--border-radius);
+    border: none;
+    cursor: pointer;
+    transition: background-color var(--transition-speed) ease;
+}
+
+.popup-content .update-btn {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+}
+
+.popup-content .update-btn:hover {
+    background-color: #0b6a76;
+}
+
+.popup-content .delete-btn {
+    background-color: var(--error-color);
+    color: var(--background-color);
+}
+
+.popup-content .delete-btn:hover {
+    background-color: #c9302c;
+}
+
+/* Pop-up for Update Account */
+.update-account-popup .popup-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.update-account-popup input {
+    margin-bottom: 1rem;
+}
+
+/* Pop-up for Update Password */
+.update-password-popup .popup-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.update-password-popup input {
+    margin-bottom: 1rem;
+}
+
+/* Adjustments for the layout of fields and buttons */
+#settingsContent {
+    width: 500px; /* Увеличаваме широчината на целия контейнер */
+    max-width: 100%; /* За да се адаптира към екрана */
+    margin: 0 auto; /* За центриране */
+}
+
+/* Подредба на полетата под съответната опция */
+.settings-section {
+    position: relative;
+    margin-bottom: 20px; /* Разстояние между различните опции */
+}
+
+/* Ако искате полетата да не променят размера си */
+#updateAccountFields,
+#updatePasswordFields,
+#deleteAccountFields {
+    display: none;
+    width: 100%; /* Позициониране и ширина на полетата */
+}
+
+/* Покажи полетата, когато са активни */
+#updateAccountFields.show,
+#updatePasswordFields.show,
+#deleteAccountFields.show {
+    display: block;
+}
+
+/* Скриване на попъпа по подразбиране */
+.settings-content.hidden {
+    display: none;
+}
+
+/* Показване на попъпа */
+.settings-content.show {
+    display: block;
+}
+
+/* Основни стилове за попъпа */
+.settings-content {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Прозрачен фон */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+/* Вътрешен контейнер за съдържанието */
+.settings-content .settings-header {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 600px;
+}
+
+/* Затварящ бутон за попъпа */
+.settings-content .close-popup {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
