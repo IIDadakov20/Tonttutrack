@@ -6,13 +6,13 @@
         <!-- Dropdown за акаунт -->
         <div class="custom-dropdown">
             <button class="custom-dropdown-button">
-                <img src="" alt="Account Logo" class="custom-account-logo">
+                <img src="~/assets/accountProfilePicture.png" alt="Account Logo" class="custom-account-logo">
             </button>
             <div class="custom-dropdown-menu">
                 <div class="custom-dropdown-item account-name">@User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value</div>
                 <hr class="custom-dropdown-divider">
-                <a class="custom-dropdown-item" href="javascript:void(0);" id="settingsButton">Settings</a>
-                <a class="custom-dropdown-item" asp-area="" asp-controller="Authentication" asp-action="Signout">Sign out</a>
+                <a class="custom-dropdown-item dropdown-settings" href="javascript:void(0);" id="settingsButton">Settings</a>
+                <a class="custom-dropdown-item dropdown-log-out" asp-area="" asp-controller="Authentication" asp-action="Signout">Sign out</a>
             </div>
         </div>
     </li>
@@ -118,3 +118,4 @@
         </div>
     </div>
 </div>
+<script src="~/js/accontSettings.js" asp-append-version="true"></script>

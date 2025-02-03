@@ -44,18 +44,15 @@
     const dropdownMenu = document.querySelector('.custom-dropdown-menu');
 
     dropdownButton.addEventListener('click', function (e) {
-        e.stopPropagation(); // Спира пропагирането, за да не затваря веднага менюто
-        dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+        e.stopPropagation();
+        dropdownMenu.classList.toggle('show');
     });
 
     document.addEventListener('click', function (e) {
-        // Проверка дали кликът е извън менюто
         if (!dropdownMenu.contains(e.target) && !dropdownButton.contains(e.target)) {
-            dropdownMenu.style.display = 'none';
+            dropdownMenu.classList.remove('show');
         }
     });
-
-    ////////////////////////////////////////////////////////////
 
     ////////////////////////////////////////////////////////////
     // Четене на точките от маршрута

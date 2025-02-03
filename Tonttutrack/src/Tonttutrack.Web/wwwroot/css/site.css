@@ -54,26 +54,50 @@ body {
     display: inline-block;
 }
 
+.custom-dropdown-button {
+    background: none;
+    border: none;
+} 
+
 .custom-account-logo {
-    width: 30px;
-    height: 30px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
+    border: none;
 }
 
 .custom-dropdown-menu {
-    display: none;
     position: absolute;
-    padding: 0.5rem;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
     min-width: 150px;
     background-color: var(--background-color);
-    border: 1px solid #ccc;
     border-radius: var(--border-radius);
     z-index: 1000;
+    max-height: 0;
+    opacity: 0;
+    padding: 0 0.5rem;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+}
+
+.account-name:hover{
+    pointer-events: none;
+    background: none;
+}
+
+.dropdown-settings:hover{
+    color: var(--secondary-color);
+}
+
+.dropdown-log-out:hover{
+    color: var(--secondary-color);
 }
 
 .custom-dropdown-item {
     padding: 0.5rem 1rem;
-    color: var(--secondary-color);
+    color: var(--text-color);
     text-decoration: none;
     display: block;
     border-radius: var(--border-radius);
@@ -89,6 +113,13 @@ body {
     background-color: var(--secondary-color);
     margin: 0.5rem auto;
     opacity: 0.6;
+}
+
+/* Клас за отваряне */
+.custom-dropdown-menu.show {
+    max-height: 200px; /* Достатъчно за съдържанието */
+    opacity: 1;
+    padding: 0.5rem;
 }
 
 /* Toggle Switch */
