@@ -1,6 +1,8 @@
 ﻿@using Tonttutrack.Domain.DTOs.Request;
 @model UserRequestDTO;
 
+<link rel="stylesheet" href="~/css/accountSettings.css" asp-append-version="true"/>
+
 <ul class="navbar-nav">
     <li class="nav-item mx-sm-3">
         <!-- Dropdown за акаунт -->
@@ -9,7 +11,7 @@
                 <img src="~/assets/accountProfilePicture.png" alt="Account Logo" class="custom-account-logo">
             </button>
             <div class="custom-dropdown-menu">
-                <div class="custom-dropdown-item account-name">@User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value</div>
+                <div class="account-name">@User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value</div>
                 <hr class="custom-dropdown-divider">
                 <a class="custom-dropdown-item dropdown-settings" href="javascript:void(0);" id="settingsButton">Settings</a>
                 <a class="custom-dropdown-item dropdown-log-out" asp-area="" asp-controller="Authentication" asp-action="Signout">Sign out</a>
@@ -24,6 +26,7 @@
         <div class="settings-header">
             <h3 class="popup-title">Settings</h3>
             <button class="close-popup" id="closeSettingsPopup">✕</button>
+            <hr>
         </div>
 
         <!-- Тъмна тема -->
