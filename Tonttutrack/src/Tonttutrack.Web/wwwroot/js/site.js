@@ -122,4 +122,40 @@
             }
         }
     }
+
+    $('#userUpdateForm').on('submit', function (e) {
+        e.preventDefault();
+
+        var formData = {
+            Username: $('#Username').val(),
+            Email: $('#Email').val()
+        };
+
+        $.ajax({
+            url: '/user/updateUser',
+            type: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify(formData),
+            success: function (response) {
+                $('.account-name').text(formData.Username);
+            },
+            error: function (xhr) {
+                var errors = xhr.responseJSON;  // This is where your errors are
+
+                // Clear previous validation errors
+                $('#userUpdateForm .text-danger').html('');
+
+                // Loop through the errors and show them under the corresponding input field
+                for (var field in errors) {
+                    var fieldErrors = errors[field];  // Array of error messages for the field
+                    if (fieldErrors && fieldErrors.length > 0) {
+                        // Display the error message for the respective field
+                        var errorMessage = fieldErrors.join('<br />');  // Join multiple errors into one string
+                        // Find the span next to the input field and insert the error message
+                        $('input[name="' + field + '"]').next('.text-danger').html(errorMessage);
+                    }
+                }
+            }
+        });
+    });
 });

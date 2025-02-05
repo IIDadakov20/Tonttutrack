@@ -56,7 +56,7 @@
         
         <!-- Разкриване на полета за Update Account -->
         <div id="updateAccountFields" class="hidden">
-            <form asp-action="Update" method="post">
+            <form id="userUpdateForm">
                 <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
                 <div class="mb-3">
                     <label asp-for="Username" class="mb-1">Username</label>

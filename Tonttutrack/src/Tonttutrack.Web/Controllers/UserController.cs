@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Tonttutrack.DataAccess.Data.Models;
 using Tonttutrack.Domain.DTOs.Request;
 using Tonttutrack.Service.Contracts;
 
 namespace Tonttutrack.Web.Controllers;
 
+[Route("user")]
 [Authorize]
 public class UserController : Controller
 {
@@ -16,10 +18,10 @@ public class UserController : Controller
         _userService = userService;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> UpdateUserAsync(UserRequestDTO user)
+    [HttpPut("updateUser")]
+    public async Task<IActionResult> UpdateUserAsync([FromBody]UserRequestDTO userInfo)
     {
-        var identityResult = await _userService.UpdateUserAsync(user);
+        var identityResult = await _userService.UpdateUserAsync(userInfo);
 
         if (!identityResult.Succeeded)
         {
@@ -27,8 +29,9 @@ public class UserController : Controller
             {
                 ModelState.AddModelError(error.Key, error.Value);
             }
+            return BadRequest(ModelState);
         }
 
-        return View("Register");
+        return Json(true);
     }
 }

@@ -10,15 +10,18 @@ namespace Tonttutrack.Service.Services;
 internal class UserService : IUserService
 {
     private readonly UserManager<User> _userManager;
+    private readonly SignInManager<User> _signInManager;
     private readonly IMapper _mapper;
     private readonly ICurrentUserService _currentUserService;
 
     public UserService(
         UserManager<User> userManager,
+        SignInManager<User> signInManager,
         IMapper mapper,
         ICurrentUserService currentUserService)
     {
         _userManager = userManager;
+        _signInManager = signInManager;
         _mapper = mapper;
         _currentUserService = currentUserService;
     }
@@ -27,16 +30,19 @@ internal class UserService : IUserService
     {
         var result = new ErrorDTO();
 
-        if (await _userManager.FindByEmailAsync(userInfo.Email) != null ^ userInfo.Email == _currentUserService.CurrentUser.Email)
+        var user = (await _userManager.FindByEmailAsync(_currentUserService.CurrentUser.Email))!;
+
+        if (await _userManager.FindByEmailAsync(userInfo.Email) != null ^ userInfo.Email == user.Email)
         {
             result.Succeeded = false;
             result.ErrorMessage.Add("Email", "User already exists with this email.");
         }
 
-        if (await _userManager.FindByNameAsync(userInfo.Username) != null ^ userInfo.Username == _currentUserService.CurrentUser.Username)
+        if (await _userManager.FindByNameAsync(userInfo.Username) != null ^ userInfo.Username == user.UserName)
         {
             result.Succeeded = false;
             result.ErrorMessage.Add("Username", "User already exists with this username.");
+
         }
 
         if (result.ErrorMessage.Any())
@@ -44,7 +50,7 @@ internal class UserService : IUserService
             return result;
         }
 
-        var user = _mapper.Map<User>(userInfo);
+        _mapper.Map(userInfo, user);
         var identityResult = await _userManager.UpdateAsync(user);
 
         if (!identityResult.Succeeded)
@@ -53,6 +59,8 @@ internal class UserService : IUserService
             result.ErrorMessage.Add("", "Problem occurred while updating your account");
             return result;
         }
+
+        await _signInManager.RefreshSignInAsync(user);
 
         result.Succeeded = true;
         return result;

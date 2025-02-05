@@ -1,21 +1,29 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Tonttutrack.Service.Contracts;
-using Tonttutrack.DataAccess.Data.Models;
 using Tonttutrack.Domain.DTOs.Response;
 
 namespace Tonttutrack.Service.Services;
 
 internal class CurrentUserService : ICurrentUserService
 {
-    public CurrentUserService(UserManager<User> userManager, IHttpContextAccessor httpContextAccessor)
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    public CurrentUserService(IHttpContextAccessor httpContextAccessor)
     {
-        CurrentUser.Username = httpContextAccessor.HttpContext.User.Claims
-            .FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value!;
-        CurrentUser.Email = httpContextAccessor.HttpContext.User.Claims
-            .FirstOrDefault(c => c.Type != ClaimTypes.Email)?.Value!;
+        _httpContextAccessor = httpContextAccessor;
     }
 
-    public UserResponseDTO CurrentUser { get; } = null!;
+    public UserResponseDTO CurrentUser
+    { 
+        get 
+        {
+            return new UserResponseDTO
+            {
+                Email = _httpContextAccessor.HttpContext.User.Claims
+                    .FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value!,
+                Username = _httpContextAccessor.HttpContext.User.Claims
+                    .FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value!
+            };
+        } 
+    }
 }
