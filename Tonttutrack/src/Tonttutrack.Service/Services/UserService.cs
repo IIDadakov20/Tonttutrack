@@ -65,4 +65,24 @@ internal class UserService : IUserService
         result.Succeeded = true;
         return result;
     }
+
+    public async Task<ErrorDTO> ChangeUserPasswordAsync(UserPasswordRequestDTO passwordInfo)
+    {
+        var result = new ErrorDTO();
+
+        string currentUserEmail = _currentUserService.CurrentUser.Email;
+        var user = await _userManager.FindByEmailAsync(currentUserEmail);
+
+        var identityResult = await _userManager.ChangePasswordAsync(user!, passwordInfo.CurrentPassword, passwordInfo.NewPassword);
+
+        if (!identityResult.Succeeded)
+        {
+            result.Succeeded = false;
+            result.ErrorMessage.Add("", "Problem occurred while changing your password");
+            return result;
+        }
+
+        result.Succeeded = true;
+        return result;
+    }
 }
