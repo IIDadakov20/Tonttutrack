@@ -30,32 +30,35 @@
         </div>
 
         <!-- Тъмна тема -->
-        <div class="toggle">
-            <span>Dark Theme</span>
-            <div class="switch">
-                <input type="checkbox" id="themeToggle">
-                <label for="themeToggle">
-                    <span class="slider"></span>
+        <div class="theme-toggle">
+            <span class="theme-label">Dark Theme</span>
+            <div class="theme-switch">
+                <input type="checkbox" id="themeToggle" class="theme-input">
+                <label for="themeToggle" class="theme-label">
+                    <div class="theme-slider"></div>
                 </label>
             </div>
         </div>
-
-        <div class="mydict">
-            <span>Language</span>
-            <div>
-                <label for="lang-en">
-                    <span>EN</span>
-                    <input type="radio" id="lang-en" name="language" value="en">
+        
+        <!-- Език -->
+        <div class="language-selection">
+            <span class="language-label">Language</span>
+            <div class="language-options">
+                <label for="lang-en" class="language-option not-selected">
+                    EN
+                    <input type="radio" id="lang-en" name="language" value="en" class="language-input">
                 </label>
-                <label for="lang-bg">
-                    <span>BG</span>
-                    <input type="radio" id="lang-bg" name="language" value="bg">
+                <label for="lang-bg" class="language-option not-selected">
+                    BG
+                    <input type="radio" id="lang-bg" name="language" value="bg" class="language-input">
                 </label>
             </div>
         </div>
-
+        
+        <hr>
+        
         <!-- Бутони за обновяване и изтриване на акаунт -->
-        <button id="updateAccountButton" class="update-btn">Update Account</button>
+        <button id="updateAccountButton" class="update-btn">Update Account Details</button>
         
         <!-- Разкриване на полета за Update Account -->
         <div id="updateAccountFields" class="hidden">
@@ -77,7 +80,7 @@
             </form>
         </div>
 
-        <button id="updatePasswordFieldsButton" class="update-btn">Update Password</button>
+        <button id="updatePasswordFieldsButton" class="update-btn">Change Account Password</button>
 
         <!-- Разкриване на полета за Update Password -->
         <div id="updatePasswordFields" class="hidden">
@@ -95,7 +98,7 @@
                     <input type="password" id="confirmPassword" class="form-control" />
                 </div>
                 <div class="col-4">
-                    <button type="submit" class="btn btn-lg btn-primary">Update Password</button>
+                    <button type="submit" class="btn btn-lg btn-primary">Change</button>
                 </div>
                 </form>
         </div>
@@ -110,7 +113,7 @@
                     <input type="password" id="deletePassword" class="form-control" />
                 </div>
                 <div class="col-4">
-                <button type="submit" class="btn btn-lg btn-danger">DELETE</button>
+                <button type="submit" class="btn btn-lg btn-primary delete-account-button">DELETE</button>
                 </div>
             </form>
             <div id="confirmationPopup" class="hidden">

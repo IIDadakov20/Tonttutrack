@@ -151,3 +151,17 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
+document.querySelectorAll('.language-option').forEach(option => {
+    option.addEventListener('click', function() {
+        // Премахваме класа 'selected' от всички опции
+        document.querySelectorAll('.language-option').forEach(opt => {
+            opt.classList.remove('selected');
+            opt.classList.add('not-selected');
+        });
+
+        // Добавяме класа 'selected' на избраната опция
+        this.classList.remove('not-selected');
+        this.classList.add('selected');
+    });
+});
+
