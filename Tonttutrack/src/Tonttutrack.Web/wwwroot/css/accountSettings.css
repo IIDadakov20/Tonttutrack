@@ -442,3 +442,8 @@ hr{
 .form-control{
     font-size:1.2rem!important;
 }
+
+.formErrorMessage
+{
+    display: none;
+}

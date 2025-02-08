@@ -22,6 +22,11 @@ public class UserController : Controller
     [HttpPut("updateUser")]
     public async Task<IActionResult> UpdateUserAsync([FromBody]UserRequestDTO userInfo)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
         var identityResult = await _userService.UpdateUserAsync(userInfo);
         return HandleIdentityResult(identityResult);
     }
@@ -29,6 +34,11 @@ public class UserController : Controller
     [HttpPatch("updateUserPassword")]
     public async Task<IActionResult> UpdateUserPasswordAsync([FromBody]UserPasswordRequestDTO passwordInfo)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
         var identityResult = await _userService.ChangeUserPasswordAsync(passwordInfo);
         return HandleIdentityResult(identityResult);
     }

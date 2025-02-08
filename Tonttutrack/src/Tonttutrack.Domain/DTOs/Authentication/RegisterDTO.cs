@@ -10,6 +10,7 @@ public class RegisterDTO
 
 	[Required(ErrorMessage = "This field is required.")]
 	[DataType(DataType.EmailAddress)]
+	[RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Invalid email format.")]
 	[StringLength(100)]
 	public string Email { get; set; } = null!;
 

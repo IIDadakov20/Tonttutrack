@@ -1,5 +1,5 @@
 ﻿@using Tonttutrack.Domain.DTOs.Request;
-@model UserRequestDTO;
+@model Tuple<UserRequestDTO, UserPasswordRequestDTO>
 
 <link rel="stylesheet" href="~/css/accountSettings.css" asp-append-version="true"/>
 
@@ -62,20 +62,20 @@
         
         <!-- Разкриване на полета за Update Account -->
         <div id="updateAccountFields" class="hidden">
-            <form id="userUpdateForm">
-                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <form id="userUpdateForm" novalidate>
+                <div class="text-danger formErrorMessage"></div>
                 <div class="mb-3">
-                    <label asp-for="Username" class="mb-1">Username</label>
-                    <input asp-for="Username" class="form-control" value="@User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value" />
-                    <span asp-validation-for="Username" class="text-danger"></span>
+                    <label asp-for="Item1.Username" class="mb-1">Username</label>
+                    <input asp-for="Item1.Username" id ="newUserUsername"class="form-control" value="@User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value" />
+                    <span asp-validation-for="Item1.Username" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    <label asp-for="Email" class="mb-1">Email</label>
-                    <input asp-for="Email" class="form-control" value="@User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
+                    <label asp-for="Item1.Email" class="mb-1">Email</label>
+                    <input asp-for="Item1.Email" id="newUserEmail" class="form-control" value="@User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value" />
+                    <span asp-validation-for="Item1.Email" class="text-danger"></span>
                 </div>
                 <div class="col-4">
-                <button type="submit" class="btn btn-lg btn-primary">Update</button>
+                <button type="submit" class="submitButton btn btn-lg btn-primary">Update</button>
                 </div>
             </form>
         </div>
@@ -84,23 +84,27 @@
 
         <!-- Разкриване на полета за Update Password -->
         <div id="updatePasswordFields" class="hidden">
-            <form asp-action="UpdatePassword" method="post">
+            <form id="userPasswordUpdateForm" novalidate>
+                <div class="text-danger formErrorMessage"></div>
                 <div class="mb-3">
-                    <label for="currentPassword" class="mb-1">Current Password</label>
-                    <input type="password" id="currentPassword" class="form-control" />
+                    <label asp-for="Item2.CurrentPassword" class="mb-1">Current Password</label>
+                    <input asp-for="Item2.CurrentPassword" id="currentPassword" class="form-control" type="password" />
+                    <span asp-validation-for="Item2.CurrentPassword" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    <label for="newPassword" class="mb-1">New Password</label>
-                    <input type="password" id="newPassword" class="form-control" />
+                    <label asp-for="Item2.NewPassword" class="mb-1">New Password</label>
+                    <input asp-for="Item2.NewPassword" id="newPassword" class="form-control" type="password" />
+                    <span asp-validation-for="Item2.NewPassword" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    <label for="confirmPassword" class="mb-1">Confirm New Password</label>
-                    <input type="password" id="confirmPassword" class="form-control" />
+                    <label asp-for="Item2.ConfirmPassword" class="mb-1">Confirm Password</label>
+                    <input asp-for="Item2.ConfirmPassword" id="confirmPassword" class="form-control" type="password" />
+                    <span asp-validation-for="Item2.ConfirmPassword" class="text-danger"></span>
                 </div>
                 <div class="col-4">
-                    <button type="submit" class="btn btn-lg btn-primary">Change</button>
+                    <button type="submit" class="submitButton btn btn-lg btn-primary">Change</button>
                 </div>
-                </form>
+            </form>
         </div>
 
         <button id="deleteAccountButton" class="delete-btn">Delete Account</button>

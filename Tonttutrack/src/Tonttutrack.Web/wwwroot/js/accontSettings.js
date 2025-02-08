@@ -67,6 +67,9 @@ document.addEventListener("DOMContentLoaded", function() {
     if (closeSettingsPopup && settingsContent) {
         closeSettingsPopup.addEventListener("click", () => {
             closeContent(settingsContent);
+            $('#userPasswordUpdateForm')[0].reset();
+            $('#userPasswordUpdateForm .text-danger').html('');
+            $('#userUpdateForm .text-danger').html('');
             enableScroll(); // Възстановява скролването
         });
     }
