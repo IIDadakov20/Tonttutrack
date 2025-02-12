@@ -19,12 +19,9 @@ html {
 }
 
 body {
-    min-height: 100vh;
-    display: flex;
-    flex-flow: column;
+
     overflow: hidden;
     background-color: var(--background-color);
-    margin: 0;
 }
 
 ::selection {
@@ -39,7 +36,7 @@ body {
 
 .navbar-brand {
     font-size: 1.25rem;
-    margin-right: 1.25rem;
+    margin: 0 1.25rem;
 }
 
 .nav-link {
