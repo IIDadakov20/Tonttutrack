@@ -40,8 +40,8 @@
 
     ////////////////////////////////////////////////////////////
     // Dropdown функционалност за акаунт
-    const dropdownButton = document.querySelector('.custom-dropdown-button');
-    const dropdownMenu = document.querySelector('.custom-dropdown-menu');
+    const dropdownButton = document.getElementById('custom-dropdown-button');
+    const dropdownMenu = document.getElementById('custom-dropdown-menu');
 
     dropdownButton.addEventListener('click', function (e) {
         e.stopPropagation();

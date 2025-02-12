@@ -6,15 +6,15 @@
 <ul class="navbar-nav">
     <li class="nav-item mx-sm-3">
         <!-- Dropdown за акаунт -->
-        <div class="custom-dropdown">
-            <button class="custom-dropdown-button">
-                <img src="~/assets/accountProfilePicture.png" alt="Account Logo" class="custom-account-logo">
+        <div id="custom-dropdown">
+            <button id="custom-dropdown-button">
+                <img src="~/assets/accountProfilePicture.png" alt="Account Logo" id="custom-account-logo">
             </button>
-            <div class="custom-dropdown-menu">
-                <div class="account-name">@User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value</div>
-                <hr class="custom-dropdown-divider">
-                <a class="custom-dropdown-item dropdown-settings" href="javascript:void(0);" id="settingsButton">Settings</a>
-                <a class="custom-dropdown-item dropdown-log-out" asp-area="" asp-controller="Authentication" asp-action="Signout">Sign out</a>
+            <div id="custom-dropdown-menu">
+                <div id="account-name">@User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value</div>
+                <hr id="custom-dropdown-divider">
+                <a id="settingsButton"  class="custom-dropdown-item dropdown-settings"  href="javascript:void(0);">Settings</a>
+                <a id="dropdown-log-out" class="custom-dropdown-item"  asp-area="" asp-controller="Authentication" asp-action="Signout">Sign out</a>
             </div>
         </div>
     </li>
@@ -22,28 +22,28 @@
 
 <!-- Контент за акаунт настройките в попъп -->
 <div id="settingsPopup" class="popup hidden">
-    <div class="popup-content">
-        <div class="settings-header">
-            <h3 class="popup-title">Settings</h3>
-            <button class="close-popup" id="closeSettingsPopup">✕</button>
+    <div id="popup-content">
+        <div id="settings-header">
+            <h3 id="popup-title">Settings</h3>
+            <button id="closeSettingsPopup" class="close-popup">✕</button>
             <hr>
         </div>
 
         <!-- Тъмна тема -->
-        <div class="theme-toggle">
+        <div id="theme-toggle">
             <span class="theme-label">Dark Theme</span>
-            <div class="theme-switch">
+            <div id="theme-switch">
                 <input type="checkbox" id="themeToggle" class="theme-input">
                 <label for="themeToggle" class="theme-label">
-                    <div class="theme-slider"></div>
+                    <div id="theme-slider"></div>
                 </label>
             </div>
         </div>
         
         <!-- Език -->
-        <div class="language-selection">
-            <span class="language-label">Language</span>
-            <div class="language-options">
+        <div id="language-selection">
+            <span id="language-label">Language</span>
+            <div id="language-options">
                 <label for="lang-en" class="language-option not-selected">
                     EN
                     <input type="radio" id="lang-en" name="language" value="en" class="language-input">
@@ -66,7 +66,7 @@
                 <div class="text-danger formErrorMessage"></div>
                 <div class="mb-3">
                     <label asp-for="Item1.Username" class="mb-1">Username</label>
-                    <input asp-for="Item1.Username" id ="newUserUsername"class="form-control" value="@User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value" />
+                    <input asp-for="Item1.Username" id ="newUserUsername" class="form-control" value="@User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value" />
                     <span asp-validation-for="Item1.Username" class="text-danger"></span>
                 </div>
                 <div class="mb-3">

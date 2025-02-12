@@ -20,14 +20,14 @@ document.addEventListener("DOMContentLoaded", function() {
         document.body.style.position = "fixed";
         document.body.style.top = `-${scrollY}px`;
         document.body.style.width = "100%";
-        document.documentElement.classList.add("blur-scrollbar"); // Добавя ефекта върху скрол лентата
+        document.documentElement.classList.add("blur-scrollbar");
     }
 
     function enableScroll() {
         document.body.style.position = "";
         document.body.style.top = "";
         window.scrollTo(0, scrollY);
-        document.documentElement.classList.remove("blur-scrollbar"); // Премахва ефекта върху скрол лентата 
+        document.documentElement.classList.remove("blur-scrollbar");
     }
 
     const openContent = (content) => {
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (settingsButton && settingsContent) {
         settingsButton.addEventListener("click", () => {
             openContent(settingsContent);
-            disableScroll(); // Забранява скролването
+            disableScroll();
         });
     }
 
@@ -70,46 +70,37 @@ document.addEventListener("DOMContentLoaded", function() {
             $('#userPasswordUpdateForm')[0].reset();
             $('#userPasswordUpdateForm .text-danger').html('');
             $('#userUpdateForm .text-danger').html('');
-            enableScroll(); // Възстановява скролването
+            enableScroll();
         });
     }
 
     if (updateAccountButton && updateAccountFields) {
         updateAccountButton.addEventListener("click", () => {
-            // Скрии останалите полета
             if (updatePasswordFields) closeContent(updatePasswordFields);
             if (deleteAccountFields) closeContent(deleteAccountFields);
             openContent(updateAccountFields);
-
-            // Сивей бутоните за другите секции
             disableOtherButtons(updateAccountButton);
-            enableButton(updateAccountButton); // Запази активния бутон
+            enableButton(updateAccountButton);
         });
     }
 
     if (updatePasswordButton && updatePasswordFields) {
         updatePasswordButton.addEventListener("click", () => {
-            // Скрии останалите полета
             if (updateAccountFields) closeContent(updateAccountFields);
             if (deleteAccountFields) closeContent(deleteAccountFields);
             openContent(updatePasswordFields);
-
-            // Сивей бутоните за другите секции
             disableOtherButtons(updatePasswordButton);
-            enableButton(updatePasswordButton); // Запази активния бутон
+            enableButton(updatePasswordButton);
         });
     }
 
     if (deleteAccountButton && deleteAccountFields) {
         deleteAccountButton.addEventListener("click", () => {
-            // Скрии останалите полета
             if (updateAccountFields) closeContent(updateAccountFields);
             if (updatePasswordFields) closeContent(updatePasswordFields);
             openContent(deleteAccountFields);
-
-            // Сивей бутоните за другите секции
             disableOtherButtons(deleteAccountButton);
-            enableButton(deleteAccountButton); // Запази активния бутон
+            enableButton(deleteAccountButton);
         });
     }
 
@@ -132,11 +123,11 @@ document.addEventListener("DOMContentLoaded", function() {
             if (deleteAccountFields) closeContent(deleteAccountFields);
             if (settingsContent) {
                 closeContent(settingsContent);
-                enableScroll(); // Възстановява скролването при клик извън pop-up-а
+                enableScroll();
             }
         }
         if (!isClickInsideAccount && !isClickInsidePassword && !isClickInsideDelete) {
-            if (updateAccountFields){ 
+            if (updateAccountFields){
                 closeContent(updateAccountFields);
                 enableButton(updatePasswordButton);
                 enableButton(deleteAccountButton);
@@ -154,17 +145,15 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
+
 document.querySelectorAll('.language-option').forEach(option => {
     option.addEventListener('click', function() {
-        // Премахваме класа 'selected' от всички опции
         document.querySelectorAll('.language-option').forEach(opt => {
             opt.classList.remove('selected');
             opt.classList.add('not-selected');
         });
 
-        // Добавяме класа 'selected' на избраната опция
         this.classList.remove('not-selected');
         this.classList.add('selected');
     });
 });
-
