@@ -1,41 +1,38 @@
 ﻿@using Tonttutrack.Web.Models;
 @model DeviceConnectionViewModel;
 
-<div class="w-100 h-auto mt-2">
-    <form id="deviceConnectionForm" class="d-md-inline-flex col-auto justify-content-md-around">
-        <div class="align-self-start me-lg-4 me-sm-2">
+<link rel="stylesheet" href="~/css/trackerDevice.css" asp-append-version="true"/>
+
+<div id="tracker-menu">
+    <div class="tracker-content">
+        <div class="form-group">
             <label asp-for="Code" class="mb-1">Code</label>
             <input asp-for="Code" class="form-control"/>
             <span asp-validation-for="Code" class="text-danger"></span>
         </div>
-        <div class="align-self-start me-lg-4 me-sm-1">
+
+        <div class="form-group">
             <label asp-for="Password" class="mb-1">Password</label>
-            <input asp-for="Password" class="form-control"/>
+            <input asp-for="Password" id="passwordInput" type="password" class="form-control"/>
+            <div class="form-check">
+                <input type="checkbox" id="togglePassword" class="form-check-input"/>
+                <label for="togglePassword" class="form-check-label">Show Password</label>
+            </div>
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
-        <div class="align-self-center me-lg-4 me-sm-2">
-            <input type="checkbox" id="togglePassword" class="form-check-input" />
-            <label for="togglePassword" class="form-check-label">Show Password</label>
-        </div>
-        <div class="align-self-center">
-            <button type="submit" class="w-100 btn btn-lg btn-primary">Connect</button>
-        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Connect</button>
+
         <div class="tracker-btn">
-            <button class="w-100 btn btn-lg btn-primary">Start recording</button>
-        </div>
-        <div class="tracker-btn">
-            <button class="w-100 btn btn-lg btn-primary">Save recording</button>
-        </div>
-    </form>
-    <div id="deviceInfoView" class="d-none col-auto justify-content-md-between">
-        <div class="align-self-center me-5">
-            <p class="mb-1 fs-5">Connected Device</p>
-        </div>
-        <div class="align-self-center me-5">
-            <p id="connectedDeviceName" class="mb-1 fs-5">Connected Device</p>
-        </div>
-        <div class="align-self-center">
-            <button id="disconnectButton" class="w-100 btn btn-lg btn-primary">Disconnect</button>
+            <button id="record-btn" class="btn btn-primary w-100">Start recording</button>
         </div>
     </div>
+    <button id="toggle-menu">
+        <svg class="svg-icon" style="width: 1em; height: 1em; vertical-align: middle; fill: currentColor; overflow: hidden; transition: transform 0.3s ease;"
+             viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+            <path d="M768 785.066667a17.015467 17.015467 0 0 1-12.066133-5.000534l-256-256a17.0496 17.0496 0 0 1 0-24.132266l256-256a17.0496 17.0496 0 1 1 24.132266 24.132266L536.132267 512l243.933866 243.933867A17.0496 17.0496 0 0 1 768 785.066667z m-256 0a17.015467 17.015467 0 0 1-12.066133-5.000534l-256-256a17.0496 17.0496 0 0 1 0-24.132266l256-256a17.0496 17.0496 0 1 1 24.132266 24.132266L280.132267 512l243.933866 243.933867A17.0496 17.0496 0 0 1 512 785.066667z" />
+        </svg>
+    </button>
 </div>
+
+<script src="~/js/trackerSlideOut.js" asp-append-version="true"></script>
