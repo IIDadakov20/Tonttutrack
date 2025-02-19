@@ -20,8 +20,8 @@
 }
 
 #custom-account-logo {
-    width: 2.5rem; /* 40px -> 2.5rem */
-    height: 2.5rem; /* 40px -> 2.5rem */
+    width: 2.85rem;
+    height: 2.85rem;
     border-radius: 50%;
     border: none;
 }
@@ -34,7 +34,7 @@
     min-width: 9.38rem; /* 150px -> 9.38rem */
     background-color: var(--background-color);
     border-radius: var(--border-radius);
-    z-index: 1000;
+    z-index: 200;
     max-height: 0;
     opacity: 0;
     padding: 0 0.5rem; /* 0.5rem остава същото */
@@ -99,7 +99,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 5;
+    z-index: 1002;
 }
 
 #popup-content {
@@ -219,7 +219,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 6;
+    z-index: 1003;
 }
 
 html.blur-scrollbar {
@@ -268,9 +268,15 @@ html.blur-scrollbar::-webkit-scrollbar-thumb {
     cursor: not-allowed;
 }
 
+.disabled:hover{
+    color: var(--background-color);
+}
+
+/*
 hr {
     margin: 1.25rem 0;
 }
+*/
 
 #theme-toggle {
     display: flex;
@@ -285,6 +291,7 @@ hr {
     width: 3.1rem;
     height: 1.6rem;
     cursor: pointer;
+    user-select: none; /* Prevents text selection */
 }
 
 .theme-input {
