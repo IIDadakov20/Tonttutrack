@@ -141,7 +141,7 @@
             contentType: 'application/json',
             data: JSON.stringify(formData),
             success: function (response) {
-                $('.account-name').text(formData.Username);
+                $('#account-name').text(formData.Username);
             },
             error: function (xhr) {
                 var errors = xhr.responseJSON;
