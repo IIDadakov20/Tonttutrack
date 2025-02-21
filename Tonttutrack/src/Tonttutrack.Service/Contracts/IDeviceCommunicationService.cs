@@ -4,9 +4,9 @@ namespace Tonttutrack.Service.Contracts;
 
 public interface IDeviceCommunicationService
 {
-    Task<bool> ConnectToBrokerAsync(string topic);
+    Task<bool> ConnectToBrokerAsync(string deviceCode);
 
-    RoutePointDTO? GetRoutePointData();
+    RoutePointDTO? GetRoutePointData(string deviceCode);
 
     //Task<bool> DisconnectDeviceAsync();
 }

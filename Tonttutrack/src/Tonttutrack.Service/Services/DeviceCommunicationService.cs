@@ -5,6 +5,7 @@ using System.Security.Claims;
 using Tonttutrack.Service.Contracts;
 using Tonttutrack.Domain.DTOs.Response;
 using System.Text;
+using System.Collections.Concurrent;
 
 namespace Tonttutrack.Service.Services;
 
@@ -14,7 +15,7 @@ internal class DeviceCommunicationService : IDeviceCommunicationService
     private readonly MqttClientOptions _options;
     private const string _mqttBrokerAddress = "192.168.0.102";
     private const int _mqttBrokerPort = 1883;
-    private readonly Dictionary<string, string> _routePoint = new();
+    private readonly ConcurrentDictionary<string, string> _routePoints = new();
 
     public DeviceCommunicationService(IHttpContextAccessor httpContextAccessor)
     {
@@ -40,36 +41,44 @@ internal class DeviceCommunicationService : IDeviceCommunicationService
                 return false;
         }
 
-        await _mqttClient.SubscribeAsync("car_statistics/" + deviceCode + "/speed");
-        await _mqttClient.SubscribeAsync("car_statistics/" + deviceCode + "/latitude");
-        await _mqttClient.SubscribeAsync("car_statistics/" + deviceCode + "/longitude");
+        await _mqttClient.SubscribeAsync("statistics/" + deviceCode + "/speed");
+        await _mqttClient.SubscribeAsync("statistics/" + deviceCode + "/latitude");
+        await _mqttClient.SubscribeAsync("statistics/" + deviceCode + "/longitude");
 
         _mqttClient.ApplicationMessageReceivedAsync += m =>
         {
-            string receivedTopic = m.ApplicationMessage.Topic.Substring(m.ApplicationMessage.Topic.LastIndexOf('/') + 1);
+            string receivedTopic = m.ApplicationMessage.Topic.Substring(m.ApplicationMessage.Topic.IndexOf('/') + 1);
             string message = Encoding.UTF8.GetString(m.ApplicationMessage.PayloadSegment);
-            _routePoint.Add(receivedTopic, message);
+            _routePoints.TryAdd(receivedTopic, message);
             return Task.CompletedTask;
         };
 
         return true;
     }
 
-    public RoutePointDTO? GetRoutePointData()
+    public RoutePointDTO? GetRoutePointData(string deviceCode)
     {
-        if (_routePoint["latitude"] != "0" &&
-            _routePoint["longitude"] != "0")
+        var topics = new List<string>
+        {
+            $"{deviceCode}/speed",
+            $"{deviceCode}/latitude",
+            $"{deviceCode}/longitude"
+        };
+
+        if (_routePoints[topics[1]] != "0" &&
+            _routePoints[topics[2]] != "0")
         {
             var result = new RoutePointDTO
             {
-                Latitude = decimal.Parse(_routePoint["latitude"]),
-                Longitude = decimal.Parse(_routePoint["longitude"]),
-                CurrentSpeed = decimal.Parse(_routePoint["speed"])
+                Latitude = decimal.Parse(_routePoints[topics[1]]),
+                Longitude = decimal.Parse(_routePoints[topics[2]]),
+                CurrentSpeed = decimal.Parse(_routePoints[topics[0]])
             };
 
-            _routePoint.Remove("latitude");
-            _routePoint.Remove("longitude");
-            _routePoint.Remove("speed");
+            foreach (var topic in topics)
+            {
+                _routePoints.TryRemove(topic, out _);
+            }
 
             return result;
         }

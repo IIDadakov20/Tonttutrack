@@ -107,16 +107,12 @@ input#togglePassword::before:checked:focus {
 }
 
 #deviceConnectionForm, #deviceInfoView{
-    height: 108px;
+    height: auto;
 }
 
 @media (max-width: 767px) {
     .card {
         margin: 1rem;
-    }
-
-    #deviceConnectionForm {
-        height: 250px;
     }
 
     #deviceConnectionForm > div {

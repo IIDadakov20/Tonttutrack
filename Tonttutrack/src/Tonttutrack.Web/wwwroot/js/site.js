@@ -5,7 +5,7 @@
 
         var formData = {
             Code: $('#Code').val(),
-            Password: $('#Password').val()
+            Password: $('#passwordInput').val()
         };
 
         $.ajax({
@@ -15,9 +15,10 @@
             data: JSON.stringify(formData),
             success: function (response) {
                 if (response.success === true) {
+                    sessionStorage.setItem('deviceCode', formData.Code)
                     sessionStorage.setItem('shouldInitReadRoutePoints', 'true');
                     sessionStorage.setItem('connectedDeviceName', response.deviceName);
-                    toggleDeviceViewMode();
+                    //toggleDeviceViewMode();
                     readRoutePoints();
                 }
             },
@@ -64,6 +65,7 @@
                 url: '/trackerDevice/readRoutePoint',
                 type: 'GET',
                 contentType: 'application/json',
+                data: { deviceCode: sessionStorage.getItem("deviceCode") },
                 success: function (data) {
                     if (data === 'break') {
                         sessionStorage.removeItem('connectedDeviceName');
@@ -72,7 +74,7 @@
                         if (marker) {
                             map.removeLayer(marker);
                         }
-                        toggleDeviceViewMode();
+                        //toggleDeviceViewMode();
                         return;
                     }
 
@@ -99,29 +101,9 @@
     window.addEventListener("load", () => {
         if (sessionStorage.getItem('shouldInitReadRoutePoints') === 'true') {
             readRoutePoints();
-            toggleDeviceViewMode();
+            //toggleDeviceViewMode();
         }
     });
-
-    function toggleDeviceViewMode() {
-        if (window.location.pathname === "/Map/MapTrackerLayout") {
-            var deviceConnectionForm = document.getElementById('deviceConnectionForm');
-            var deviceInfoView = document.getElementById('deviceInfoView');
-
-            if (sessionStorage.getItem('connectedDeviceName') != null) {
-                document.getElementById("connectedDeviceName").innerText = sessionStorage.getItem('connectedDeviceName');
-                deviceConnectionForm.classList.remove("d-md-inline-flex");
-                deviceConnectionForm.classList.add("d-none");
-                deviceInfoView.classList.add("d-md-inline-flex");
-                deviceInfoView.classList.remove("d-none");
-            } else {
-                deviceInfoView.classList.remove("d-md-inline-flex");
-                deviceInfoView.classList.add("d-none");
-                deviceConnectionForm.classList.add("d-md-inline-flex");
-                deviceConnectionForm.classList.remove("d-none");
-            }
-        }
-    }
 
     $('#userUpdateForm').on('submit', function (e) {
         e.preventDefault();

@@ -50,9 +50,9 @@ public class TrackerDeviceController : Controller
     }
 
     [HttpGet("readRoutePoint")]
-    public async Task<IActionResult> ReadFromDeviceAsync()
+    public async Task<IActionResult> ReadFromDeviceAsync([FromQuery] string deviceCode)
     {
-        RoutePointDTO? routePoint = _deviceCommunicationService.GetRoutePointData();
+        RoutePointDTO? routePoint = _deviceCommunicationService.GetRoutePointData(deviceCode);
 
         if (routePoint == null)
         {
