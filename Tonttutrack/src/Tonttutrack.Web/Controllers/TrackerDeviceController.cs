@@ -12,13 +12,16 @@ public class TrackerDeviceController : Controller
 {
     private readonly IDeviceCommunicationService _deviceCommunicationService;
     private readonly IDeviceService _deviceService;
+    private readonly IRouteService _routeService;
 
     public TrackerDeviceController(
         IDeviceCommunicationService deviceCommunicationService,
-        IDeviceService deviceService)
+        IDeviceService deviceService,
+        IRouteService routeService)
     {
         _deviceCommunicationService = deviceCommunicationService;
         _deviceService = deviceService;
+        _routeService = routeService;
     }
 
     [HttpPost("connectDevice")]
@@ -47,6 +50,19 @@ public class TrackerDeviceController : Controller
         };
 
         return Json(response);
+    }
+
+    [HttpPost("createRoute")]
+    public async Task<IActionResult> CreateRoute()
+    {
+        var routeCreationResult = await _routeService.CreateRouteAsync();
+
+        if (!routeCreationResult.Succeeded)
+        {
+            return BadRequest();
+        }
+
+        return Json(true);
     }
 
     [HttpGet("readRoutePoint")]

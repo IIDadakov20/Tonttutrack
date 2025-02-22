@@ -9,6 +9,8 @@ public class Route
     {
         Id = Guid.NewGuid();
         Date = DateOnly.FromDateTime(DateTime.Now);
+        Distance = 0;
+        Duration = new TimeSpan();
 
         RoutePoints = new HashSet<RoutePoint>();
     }

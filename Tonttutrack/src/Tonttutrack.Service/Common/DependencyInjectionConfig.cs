@@ -13,6 +13,7 @@ public static class DependencyInjectionConfig
             .AddScoped<IDeviceService, DeviceService>()
             .AddScoped<IAuthenticationService, AuthenticationService>()
             .AddScoped<IUserService, UserService>()
-            .AddScoped<ICurrentUserService, CurrentUserService>();
+            .AddScoped<ICurrentUserService, CurrentUserService>()
+            .AddScoped<IRouteService, RouteService>();
     }
 }

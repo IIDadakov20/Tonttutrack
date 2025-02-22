@@ -5,5 +5,5 @@ namespace Tonttutrack.Service.Contracts;
 
 public interface ICurrentUserService
 {
-    public UserResponseDTO CurrentUser { get; }
+    UserResponseDTO CurrentUser { get; }
 }
