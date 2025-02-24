@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Tonttutrack.Service.Contracts;
 using Tonttutrack.Domain.DTOs.Response;
 using Tonttutrack.Web.Models;
+using System.Text.Json;
 
 namespace Tonttutrack.Web.Controllers;
 
@@ -58,6 +59,19 @@ public class TrackerDeviceController : Controller
         var routeCreationResult = await _routeService.CreateRouteAsync();
 
         if (!routeCreationResult.Succeeded)
+        {
+            return BadRequest();
+        }
+
+        return Json(routeCreationResult.ErrorMessage.Values);
+    }
+
+    [HttpPost("saveRoutePoint")]
+    public async Task<IActionResult> ReadFromDeviceAsync([FromBody] JsonElement data)
+    {
+        var routePointSaved = await _routeService.SaveRoutePointAsync(data);
+
+        if (!routePointSaved.Succeeded)
         {
             return BadRequest();
         }

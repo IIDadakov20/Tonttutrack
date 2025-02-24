@@ -1,4 +1,4 @@
-﻿using CoordinateSharp;
+﻿using System.Text.Json;
 using Microsoft.AspNetCore.Identity;
 using Tonttutrack.DataAccess.Data;
 using Tonttutrack.DataAccess.Data.Models;
@@ -39,11 +39,41 @@ internal class RouteService : IRouteService
         if (routeCreationResult > 0)
         {
             result.Succeeded = true;
+            result.ErrorMessage.Add("", $"{newRoute.Id}");
             return result;
         }
 
         result.Succeeded = false;
         result.ErrorMessage.Add("", "Problem occurred while creating new route");
+        return result;
+    }
+
+    public async Task<ErrorDTO> SaveRoutePointAsync(JsonElement data)
+    {
+        var result = new ErrorDTO();
+
+        string route = data.GetProperty("route").GetString()!;
+        var routePointJson = data.GetProperty("routePoint").ToString();
+        var routePoint = JsonSerializer.Deserialize<RoutePointDTO>(routePointJson)!;
+
+        RoutePoint newRoutePoint = new RoutePoint
+        {
+            Latitude = routePoint.Latitude,
+            Longitude = routePoint.Longitude,
+            CurrentSpeed = routePoint.CurrentSpeed,
+            RouteId = Guid.Parse(route),
+        };
+        await _context.RoutePoints.AddAsync(newRoutePoint);
+        var routePointSavedResult = await _context.SaveChangesAsync();
+
+        if (routePointSavedResult > 0)
+        {
+            result.Succeeded = true;
+            return result;
+        }
+
+        result.Succeeded = false;
+        result.ErrorMessage.Add("", "Problem occurred while saving new route point");
         return result;
     }
 }

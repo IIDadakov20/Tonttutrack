@@ -9,7 +9,7 @@ public class RoutePoint
     public RoutePoint()
     {
         Id = Guid.NewGuid();
-        RecordedAt = DateTime.Now;
+        RecordedAt = DateTime.Now.ToUniversalTime();
     }
 
     [Key]

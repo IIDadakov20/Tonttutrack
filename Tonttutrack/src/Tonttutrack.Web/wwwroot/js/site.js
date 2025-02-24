@@ -38,21 +38,6 @@ $('#disconnectButton').on('click', function (e) {
     });
 });
 
-document.getElementById('record-btn').addEventListener('click', () => {
-    $.ajax({
-        type: 'POST',
-        url: '/trackerDevice/createRoute',
-        contentType: 'application/json',
-        success: function (response) {
-            sessionStorage.setItem('routeRecord', true);
-            console.log('Route recording started');
-        },
-        error: function (status, error) {
-            console.error('Error:', status, error);
-        }
-    });
-});
-
 ////////////////////////////////////////////////////////////
 // Dropdown функционалност за акаунт
 $(function () {
@@ -92,6 +77,10 @@ function readRoutePoints() {
                     }
                     //toggleDeviceViewMode();
                     return;
+                }
+
+                if (sessionStorage.getItem("routeRecord")) {
+                    saveRoutePoint(data);
                 }
 
                 if (window.location.pathname === "/Map/MapTrackerLayout") {
@@ -210,3 +199,37 @@ $('#userPasswordUpdateForm').on('submit', function (e) {
         }
     });
 });
+
+document.getElementById('record-btn').addEventListener('click', () => {
+    $.ajax({
+        type: 'POST',
+        url: '/trackerDevice/createRoute',
+        contentType: 'application/json',
+        success: function (response) {
+            sessionStorage.setItem('routeRecord', true);
+            sessionStorage.setItem('route', response);
+        },
+        error: function (status, error) {
+            console.error('Error:', status, error);
+        }
+    });
+});
+
+function saveRoutePoint(routePoint) {
+    $.ajax({
+        type: 'POST',
+        url: '/trackerDevice/saveRoutePoint',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            route: sessionStorage.getItem('route'),
+            routePoint: routePoint
+        }),
+        success: function (response) {
+            console.log('Success:', response);
+            sessionStorage.setItem('lastRoutePoint', routePoint);
+        },
+        error: function (status, error) {
+            console.error('Error:', status, error);
+        }
+    });
+}
