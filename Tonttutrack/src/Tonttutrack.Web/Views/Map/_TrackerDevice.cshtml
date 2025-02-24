@@ -4,31 +4,57 @@
 <link rel="stylesheet" href="~/css/trackerDevice.css" asp-append-version="true"/>
 
 <div id="tracker-menu">
-    <div class="tracker-content">
-        <form id="deviceConnectionForm">
-            <div class="form-group">
-                <label asp-for="Code" class="mb-1">Code</label>
-                <input asp-for="Code" class="form-control"/>
-                <span asp-validation-for="Code" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Password" class="mb-1">Password</label>
-                <input asp-for="Password" id="passwordInput" type="password" class="form-control"/>
-                <div class="form-check">
-                    <input type="checkbox" id="togglePassword" class="form-check-input"/>
-                    <label for="togglePassword" class="form-check-label">Show Password</label>
+        <div class="tracker-content" id="connection-section">
+            <form id="deviceConnectionForm">
+                <div class="form-group">
+                    <label asp-for="Code" class="mb-1">Code</label>
+                    <input asp-for="Code" class="form-control"/>
+                    <span asp-validation-for="Code" class="text-danger"></span>
                 </div>
-                <span asp-validation-for="Password" class="text-danger"></span>
+
+                <div class="form-group">
+                    <label asp-for="Password" class="mb-1">Password</label>
+                    <input asp-for="Password" id="passwordInput" type="password" class="form-control"/>
+                    <div class="form-check">
+                        <input type="checkbox" id="togglePassword" class="form-check-input"/>
+                        <label for="togglePassword" class="form-check-label">Show Password</label>
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Connect</button>
+            </form>
+
+            <div class="tracker-btn">
+                <button id="record-btn" class="btn btn-primary w-100">Start recording</button>
+            </div>
+        </div>
+
+        <!-- Съдържание за запазени маршрути и статистики -->
+        <div id="routes-section" class="hidden">
+            <div class="tracker-routes">
+                <h3>Saved Routes</h3>
+                <ul id="route-list"></ul>
             </div>
 
-            <button type="submit" class="btn btn-primary w-100">Connect</button>
-        </form>
-
-        <div class="tracker-btn">
-            <button id="record-btn" class="btn btn-primary w-100">Start recording</button>
+            <div id="route-statistics" class="hidden">
+                <div class="route-header">
+                <span id="route-name-container" class="route-name-container">
+                    <input id="route-name-input" type="text" class="route-name-input" placeholder="Route Name" />
+                    <button id="save-route-name" class="btn btn-primary">Save</button>
+                </span>
+                </div>
+                <p>Duration: <span id="route-duration">00:00:00</span></p>
+                <p>Distance: <span id="route-distance">0 km</span></p>
+                <p>Avg. Speed: <span id="route-avg-speed">0 km/h</span></p>
+                <p>Top Speed: <span id="route-top-speed">0 km/h</span></p>
+                <button id="delete-route" class="btn btn-danger">Delete Route</button>
+            </div>
         </div>
-    </div>
+
+        <!-- Бутон за превключване -->
+        <button id="toggle-view-btn" class="btn btn-primary w-100 mt-3">View Saved Routes</button>
+        
     <button id="toggle-menu">
         <svg class="svg-icon" style="width: 1em; height: 1em; vertical-align: middle; fill: currentColor; overflow: hidden; transition: transform 0.3s ease;"
              viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
