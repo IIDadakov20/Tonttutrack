@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Tonttutrack.DataAccess.Data;
 using Tonttutrack.DataAccess.Data.Models;
 using Tonttutrack.Domain.DTOs.Response;
@@ -46,6 +47,48 @@ internal class RouteService : IRouteService
         result.Succeeded = false;
         result.ErrorMessage.Add("", "Problem occurred while creating new route");
         return result;
+    }
+
+    public async Task<ErrorDTO> DeleteRouteAsync(Guid routeId)
+    {
+        var result = new ErrorDTO();
+
+        var route = await _context.Routes.FindAsync(routeId);
+        if (route == null)
+        {
+            result.Succeeded = true;
+            return result;
+        }
+
+        var deleteRoutePointsResult = await DeleteRoutePointsAsync(routeId);
+        if (!deleteRoutePointsResult)
+        {
+            result.Succeeded = false;
+            result.ErrorMessage.Add("", "Failed to delete route points.");
+            return result;
+        }
+
+        var routeDeletionResult = await _context.Routes.Where(r => r.Id == routeId).ExecuteDeleteAsync();
+        if (routeDeletionResult > 0)
+        {
+            result.Succeeded = true;
+            return result;
+        }
+
+        result.Succeeded = false;
+        result.ErrorMessage.Add("", "Problem occurred while deleting a route");
+        return result;
+    }
+
+    private async Task<bool> DeleteRoutePointsAsync(Guid routeId)
+    {
+        var routePointsDeletionResult = await _context.RoutePoints.Where(rp => rp.RouteId == routeId).ExecuteDeleteAsync();
+        if (routePointsDeletionResult > 0)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     public async Task<ErrorDTO> SaveRoutePointAsync(JsonElement data)

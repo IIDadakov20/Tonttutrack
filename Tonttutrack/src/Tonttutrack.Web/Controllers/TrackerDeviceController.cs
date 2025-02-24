@@ -54,7 +54,7 @@ public class TrackerDeviceController : Controller
     }
 
     [HttpPost("createRoute")]
-    public async Task<IActionResult> CreateRoute()
+    public async Task<IActionResult> CreateRouteAsync()
     {
         var routeCreationResult = await _routeService.CreateRouteAsync();
 

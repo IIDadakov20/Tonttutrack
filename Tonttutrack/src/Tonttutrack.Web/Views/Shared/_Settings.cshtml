@@ -122,7 +122,8 @@
 
         <!-- Разкриване на поле за Delete Account -->
         <div id="deleteAccountFields" class="hidden">
-            <form asp-action="DeleteAccount" method="post">
+            <form id="userDeleteForm" novalidate>
+                <div class="text-danger formErrorMessage"></div>
                 <div class="mb-3">
                     <label for="deletePassword" class="mb-1">Enter Password to Delete</label>
                     <input type="password" id="deletePassword" class="form-control" />

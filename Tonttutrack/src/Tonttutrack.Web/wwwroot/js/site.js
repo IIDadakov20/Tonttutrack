@@ -200,6 +200,38 @@ $('#userPasswordUpdateForm').on('submit', function (e) {
     });
 });
 
+$('#userDeleteForm').on('submit', function (e) {
+    e.preventDefault();
+
+    $('#userDeleteForm .text-danger').html('');
+
+    $(this).find('.submitButton').prop('disabled', true); // Disable submit button
+
+    $.ajax({
+        url: '/user/deleteUser',
+        type: 'DELETE',
+        contentType: 'application/json',
+        success: function (response) { },
+        error: function (xhr) {
+            var errors = xhr.responseJSON;
+
+            // Loop through the errors and show them under the corresponding input field
+            for (var field in errors) {
+                var fieldErrors = errors[field];  // Array of error messages for the field
+                if (fieldErrors && fieldErrors.length > 0) {
+                    // Display the error message for the respective field
+                    var errorMessage = fieldErrors.join('<br />');  // Join multiple errors into one string
+                    $('#userDeleteForm').find('.formErrorMessage').html(errorMessage);
+                    document.getElementsByClassName("formErrorMessage")[2].style.display = "block";
+                }
+            }
+        },
+        complete: function () {
+            $('.submitButton').prop('disabled', false); // Re-enable submit button
+        }
+    });
+});
+
 document.getElementById('record-btn').addEventListener('click', () => {
     $.ajax({
         type: 'POST',
