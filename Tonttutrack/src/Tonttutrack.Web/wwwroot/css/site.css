@@ -6,8 +6,10 @@
     --hover-color: #f0f0f0;
     --error-color: #d9534f;
     --success-color: #0d8191;
+    --disabled-background: #ccc;
     --border-radius: 5px;
     --transition-speed: 0.3s;
+    --white: white;
 }
 
 html {
@@ -21,6 +23,7 @@ html {
 body {
     overflow: hidden;
     background-color: var(--background-color);
+    color: var(--text-color);
 }
 
 ::selection {
@@ -39,7 +42,15 @@ body {
 }
 
 .nav-link {
-    color: var(--text-color);
+    color: var(--text-color)!important;
     font-size: 1.1rem;
     margin: 0 0.75rem;
+}
+
+.text-dark{
+    color: var(--text-color)!important;
+}
+
+.navbar-brand {
+    color: var(--text-color)!important;
 }

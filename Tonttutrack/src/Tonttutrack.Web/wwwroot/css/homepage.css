@@ -1,3 +1,11 @@
+:root {
+    --hero-heading-color: #10262e;
+    --hero-lead-color: #162f37;
+    --overlay-bg-color: rgba(0, 73, 83, 0.8);
+    --primary-gradient-color: #ebf5ef;
+    --secondary-gradient-color: #004953;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -5,6 +13,8 @@
 
 body {
     overflow-y: scroll;
+    background-color: var(--background-color);
+    color: var(--text-color);
 }
 
 main {
@@ -15,13 +25,12 @@ main {
 .hero-section {
     width: 100%;
     height: 80vh;
-    background: linear-gradient(to right, #ebf5ef 65%, #004953 35%);
+    background: linear-gradient(to right, var(--primary-gradient-color) 65%, var(--secondary-gradient-color) 35%);
 }
 
 .container {
     max-width: 1300px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto;
     height: 100%;
     width: 100%;
 }
@@ -31,11 +40,10 @@ main {
     width: 100%;
     display: flex;
     flex-direction: row;
-    padding: 5% 0 5% 0;
+    padding: 5% 0;
 }
 
 /* Hero Text */
-
 .hero-text {
     display: flex;
     align-items: flex-start;
@@ -43,42 +51,41 @@ main {
     flex-direction: column;
     width: 50%;
     height: 100%;
-    padding: 0 5% 0 5%;
+    padding: 0 5%;
 }
 
 .hero-heading {
     font-size: 2.8rem;
     font-weight: bold;
-    color: #10262e;
+    color: var(--hero-heading-color);
     margin-bottom: 1rem;
 }
 
 .hero-lead {
     font-size: 1.5rem;
-    color: #162f37;
+    color: var(--hero-lead-color);
     margin-bottom: 1.5rem;
 }
 
 .hero-btn {
-    background-color: #004953;
+    background-color: var(--secondary-color);
     border: none;
     padding: 10px 20px;
     font-size: 1.2rem;
     color: white;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
     cursor: pointer;
     width: 70%;
     font-weight: bold;
+    transition: background-color var(--transition-speed);
 }
 
 .hero-btn:hover {
-    background-color: #0d8191;
-    color: white;
+    background-color: var(--primary-color);
 }
 
 /* Hero Image */
-
 .hero-image-container {
     display: flex;
     justify-content: center;
@@ -94,13 +101,12 @@ main {
 }
 
 /* Photo Section */
-
 .photo-section {
     width: 100%;
     height: 70vh;
 }
 
-.photo-content{
+.photo-content {
     width: 100%;
     height: 100%;
     display: flex;
@@ -108,14 +114,14 @@ main {
     justify-content: center;
     gap: 5rem;
     align-items: center;
-    padding: 3% 0 3% 0;
+    padding: 3% 0;
 }
 
 .photo-box {
     position: relative;
     width: 25%;
     height: 80%;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     text-align: center;
@@ -125,15 +131,15 @@ main {
     width: 100%;
     height: 86%;
     object-fit: fill;
-    transition: transform 0.3s ease, filter 0.3s ease;
+    transition: transform var(--transition-speed), filter var(--transition-speed);
 }
 
 .overlay {
     position: absolute;
     bottom: 0;
-    background-color: rgba(0, 73, 83, 0.8);
+    background-color: var(--overlay-bg-color);
     height: 0;
-    transition: height 0.3s ease;
+    transition: height var(--transition-speed);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -145,7 +151,7 @@ main {
     padding: 1rem;
     text-align: center;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity var(--transition-speed);
 }
 
 .photo-box:hover .photo-image {
@@ -163,26 +169,26 @@ main {
 
 .photo-text {
     font-size: 1.5rem;
-    color: #004953;
+    color: var(--text-color);
     margin-top: 1rem;
 }
 
 /* Media Queries */
 @media (max-width: 1300px) {
     .hero-content {
-        max-width: 100%; /* Поставя ограничение на ширината на контейнера */
-        margin: 0 auto; /* Центрира контейнера */
-        padding: 0 5%; /* Намалява разстоянието от двете страни */
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 0 5%;
         display: flex;
-        justify-content: space-between; /* Разстоянието между елементите остава равномерно */
-        align-items: center; /* Центрира съдържанието вертикално */
-        gap: 5%; /* Добавя фиксирано разстояние между текст и изображение */
+        justify-content: space-between;
+        align-items: center;
+        gap: 5%;
     }
 
     .hero-text {
-        padding: 2rem; /* Увеличава вътрешните отстояния */
+        padding: 2rem;
         width: 40%;
-        height: auto; /* Позволява височината да се адаптира към съдържанието */
+        height: auto;
     }
 
     .hero-btn {
@@ -192,73 +198,55 @@ main {
     }
 
     .hero-image-container {
-        width: 45%; /* Намалява ширината на изображението */
+        width: 45%;
         height: auto;
     }
 
     .hero-image {
-        width: 400px; /* Същия размер за снимката */
+        width: 400px;
         height: auto;
     }
 
-    /* Промени за photo-content */
     .photo-section {
-        padding: 0 5%; /* Намалява разстоянието от страните на екрана */
-        height: 80vh; /* Задава височината на секцията да е 80% от височината на екрана */
+        padding: 0 5%;
+        height: 80vh;
     }
 
     .photo-content {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        gap: 2rem; /* Намалява разстоянието между елементите */
-        align-items: center;
-        padding: 3% 0;
-        width: 100%;
-        height: 100%; /* Позволява височината да се адаптира */
+        gap: 2rem;
     }
 
     .photo-box {
         width: 25%;
-        height: 80%; /* Позволява височината на снимката да се адаптира */
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        text-align: center;
+        height: 80%;
     }
 
     .photo-image {
         width: 100%;
-        height: 82%; /* Височината ще се адаптира към контейнера */
-        object-fit: cover; /* Поддържа съотношението на изображението, като го приспособява към контейнера */
-        transition: transform 0.3s ease, filter 0.3s ease;
-    }
-
-    .photo-section {
-        height: 60vh;
+        height: 82%;
     }
 }
 
 @media (max-width: 900px) {
     .hero-container {
-        max-width: 100%; /* Намалява ширината на контейнера */
-        margin: 0 auto; /* Центрира контейнера */
-        padding: 0 5%; /* Намалява разстоянието от страните */
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 0 5%;
         display: flex;
-        justify-content: space-between; /* Равномерно разстояние между елементите */
-        align-items: center; /* Центрира съдържанието вертикално */
+        justify-content: space-between;
+        align-items: center;
         flex-direction: column;
     }
 
     .hero-text {
-        width: 40%; /* Намалява ширината на текстовия контейнер */
-        padding: 1rem; /* Намалява вътрешните отстояния */
-        font-size: 1.1rem; /* Намалява размера на текста */
+        width: 40%;
+        padding: 1rem;
+        font-size: 1.1rem;
     }
 
     .hero-title {
-        font-size: 1.3rem; /* Намалява размера на заглавието */
-        margin-bottom: 0.5rem; /* Намалява разстоянието под заглавието */
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
     }
 
     .hero-heading {
@@ -270,25 +258,25 @@ main {
     }
 
     .hero-btn {
-        font-size: 1.1rem; /* Намалява още размера на бутона */
-        padding: 7px 12px; /* Намалява размерите на бутона */
+        font-size: 1.1rem;
+        padding: 7px 12px;
         width: 80%;
     }
 
     .hero-image-container {
-        width: 45%; /* Намалява ширината на контейнера за изображението */
+        width: 45%;
     }
 
     .hero-image {
-        width: 280px; /* Намалява размерите на изображението */
-        height: auto; /* Поддържа пропорциите на снимката */
+        width: 280px;
+        height: auto;
     }
-    
+
     .photo-section {
         height: 50vh;
     }
 
-    .photo-container {
+    .photo-content {
         flex-direction: column;
         gap: 1.5rem;
     }
@@ -297,80 +285,56 @@ main {
         width: 100%;
     }
 
-    .hero-image {
-        max-width: 90%;
-    }
-    
     .photo-text {
-        font-size: 0.9rem; /* Намалява размера на текста */
-    }
-    .photo-box:hover .overlay {
-        height: 80%;
+        font-size: 0.9rem;
     }
 }
 
-
 @media (max-width: 650px) {
-    /* Премахване на градиент и добавяне на светъл цвят за hero section */
     .hero-section {
-        background: linear-gradient(to right, #ebf5ef 65%, #ebf5ef 35%);
-        padding: 4rem 0 55rem; /* Можеш да настроиш това за допълнителен отстъп */
+        background: linear-gradient(to right, var(--primary-gradient-color) 65%, var(--primary-gradient-color) 35%);
+        padding: 4rem 0 55rem;
     }
 
-    /* Hero Content - разположени един под друг */
     .hero-content {
-        flex-direction: column; /* Променя посоката на елементите, така че да бъдат един под друг */
-        align-items: center; /* Центрира елементите по хоризонтала */
+        flex-direction: column;
+        align-items: center;
     }
-    .hero-btn{
+
+    .hero-btn {
         align-self: center;
     }
 
-    /* Hero Text - настройваме ширината */
     .hero-text {
-        width: 100%; /* Запълва цялото пространство */
-        padding: 1rem; /* Поддържа разстояния около текста */
-        font-size: 0.8rem; /* Намалява размера на шрифта */
+        width: 100%;
+        padding: 1rem;
+        font-size: 0.8rem;
         text-align: center;
     }
 
-    /* Hero Image Container */
     .hero-image-container {
-        width: 100%; /* Запълва цялото пространство */
-        margin-top: 1rem; /* Разстояние между текст и изображение */
+        width: 100%;
+        margin-top: 1rem;
     }
 
-    /* Hero Image */
     .hero-image {
-        width: 90%; /* Понижава ширината на изображението */
-        height: auto; /* Поддържа пропорциите на снимката */
+        width: 90%;
     }
 
-    /* Увеличаваме разстоянието между hero секцията и photo секцията */
     .photo-section {
-        margin-top: 3rem; /* Увеличаваме разстоянието между hero секцията и photo секцията */
-        padding: 4rem 5rem 120rem 5rem; /* Можеш да настроиш това за допълнителен отстъп */
+        margin-top: 3rem;
     }
 
-    /* Photo Section - снимките да са една под друга */
     .photo-content {
-        flex-direction: column; /* Променя реда на снимките да бъдат подредени вертикално */
-        gap: 1.5rem; /* Добавя разстояние между снимките */
-        height: auto;
+        flex-direction: column;
+        gap: 1.5rem;
     }
 
     .photo-box {
-        width: 100%; /* Запълва цялото пространство */
-        height: auto; /* Височината се адаптира към съдържанието */
-    }
-
-    .photo-image {
-        width: 100%; /* Изображението заема цялата ширина */
-        height: auto; /* Височината се адаптира */
-        object-fit: cover; /* Поддържа съотношението на изображението */
+        width: 100%;
     }
 
     .photo-text {
-        font-size: 0.9rem; /* Намалява шрифта на текста */
+        font-size: 0.9rem;
     }
 }

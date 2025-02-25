@@ -3,8 +3,7 @@
     --button-hover-error: #c9302c;
     --button-hover-delete: #e84051;
     --disabled-color: #7f7f7f;
-    --disabled-background: #ccc;
-    --appearance-settings-color: #0d8191;
+    --negative-text-color: white;
 }
 
 /* Dropdown */
@@ -165,7 +164,7 @@
 
 .update-btn {
     background-color: var(--primary-color);
-    color: var(--background-color);
+    color: white;
 }
 
 .update-btn:hover {
@@ -174,7 +173,7 @@
 
 .delete-btn {
     background-color: var(--error-color);
-    color: var(--background-color);
+    color: white;
 }
 
 .delete-btn:hover {
@@ -312,13 +311,12 @@ html.blur-scrollbar::-webkit-scrollbar-thumb {
     border-radius: 50%;
     left: 0.19rem;
     top: 0.19rem;
-    background-color: white;
-    box-shadow: 0 0.12rem 0.30rem #999;
+    background-color: var(--white);
     transition: 0.3s ease;
 }
 
 .theme-input:checked + .theme-label #theme-slider {
-    background-color: var(--appearance-settings-color);
+    background-color: var(--primary-color);
 }
 
 .theme-input:checked + .theme-label #theme-slider:before {
@@ -341,7 +339,7 @@ html.blur-scrollbar::-webkit-scrollbar-thumb {
 .language-option {
     display: block;
     cursor: pointer;
-    background-color: white;
+    background-color: var(--white);
     padding: 0.5rem 1rem;
     border-radius: 10px;
     color: #333;
@@ -356,21 +354,21 @@ html.blur-scrollbar::-webkit-scrollbar-thumb {
 }
 
 .language-option:hover {
-    background-color: var(--appearance-settings-color);
-    color: white;
+    background-color: var(--primary-color);
+    color: var(--white);
     border: none;
     outline: none;
 }
 
 .language-option.selected {
-    background-color: var(--appearance-settings-color);
+    background-color: var(--primary-color);
     color: white;
     border: none;
     outline: none;
 }
 
 .language-option.not-selected {
-    background-color: white;
+    background-color: var(--white);
     color: #333;
     border: none;
     outline: none;
@@ -390,6 +388,11 @@ html.blur-scrollbar::-webkit-scrollbar-thumb {
 
 .form-control {
     font-size: 1.2rem !important;
+    color: var(--text-color)!important;
+}
+
+.form-control:focus{
+    color: var(--negative-text-color)!important;
 }
 
 .formErrorMessage {
@@ -397,53 +400,51 @@ html.blur-scrollbar::-webkit-scrollbar-thumb {
 }
 
 .update-btn, .delete-btn {
-    position: relative; /* Позволява абсолютно позициониране на иконите */
+    position: relative;
     display: flex;
     align-items: center;
-    justify-content: center; /* Центрира текста в бутона */
+    justify-content: center;
     width: 100%;
     padding: 0.75rem 1.5rem;
     font-size: 1.1rem !important;
-    text-align: center; /* Центрира текста */
+    text-align: center;
     border-radius: var(--border-radius);
     border: none;
     cursor: pointer;
     transition: background-color var(--transition-speed) ease;
     margin-top: 1rem;
-    user-select: none; /* Предотвратява избора на текст */
+    user-select: none;
 }
 
 .update-btn i, .delete-btn i {
     position: absolute;
-    left: 1rem; /* Разстояние от лявата страна на бутона */
+    left: 1rem;
 }
 
 .update-btn, .delete-btn {
-    position: relative; /* Позволява абсолютно позициониране на иконите */
+    position: relative;
     display: flex;
     align-items: center;
-    justify-content: center; /* Центрира текста в бутона */
+    justify-content: center;
     width: 100%;
     padding: 0.75rem 1.5rem;
     font-size: 1.1rem !important;
-    text-align: center; /* Центрира текста */
+    text-align: center;
     border-radius: var(--border-radius);
     border: none;
     cursor: pointer;
     transition: background-color var(--transition-speed) ease;
     margin-top: 1rem;
-    user-select: none; /* Предотвратява избора на текст */
+    user-select: none;
 }
 
 i {
-    font-size: 1rem; /* Намален размер */
-    vertical-align: middle; /* Изравняване по средата на текста */
+    font-size: 1rem;
+    vertical-align: middle;
     margin-right: 1rem;
 }
 
- /*
- Центриране на иконките в контейнерите 
- */
+ /*Центриране на иконките в контейнерите */
 .custom-dropdown-item,
 .update-btn,
 .delete-btn,
