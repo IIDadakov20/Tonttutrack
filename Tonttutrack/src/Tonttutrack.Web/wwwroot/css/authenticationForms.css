@@ -12,6 +12,11 @@
     width: 100%; 
 }
 
+input{
+    background-color: var(--white)!important;
+    color: var(--text-color);
+}
+
 .background-image {
     position: fixed;
     top: -10px;

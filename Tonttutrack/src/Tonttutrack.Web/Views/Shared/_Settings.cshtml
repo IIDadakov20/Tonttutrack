@@ -9,7 +9,7 @@
         <!-- Dropdown за акаунт -->
         <div id="custom-dropdown">
             <button id="custom-dropdown-button">
-                <img src="~/assets/accountProfilePicture.png" alt="Account Logo" id="custom-account-logo">
+                <img src="@Url.Content("~/assets/accountSettings.png")" alt="Account Logo" id="custom-account-logo">
             </button>
             <div id="custom-dropdown-menu">
                 <div id="account-name">@User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value</div>

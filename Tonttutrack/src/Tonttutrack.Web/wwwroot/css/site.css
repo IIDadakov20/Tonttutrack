@@ -54,3 +54,30 @@ body {
 .navbar-brand {
     color: var(--text-color)!important;
 }
+
+.btn:focus{
+    box-shadow: none!important;
+}
+
+a{
+    color: var(--success-color)!important;
+}
+
+.btn-primary:active{
+    background-color: var(--secondary-color)!important;
+    border:none!important;
+}
+
+.btn-primary:active:focus{
+    box-shadow: none!important;
+}
+
+.btn-primary:focus{
+    box-shadow: none!important;
+    border:none!important;
+    background-color: var(--secondary-color)!important;
+}
+
+.btn{
+    color: white!important;
+}

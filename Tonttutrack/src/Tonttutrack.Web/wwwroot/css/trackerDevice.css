@@ -36,7 +36,7 @@
     width: 3.5rem;
     height: 3.5rem;
     background: var(--white);
-    color: var(--primary-color);
+    color: var(--text-color);
     border: none;
     border-radius: 0 5.25rem 5.25rem 0;
     box-shadow: 0.13rem 0.13rem 0.63rem var(--box-shadow-color);
@@ -90,6 +90,11 @@
 
 .form-group {
     margin-bottom: 1.5rem;
+}
+
+input:-webkit-autofill{
+    background-color: var(--white)!important;
+    color: var(--text-color)!important;
 }
 
 .tracker-btn button {
@@ -250,4 +255,9 @@ body {
 
 #map {
     top: -1.25rem;
+}
+
+a{
+    color: var(--text-color) !important;
+    background-color: var(--background-color)!important;
 }

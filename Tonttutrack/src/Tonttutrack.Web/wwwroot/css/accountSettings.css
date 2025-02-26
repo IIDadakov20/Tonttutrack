@@ -4,6 +4,7 @@
     --button-hover-delete: #e84051;
     --disabled-color: #7f7f7f;
     --negative-text-color: white;
+    --default-language-options-color: #333;
 }
 
 /* Dropdown */
@@ -31,7 +32,7 @@
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    min-width: 9.38rem; /* 150px -> 9.38rem */
+    min-width: 12rem; /* 150px -> 9.38rem */
     background-color: var(--background-color);
     border-radius: var(--border-radius);
     z-index: 200;
@@ -55,16 +56,16 @@
 }
 
 .dropdown-settings:hover {
-    color: var(--secondary-color);
+    color: var(--success-color);
 }
 
 #dropdown-log-out:hover {
-    color: var(--secondary-color);
+    color: var(--success-color);
 }
 
 .custom-dropdown-item {
     padding: 0.5rem 1rem; /* 0.5rem и 1rem остават същите */
-    color: var(--text-color);
+    color: var(--text-color)!important;
     text-decoration: none;
     display: block;
     border-radius: var(--border-radius);
@@ -268,7 +269,7 @@ html.blur-scrollbar::-webkit-scrollbar-thumb {
     cursor: not-allowed;
 }
 
-.disabled:hover{
+.disabled:hover {
     color: var(--background-color);
 }
 
@@ -342,7 +343,7 @@ html.blur-scrollbar::-webkit-scrollbar-thumb {
     background-color: var(--white);
     padding: 0.5rem 1rem;
     border-radius: 10px;
-    color: #333;
+    color: var(--default-language-options-color);
     text-align: center;
     font-weight: bold;
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -369,7 +370,7 @@ html.blur-scrollbar::-webkit-scrollbar-thumb {
 
 .language-option.not-selected {
     background-color: var(--white);
-    color: #333;
+    color: var(--default-language-options-color);
     border: none;
     outline: none;
 }
@@ -388,11 +389,11 @@ html.blur-scrollbar::-webkit-scrollbar-thumb {
 
 .form-control {
     font-size: 1.2rem !important;
-    color: var(--text-color)!important;
+    color: var(--text-color) !important;
 }
 
-.form-control:focus{
-    color: var(--negative-text-color)!important;
+.form-control:focus {
+    color: var(--text-color) !important;
 }
 
 .formErrorMessage {
@@ -444,7 +445,7 @@ i {
     margin-right: 1rem;
 }
 
- /*Центриране на иконките в контейнерите */
+/*Центриране на иконките в контейнерите */
 .custom-dropdown-item,
 .update-btn,
 .delete-btn,

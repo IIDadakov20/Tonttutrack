@@ -1,5 +1,5 @@
 ﻿const accessToken = '6mjPfGcWuPzKz5cthMD97rjbuF6t4xlNBj7megquuKGRcQYSPHK0Ay0cTqrHaASd';
-const map = L.map('map').setView([42.448284, 27.076411], 10);
+const map = L.map('map', {attributionControl: false}).setView([42.448284, 27.076411], 10);
 const styles = ['sunny', 'dark'];
 const baselayers = {};
 
@@ -45,9 +45,11 @@ themeToggle.addEventListener('change', function() {
         baselayers['dark'].addTo(map);  // Превключваме към dark слой
         baselayers['sunny'].removeFrom(map);  // Премахваме sunny слой
         localStorage.setItem('theme', 'dark');
+        enableDarkTheme()
     } else {
         baselayers['sunny'].addTo(map);  // Превключваме към sunny слой
         baselayers['dark'].removeFrom(map);  // Премахваме dark слой
         localStorage.setItem('theme', 'light');
+        disableDarkTheme()
     }
 });
