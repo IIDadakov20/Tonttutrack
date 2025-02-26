@@ -7,6 +7,8 @@ $('#deviceConnectionForm').on('submit', function (e) {
         Password: $('#passwordInput').val()
     };
 
+    $('#deviceConnectionForm .text-danger').html('');
+
     $.ajax({
         url: '/trackerDevice/connectDevice',
         type: 'POST',
@@ -21,8 +23,11 @@ $('#deviceConnectionForm').on('submit', function (e) {
                 readRoutePoints();
             }
         },
-        error: function (xhr, status, error) {
-            console.error(xhr.responseJSON.message);
+        error: function (xhr) {
+            var error = xhr.responseJSON;
+            var errorMessage = error.message;
+            $('#deviceConnectionForm').find('.formErrorMessage').html(errorMessage);
+            document.getElementsByClassName("formErrorMessage")[3].style.display = "block";;
         }
     });
 });
@@ -203,6 +208,8 @@ $('#userPasswordUpdateForm').on('submit', function (e) {
 $('#userDeleteForm').on('submit', function (e) {
     e.preventDefault();
 
+    var password = $('#deletePassword').val()
+
     $('#userDeleteForm .text-danger').html('');
 
     $(this).find('.submitButton').prop('disabled', true); // Disable submit button
@@ -211,7 +218,10 @@ $('#userDeleteForm').on('submit', function (e) {
         url: '/user/deleteUser',
         type: 'DELETE',
         contentType: 'application/json',
-        success: function (response) { },
+        data: JSON.stringify(password),
+        success: function (response) {
+            location.reload();
+        },
         error: function (xhr) {
             var errors = xhr.responseJSON;
 

@@ -7,7 +7,9 @@ public interface IRouteService
 {
     Task<ErrorDTO> CreateRouteAsync();
 
-    Task<ErrorDTO> DeleteRouteAsync(Guid id);
+    Task<ErrorDTO> DeleteRouteAsync(Guid routeId);
+
+    Task<bool> DeleteUserRoutesAsync(Guid userId);
 
     Task<ErrorDTO> SaveRoutePointAsync(JsonElement data);
 }

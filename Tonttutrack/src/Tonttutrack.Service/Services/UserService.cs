@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Tonttutrack.Service.Contracts;
 using Tonttutrack.DataAccess.Data.Models;
-using AutoMapper;
 using Tonttutrack.Domain.DTOs.Request;
 using Tonttutrack.Domain.DTOs.Response;
+using Tonttutrack.DataAccess.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Tonttutrack.Service.Services;
 
@@ -11,19 +12,22 @@ internal class UserService : IUserService
 {
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
-    private readonly IMapper _mapper;
     private readonly ICurrentUserService _currentUserService;
+    private readonly IRouteService _routeService;
+    private readonly TonttutrackDbContext _context;
 
     public UserService(
         UserManager<User> userManager,
         SignInManager<User> signInManager,
-        IMapper mapper,
-        ICurrentUserService currentUserService)
+        ICurrentUserService currentUserService,
+        IRouteService routeService,
+        TonttutrackDbContext context)
     {
         _userManager = userManager;
         _signInManager = signInManager;
-        _mapper = mapper;
         _currentUserService = currentUserService;
+        _routeService = routeService;
+        _context = context;
     }
 
     public async Task<ErrorDTO> UpdateUserAsync(UserRequestDTO userInfo)
@@ -50,7 +54,9 @@ internal class UserService : IUserService
             return result;
         }
 
-        _mapper.Map(userInfo, user);
+        user.Email = userInfo.Email;
+        user.UserName = userInfo.Username;
+
         var identityResult = await _userManager.UpdateAsync(user);
 
         if (!identityResult.Succeeded)
@@ -70,8 +76,7 @@ internal class UserService : IUserService
     {
         var result = new ErrorDTO();
 
-        string currentUserEmail = _currentUserService.CurrentUser.Email;
-        var user = await _userManager.FindByEmailAsync(currentUserEmail);
+        var user = await _userManager.FindByEmailAsync(_currentUserService.CurrentUser.Email);
 
         var identityResult = await _userManager.ChangePasswordAsync(user!, passwordInfo.CurrentPassword, passwordInfo.NewPassword);
 
@@ -81,6 +86,42 @@ internal class UserService : IUserService
             result.ErrorMessage.Add("", "Problem occurred while changing your password");
             return result;
         }
+
+        result.Succeeded = true;
+        return result;
+    }
+
+    public async Task<ErrorDTO> DeleteUserAsync(string password)
+    {
+        var result = new ErrorDTO();
+
+        var user = await _userManager.FindByEmailAsync(_currentUserService.CurrentUser.Email);
+
+        bool routeResult = await _routeService.DeleteUserRoutesAsync(user!.Id);
+
+        if (!routeResult)
+        {
+            result.Succeeded = false;
+            result.ErrorMessage.Add("", "Problem occurred while deleting your account");
+            return result;
+        }
+
+        _context.Entry(user).State = EntityState.Detached;
+
+        user = await _context.Users
+        .Include(u => u.Routes)
+        .FirstOrDefaultAsync(u => u.Id == user.Id);
+
+        var identityResult = await _userManager.DeleteAsync(user!);
+
+        if(!identityResult.Succeeded)
+        {
+            result.Succeeded = false;
+            result.ErrorMessage.Add("", "Problem occurred while deleting your account");
+            return result;
+        }
+
+        await _signInManager.SignOutAsync();
 
         result.Succeeded = true;
         return result;

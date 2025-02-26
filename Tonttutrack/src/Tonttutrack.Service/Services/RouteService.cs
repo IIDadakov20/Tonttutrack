@@ -54,6 +54,7 @@ internal class RouteService : IRouteService
         var result = new ErrorDTO();
 
         var route = await _context.Routes.FindAsync(routeId);
+
         if (route == null)
         {
             result.Succeeded = true;
@@ -68,7 +69,10 @@ internal class RouteService : IRouteService
             return result;
         }
 
-        var routeDeletionResult = await _context.Routes.Where(r => r.Id == routeId).ExecuteDeleteAsync();
+        var routeDeletionResult = await _context.Routes
+            .Where(r => r.Id == routeId)
+            .ExecuteDeleteAsync();
+
         if (routeDeletionResult > 0)
         {
             result.Succeeded = true;
@@ -80,15 +84,28 @@ internal class RouteService : IRouteService
         return result;
     }
 
-    private async Task<bool> DeleteRoutePointsAsync(Guid routeId)
+    public async Task<bool> DeleteUserRoutesAsync(Guid userId)
     {
-        var routePointsDeletionResult = await _context.RoutePoints.Where(rp => rp.RouteId == routeId).ExecuteDeleteAsync();
-        if (routePointsDeletionResult > 0)
+        var routes = await _context.Routes
+            .Where(r => r.UserId == userId)
+            .Select(r => r.Id)
+            .ToListAsync();
+
+        if (!routes.Any())
         {
             return true;
         }
 
-        return false;
+        foreach (var routeId in routes)
+        {
+            var result = await DeleteRouteAsync(routeId);
+            if (!result.Succeeded)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public async Task<ErrorDTO> SaveRoutePointAsync(JsonElement data)
@@ -118,5 +135,27 @@ internal class RouteService : IRouteService
         result.Succeeded = false;
         result.ErrorMessage.Add("", "Problem occurred while saving new route point");
         return result;
+    }
+
+    private async Task<bool> DeleteRoutePointsAsync(Guid routeId)
+    {
+        var hasRoutePoints = await _context.RoutePoints
+            .AnyAsync(rp => rp.RouteId == routeId);
+
+        if (!hasRoutePoints)
+        {
+            return true;
+        }
+
+        var routePointsDeletionResult = await _context.RoutePoints
+            .Where(rp => rp.RouteId == routeId)
+            .ExecuteDeleteAsync();
+
+        if (routePointsDeletionResult > 0)
+        {
+            return true;
+        }
+
+        return false;
     }
 }

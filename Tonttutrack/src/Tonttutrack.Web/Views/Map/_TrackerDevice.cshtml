@@ -6,10 +6,10 @@
 <div id="tracker-menu">
         <div class="tracker-content" id="connection-section">
             <form id="deviceConnectionForm">
+            <div class="text-danger formErrorMessage"></div>
                 <div class="form-group">
                     <label asp-for="Code" class="mb-1">Code</label>
                     <input asp-for="Code" class="form-control"/>
-                    <span asp-validation-for="Code" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
@@ -19,7 +19,6 @@
                         <input type="checkbox" id="togglePassword" class="form-check-input"/>
                         <label for="togglePassword" class="form-check-label">Show Password</label>
                     </div>
-                    <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
 
                 <button type="submit" class="btn btn-primary w-100">Connect</button>

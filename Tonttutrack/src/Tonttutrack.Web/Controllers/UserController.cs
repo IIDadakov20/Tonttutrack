@@ -13,8 +13,7 @@ public class UserController : Controller
 {
     private readonly IUserService _userService;
 
-    public UserController(
-        IUserService userService)
+    public UserController(IUserService userService)
     {
         _userService = userService;
     }
@@ -40,6 +39,20 @@ public class UserController : Controller
         }
 
         var identityResult = await _userService.ChangeUserPasswordAsync(passwordInfo);
+        return HandleIdentityResult(identityResult);
+    }
+
+    [HttpDelete("deleteUser")]
+    public async Task<IActionResult> DeleteUserAsync([FromBody]string password)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var identityResult = await _userService.DeleteUserAsync(password);
+        RedirectToAction("Index", "Home");
+
         return HandleIdentityResult(identityResult);
     }
 

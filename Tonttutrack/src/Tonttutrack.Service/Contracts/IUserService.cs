@@ -8,4 +8,6 @@ public interface IUserService
     Task<ErrorDTO> UpdateUserAsync(UserRequestDTO userInfo);
 
     Task<ErrorDTO> ChangeUserPasswordAsync(UserPasswordRequestDTO passwordInfo);
+
+    Task<ErrorDTO> DeleteUserAsync(string password);
 }
