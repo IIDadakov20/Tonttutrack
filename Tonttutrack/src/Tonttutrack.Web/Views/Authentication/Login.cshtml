@@ -2,37 +2,37 @@
 @model LoginDTO;
 
 @{
-    ViewData["Title"] = "Log in";
+ViewData["Title"] = "Log in";
 }
 
 <img src="~/assets/authenticationBackground.jpg" alt="Background Image" class="background-image" />
 <div class="col d-flex align-items-center justify-content-center form">
     <div class="col-md-4 cardBox p-4">
-        <h1 class="text-center p-1">@ViewData["Title"]</h1>
+        <h1 class="text-center p-1" data-translate="auth.login">Log in</h1>
         <hr />
         <form asp-action="Login" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="mb-3">
-                <label asp-for="Email" class="mb-1">Email</label>
+                <label asp-for="Email" class="mb-1" data-translate="auth.email">Email</label>
                 <input asp-for="Email" class="form-control" autocomplete="email" aria-required="true" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                <label asp-for="Password" class="mb-1">Password</label>
+                <label asp-for="Password" class="mb-1" data-translate="auth.password">Password</label>
                 <input asp-for="Password" type="password" class="form-control" autocomplete="new-password" aria-required="true" id="passwordInput" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <input type="checkbox" id="togglePassword" class="form-check-input" />
-                <label for="togglePassword" class="form-check-label">Show Password</label>
+                <label for="togglePassword" class="form-check-label" data-translate="auth.showPassword">Show Password</label>
             </div>
             <div class="row align-items-center">
                 <div class="col-8">
-                    <p class="m-0">New to Tonttutrack?</p>
-                    <a asp-action="Register" class="text-decoration-none float-start mt-0">Create an account</a>
+                    <p class="m-0" data-translate="auth.newToTonttutrack">New to Tonttutrack?</p>
+                    <a asp-action="Register" class="text-decoration-none float-start mt-0" data-translate="auth.createAccount">Create an account</a>
                 </div>
                 <div class="col-4">
-                    <button type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+                    <button type="submit" class="w-100 btn btn-lg btn-primary" data-translate="auth.login">Log in</button>
                 </div>
             </div>
         </form>
@@ -40,6 +40,6 @@
 </div>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-    <script src="~/js/togglePassword.js"></script>
+<partial name="_ValidationScriptsPartial" />
+<script src="~/js/togglePassword.js"></script>
 }

@@ -155,5 +155,24 @@ document.querySelectorAll('.language-option').forEach(option => {
 
         this.classList.remove('not-selected');
         this.classList.add('selected');
+
+        // Запазване на избрания език в localStorage
+        const selectedLanguage = this.querySelector('input').value;
+        localStorage.setItem("selectedLanguage", selectedLanguage);
     });
+
+    // Маркиране на избрания език при зареждане на страницата
+    const savedLanguage = localStorage.getItem("selectedLanguage") || "en";
+    const input = option.querySelector('input');
+    if (input.value === savedLanguage) {
+        option.classList.remove('not-selected');
+        option.classList.add('selected');
+        input.checked = true;
+    } else if (input.value === "en" && !localStorage.getItem("selectedLanguage")) {
+        // Ако няма запазен език, маркираме английски като избран по подразбиране
+        option.classList.remove('not-selected');
+        option.classList.add('selected');
+        input.checked = true;
+        localStorage.setItem("selectedLanguage", "en");
+    }
 });

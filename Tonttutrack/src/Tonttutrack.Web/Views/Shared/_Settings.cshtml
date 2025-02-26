@@ -15,10 +15,10 @@
                 <div id="account-name">@User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value</div>
                 <hr id="custom-dropdown-divider">
                 <a id="settingsButton" class="custom-dropdown-item dropdown-settings" href="javascript:void(0);">
-                    <i class="material-icons">settings</i> Settings
+                    <i class="material-icons">settings</i> <span data-translate="accountSettings.settings">Settings</span>
                 </a>
                 <a id="dropdown-log-out" class="custom-dropdown-item" asp-area="" asp-controller="Authentication" asp-action="Signout">
-                    <i class="material-icons">logout</i> Logout
+                    <i class="material-icons">logout</i> <span data-translate="accountSettings.logout">Logout</span>
                 </a>
             </div>
         </div>
@@ -29,14 +29,14 @@
 <div id="settingsPopup" class="popup hidden">
     <div id="popup-content">
         <div id="settings-header">
-            <h3 id="popup-title">Settings</h3>
+            <h3 id="popup-title" data-translate="accountSettings.settings">Settings</h3>
             <button id="closeSettingsPopup" class="close-popup">✕</button>
             <hr>
         </div>
 
         <!-- Тъмна тема -->
         <div id="theme-toggle">
-            <span class="theme-label"><i class="material-icons">dark_mode</i> Dark Theme</span>
+            <span class="theme-label"><i class="material-icons">dark_mode</i> <span data-translate="accountSettings.darkTheme">Dark Theme</span></span>
             <div id="theme-switch">
                 <input type="checkbox" id="themeToggle" class="theme-input">
                 <label for="themeToggle" class="theme-label">
@@ -47,7 +47,7 @@
 
         <!-- Език -->
         <div id="language-selection">
-            <span id="language-label"><i class="material-icons">translate</i> Language</span>
+            <span id="language-label"><i class="material-icons">translate</i> <span data-translate="accountSettings.language">Language</span></span>
             <div id="language-options">
                 <label for="lang-en" class="language-option not-selected">
                     EN
@@ -64,7 +64,7 @@
 
         <!-- Бутони за обновяване и изтриване на акаунт -->
         <button id="updateAccountButton" class="update-btn">
-            <i class="material-icons">person</i> Update Account Details
+            <i class="material-icons">person</i> <span data-translate="accountSettings.updateAccountDetails">Update Account Details</span>
         </button>
 
         <!-- Разкриване на полета за Update Account -->
@@ -72,23 +72,23 @@
             <form id="userUpdateForm" novalidate>
                 <div class="text-danger formErrorMessage"></div>
                 <div class="mb-3">
-                    <label asp-for="Item1.Username" class="mb-1">Username</label>
+                    <label asp-for="Item1.Username" class="mb-1" data-translate="accountSettings.username">Username</label>
                     <input asp-for="Item1.Username" id="newUserUsername" class="form-control" value="@User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value" />
                     <span asp-validation-for="Item1.Username" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    <label asp-for="Item1.Email" class="mb-1">Email</label>
+                    <label asp-for="Item1.Email" class="mb-1"data-translate="accountSettings.email">Email</label>
                     <input asp-for="Item1.Email" id="newUserEmail" class="form-control" value="@User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value" />
                     <span asp-validation-for="Item1.Email" class="text-danger"></span>
                 </div>
                 <div class="col-4">
-                    <button type="submit" class="submitButton btn btn-lg btn-primary">Update</button>
+                    <button type="submit" class="submitButton btn btn-lg btn-primary" data-translate="accountSettings.update">Update</button>
                 </div>
             </form>
         </div>
 
         <button id="updatePasswordFieldsButton" class="update-btn">
-            <i class="material-icons">lock</i> Change Account Password
+            <i class="material-icons">lock</i> <span data-translate="accountSettings.changeAccountPassword">Change Account Password</span>
         </button>
 
         <!-- Разкриване на полета за Update Password -->
@@ -96,28 +96,28 @@
             <form id="userPasswordUpdateForm" novalidate>
                 <div class="text-danger formErrorMessage"></div>
                 <div class="mb-3">
-                    <label asp-for="Item2.CurrentPassword" class="mb-1">Current Password</label>
+                    <label asp-for="Item2.CurrentPassword" class="mb-1" data-translate="accountSettings.currentPassword">Current Password</label>
                     <input asp-for="Item2.CurrentPassword" id="currentPassword" class="form-control" type="password" />
                     <span asp-validation-for="Item2.CurrentPassword" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    <label asp-for="Item2.NewPassword" class="mb-1">New Password</label>
+                    <label asp-for="Item2.NewPassword" class="mb-1" data-translate="accountSettings.newPassword">New Password</label>
                     <input asp-for="Item2.NewPassword" id="newPassword" class="form-control" type="password" />
                     <span asp-validation-for="Item2.NewPassword" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    <label asp-for="Item2.ConfirmPassword" class="mb-1">Confirm Password</label>
+                    <label asp-for="Item2.ConfirmPassword" class="mb-1" data-translate="accountSettings.confirmPassword">Confirm Password</label>
                     <input asp-for="Item2.ConfirmPassword" id="confirmPassword" class="form-control" type="password" />
                     <span asp-validation-for="Item2.ConfirmPassword" class="text-danger"></span>
                 </div>
                 <div class="col-4">
-                    <button type="submit" class="submitButton btn btn-lg btn-primary">Change</button>
+                    <button type="submit" class="submitButton btn btn-lg btn-primary" data-translate="accountSettings.change">Change</button>
                 </div>
             </form>
         </div>
 
         <button id="deleteAccountButton" class="delete-btn">
-            <i class="material-icons">delete</i> Delete Account
+            <i class="material-icons">delete</i> <span data-translate="accountSettings.deleteAccount">Delete Account</span>
         </button>
 
         <!-- Разкриване на поле за Delete Account -->
@@ -125,11 +125,11 @@
             <form id="userDeleteForm" novalidate>
                 <div class="text-danger formErrorMessage"></div>
                 <div class="mb-3">
-                    <label for="deletePassword" class="mb-1">Enter Password to Delete</label>
+                    <label for="deletePassword" class="mb-1" data-translate="accountSettings.enterPasswordToDelete">Enter Password to Delete</label>
                     <input type="password" id="deletePassword" class="form-control" />
                 </div>
                 <div class="col-4">
-                    <button type="submit" class="btn btn-lg btn-primary delete-account-button">Delete</button>
+                    <button type="submit" class="btn btn-lg btn-primary delete-account-button" data-translate="accountSettings.delete">Delete</button>
                 </div>
             </form>
         </div>

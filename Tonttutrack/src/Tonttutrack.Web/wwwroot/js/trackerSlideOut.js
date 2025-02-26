@@ -116,20 +116,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const connectionSection = document.getElementById("connection-section");
     const routesSection = document.getElementById("routes-section");
 
-    // Начално състояние: показване на секцията за свързване
     connectionSection.classList.remove("hidden");
     routesSection.classList.remove("visible");
 
-    // Превключване между двата режима
     toggleViewBtn.addEventListener("click", function () {
-        if (toggleViewBtn.textContent === "View Saved Routes") {
-            // Превключване към режим "View Live Tracking"
-            toggleViewBtn.textContent = "View Live Tracking";
+        const currentLang = localStorage.getItem("selectedLanguage") || "en"; // Вземи текущия език
+
+        if (toggleViewBtn.textContent === translations[currentLang].tracker.viewSavedRoutes) {
+            toggleViewBtn.textContent = translations[currentLang].tracker.viewLiveTracking;
             connectionSection.classList.add("hidden");
             routesSection.classList.add("visible");
         } else {
-            // Превключване към режим "View Saved Routes"
-            toggleViewBtn.textContent = "View Saved Routes";
+            toggleViewBtn.textContent = translations[currentLang].tracker.viewSavedRoutes;
             connectionSection.classList.remove("hidden");
             routesSection.classList.remove("visible");
         }
