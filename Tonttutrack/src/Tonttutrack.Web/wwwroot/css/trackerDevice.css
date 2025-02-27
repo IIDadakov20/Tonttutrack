@@ -235,6 +235,14 @@ input:-webkit-autofill{
     display: block;
 }
 
+#deviceInfoView.visible{
+    display: flex;
+}
+
+#deviceInfoView.hidden{
+    display: none!important;
+}
+
 #connection-section {
     display: block;
 }
@@ -245,6 +253,39 @@ input:-webkit-autofill{
 
 .btn-primary{
     font-size: 1.3rem!important;
+}
+
+#deviceInfoView {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start; /* Изравняваме елементите вляво */
+    justify-content: flex-start; /* Поставяме елементите в началото на контейнера */
+    border-radius: 8px; /* Закръгляме ъглите */
+    box-shadow: none;
+    width: 100%;
+}
+
+#save-route-name .material-icons {
+    vertical-align: text-bottom; /* Поставя иконката малко по-ниско, но не твърде надолу */
+    font-size: 1.5rem; /* Можете да настроите размера на иконката по ваше желание */
+}
+
+/* Стил за параграфите */
+#deviceInfoView p {
+    margin-bottom: 0.5rem; /* Малко разстояние между параграфите */
+    font-size: 1.25rem; /* Увеличаваме шрифта, за да е съответен с останалите */
+}
+
+/* Стил за бутоните */
+#deviceInfoView button {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1.25rem; /* Шрифтът ще бъде в същия размер като на бутона за свързване */
+    margin-top: 1rem; /* Добавяме малко разстояние между бутоните */
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 body {

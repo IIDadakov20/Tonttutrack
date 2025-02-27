@@ -19,15 +19,16 @@ $('#deviceConnectionForm').on('submit', function (e) {
                 sessionStorage.setItem('deviceCode', formData.Code)
                 sessionStorage.setItem('shouldInitReadRoutePoints', 'true');
                 sessionStorage.setItem('connectedDeviceName', response.deviceName);
-                //toggleDeviceViewMode();
                 readRoutePoints();
+                showDisconnect();
             }
         },
         error: function (xhr) {
             var error = xhr.responseJSON;
             var errorMessage = error.message;
             $('#deviceConnectionForm').find('.formErrorMessage').html(errorMessage);
-            document.getElementsByClassName("formErrorMessage")[3].style.display = "block";;
+            document.getElementsByClassName("formErrorMessage")[3].style.display = "block";
+            ;
         }
     });
 });
@@ -71,7 +72,7 @@ function readRoutePoints() {
             url: '/trackerDevice/readRoutePoint',
             type: 'GET',
             contentType: 'application/json',
-            data: { deviceCode: sessionStorage.getItem("deviceCode") },
+            data: {deviceCode: sessionStorage.getItem("deviceCode")},
             success: function (data) {
                 if (data === 'break') {
                     sessionStorage.removeItem('connectedDeviceName');
@@ -80,7 +81,7 @@ function readRoutePoints() {
                     if (marker) {
                         map.removeLayer(marker);
                     }
-                    //toggleDeviceViewMode();
+                    showConnect();
                     return;
                 }
 
@@ -111,7 +112,7 @@ function readRoutePoints() {
 window.addEventListener("load", () => {
     if (sessionStorage.getItem('shouldInitReadRoutePoints') === 'true') {
         readRoutePoints();
-        //toggleDeviceViewMode();
+        showDisconnect();
     }
 });
 
@@ -147,8 +148,7 @@ $('#userUpdateForm').on('submit', function (e) {
                     if (field == "") {
                         $('#userUpdateForm').find('.formErrorMessage').html(errorMessage);
                         document.getElementsByClassName("formErrorMessage")[0].style.display = "block";
-                    }
-                    else {
+                    } else {
                         // Find the span next to the input field and insert the error message
                         $('input[name="Item1.' + field + '"]').next('.text-danger').html(errorMessage);
                     }
@@ -179,7 +179,8 @@ $('#userPasswordUpdateForm').on('submit', function (e) {
         type: 'PATCH',
         contentType: 'application/json',
         data: JSON.stringify(formData),
-        success: function (response) { },
+        success: function (response) {
+        },
         error: function (xhr) {
             var errors = xhr.responseJSON;
 

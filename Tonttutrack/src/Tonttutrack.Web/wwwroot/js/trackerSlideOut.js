@@ -4,6 +4,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const recordButton = document.getElementById("record-btn");
     const togglePassword = document.getElementById("togglePassword");
     const passwordInput = document.querySelector("input[type='password']");
+    const connectButton = document.getElementById("connect-btn");
+    const disconnectButton = document.getElementById("disconnectButton");
+    const deviceConnectionForm = document.getElementById("deviceConnectionForm");
+    const deviceInfoView = document.getElementById("deviceInfoView");
 
     let isRecording = false;
 
@@ -13,16 +17,28 @@ document.addEventListener("DOMContentLoaded", function () {
         toggleMenu.classList.toggle("open");
         toggleMenu.classList.toggle("active"); // Добавяме/премахваме класа
     });
-    
+
     // Превключване между "Start Recording" и "Save Recording"
     recordButton.addEventListener("click", function () {
         isRecording = !isRecording;
         recordButton.textContent = isRecording ? "Save Recording" : "Start Recording";
     });
 
-    // Показване и скриване на паролата
-    togglePassword.addEventListener("change", function () {
-        passwordInput.type = this.checked ? "text" : "password";
+// При натискане на Connect бутон
+    connectButton.addEventListener("click", function (event) {
+        event.preventDefault(); // Предотвратява изпращането на формата
+        deviceConnectionForm.classList.add("hidden"); // Скрива формата за връзка
+        deviceInfoView.classList.remove("hidden"); // Показва информацията за устройството
+        deviceInfoView.classList.add("visible"); // Добавя видимост за информацията
+
+        document.getElementById("connectedDeviceName").innerText = sessionStorage.getItem('connectedDeviceName');
+    });
+
+// При натискане на Disconnect бутон
+    disconnectButton.addEventListener("click", function () {
+        deviceInfoView.classList.add("hidden"); // Скрива информацията за устройството
+        deviceConnectionForm.classList.remove("hidden"); // Показва формата за връзка
+        deviceConnectionForm.classList.add("visible"); // Добавя видимост за формата
     });
 });
 
@@ -35,8 +51,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const deleteRoute = document.getElementById("delete-route");
 
     let routes = [
-        { name: "Route 1", date: "24/02/2025", recording: false },
-        { name: "Route 2", date: "25/02/2025", recording: false }
+        {name: "Route 1", date: "24/02/2025", recording: false},
+        {name: "Route 2", date: "25/02/2025", recording: false}
     ];
     let activeRouteIndex = null;
 
@@ -48,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
             li.classList.add("route-item");
             if (activeRouteIndex === index) li.classList.add("active");
 
-            li.innerHTML = `
+            li.innerHTML =`
                 <div class="route-info">
                     <span class="route-name" data-index="${index}">${route.name}</span>
                     <span class="route-date">${route.date}</span>

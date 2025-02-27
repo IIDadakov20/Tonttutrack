@@ -21,16 +21,19 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary w-100" data-translate="tracker.connect">Connect</button>
+            <button type="submit" id="connect-btn" class="btn btn-primary w-100" data-translate="tracker.connect">Connect</button>
         </form>
 
-        <div class="tracker-btn">
+        <div id="deviceInfoView" class="hidden-info">
+            <p class="mb-1 fs-5">Connected Device</p>
+            <p id="connectedDeviceName" class="mb-1 fs-5">Connected Device</p>
+            <button id="disconnectButton" class="w-100 btn btn-lg btn-primary">Disconnect</button>
             <button id="record-btn" class="btn btn-primary w-100" data-translate="tracker.startRecording">Start recording</button>
         </div>
     </div>
 
     <!-- Съдържание за запазени маршрути и статистики -->
-    <div id="routes-section" class="hidden">
+    <div id="routes-section">
         <div class="tracker-routes">
             <h3 data-translate="tracker.savedRoutes">Saved Routes</h3>
             <ul id="route-list"></ul>
@@ -39,15 +42,17 @@
         <div id="route-statistics" class="hidden">
             <div class="route-header">
                 <span id="route-name-container" class="route-name-container">
-                    <input id="route-name-input" type="text" class="route-name-input" placeholder="Route Name" data-translate="tracker.routeName" />
-                    <button id="save-route-name" class="btn btn-primary" data-translate="tracker.save">Save</button>
+                    <input id="route-name-input" type="text" class="route-name-input" placeholder="Route Name" data-translate="tracker.routeName"/>
+                    <button id="save-route-name" class="btn btn-primary">
+                        <span class="material-icons">save</span> <!-- Иконка на дискета -->
+                    </button>
                 </span>
             </div>
             <p data-translate="tracker.duration">Duration: <span id="route-duration">00:00:00</span></p>
             <p data-translate="tracker.distance">Distance: <span id="route-distance">0 km</span></p>
             <p data-translate="tracker.avgSpeed">Avg. Speed: <span id="route-avg-speed">0 km/h</span></p>
             <p data-translate="tracker.topSpeed">Top Speed: <span id="route-top-speed">0 km/h</span></p>
-            <button id="delete-route" class="btn btn-danger" data-translate="tracker.deleteRoute">Delete Route</button>
+            <button id="delete-route" class="btn btn-danger btn-lg" data-translate="tracker.deleteRoute">Delete Route</button>
         </div>
     </div>
 
@@ -57,7 +62,7 @@
     <button id="toggle-menu">
         <svg class="svg-icon" style="width: 1em; height: 1em; vertical-align: middle; fill: currentColor; overflow: hidden; transition: transform 0.3s ease;"
              viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
-            <path d="M768 785.066667a17.015467 17.015467 0 0 1-12.066133-5.000534l-256-256a17.0496 17.0496 0 0 1 0-24.132266l256-256a17.0496 17.0496 0 1 1 24.132266 24.132266L536.132267 512l243.933866 243.933867A17.0496 17.0496 0 0 1 768 785.066667z m-256 0a17.015467 17.015467 0 0 1-12.066133-5.000534l-256-256a17.0496 17.0496 0 0 1 0-24.132266l256-256a17.0496 17.0496 0 1 1 24.132266 24.132266L280.132267 512l243.933866 243.933867A17.0496 17.0496 0 0 1 512 785.066667z" />
+            <path d="M768 785.066667a17.015467 17.015467 0 0 1-12.066133-5.000534l-256-256a17.0496 17.0496 0 0 1 0-24.132266l256-256a17.0496 17.0496 0 1 1 24.132266 24.132266L536.132267 512l243.933866 243.933867A17.0496 17.0496 0 0 1 768 785.066667z m-256 0a17.015467 17.015467 0 0 1-12.066133-5.000534l-256-256a17.0496 17.0496 0 0 1 0-24.132266l256-256a17.0496 17.0496 0 1 1 24.132266 24.132266L280.132267 512l243.933866 243.933867A17.0496 17.0496 0 0 1 512 785.066667z"/>
         </svg>
     </button>
 </div>
