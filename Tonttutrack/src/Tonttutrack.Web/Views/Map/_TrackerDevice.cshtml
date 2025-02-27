@@ -32,21 +32,30 @@
         </div>
     </div>
 
-    <!-- Съдържание за запазени маршрути и статистики -->
     <div id="routes-section">
         <div class="tracker-routes">
             <h3 data-translate="tracker.savedRoutes">Saved Routes</h3>
             <ul id="route-list"></ul>
+            <!-- Навигация -->
+            <div class="pagination-controls">
+                <button id="prev-page" class="nav-button" disabled>
+                    <span class="material-icons">chevron_left</span>
+                </button>
+                <span id="page-indicator">1</span>
+                <button id="next-page" class="nav-button">
+                    <span class="material-icons">chevron_right</span>
+                </button>
+            </div>
         </div>
 
         <div id="route-statistics" class="hidden">
             <div class="route-header">
-                <span id="route-name-container" class="route-name-container">
-                    <input id="route-name-input" type="text" class="route-name-input" placeholder="Route Name" data-translate="tracker.routeName"/>
-                    <button id="save-route-name" class="btn btn-primary">
-                        <span class="material-icons">save</span> <!-- Иконка на дискета -->
-                    </button>
-                </span>
+            <span id="route-name-container" class="route-name-container">
+                <input id="route-name-input" type="text" class="route-name-input" placeholder="Route Name" data-translate="tracker.routeName"/>
+                <button id="save-route-name" class="btn btn-primary">
+                    <span class="material-icons">save</span>
+                </button>
+            </span>
             </div>
             <p data-translate="tracker.duration">Duration: <span id="route-duration">00:00:00</span></p>
             <p data-translate="tracker.distance">Distance: <span id="route-distance">0 km</span></p>

@@ -1,10 +1,3 @@
-:root {
-    --light-gray: #ddd;
-    --active-route: #a0c4ff;
-    --text-muted: gray;
-    --box-shadow-color: rgba(0, 0, 0, 0.2);
-}
-
 /* Основен стил за менюто */
 #tracker-menu {
     position: fixed;
@@ -105,9 +98,8 @@ input:-webkit-autofill{
 }
 
 .tracker-routes {
-    max-height: 250px;
-    overflow-y: auto;
-    padding: 1rem;
+    max-height: 28.12rem;
+    padding: 0.5rem 1rem;
     background: var(--light-gray);
     border-radius: 10px;
     box-shadow: 0 0 5px var(--box-shadow-color);
@@ -124,7 +116,7 @@ input:-webkit-autofill{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
+    padding: 0.5rem 1rem;
     margin-bottom: 0.5rem;
     background: var(--white);
     border-radius: 10px;
@@ -132,7 +124,7 @@ input:-webkit-autofill{
 }
 
 .route-item:hover {
-    background: var(--light-gray);
+    background: var(--disabled-background);
 }
 
 .route-item.active {
@@ -162,6 +154,41 @@ input:-webkit-autofill{
     color: red;
 }
 
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.2rem 1rem 0 1rem;
+    gap: 1rem;
+}
+
+.nav-button {
+    cursor: pointer;
+    background-color: var(--white);
+    color: var(--text-color);
+    padding: 0.5rem 1rem 0.2rem 1rem;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    box-shadow: 0 0 5px var(--box-shadow-color);
+    transition: background-color 0.3s ease;
+}
+
+.nav-button:hover {
+    background-color: var(--light-gray);
+}
+
+.nav-button:disabled {
+    background: var(--light-gray);
+    color: var(--light-gray);
+    border: none;
+    box-shadow: none;
+}
+
+#page-indicator {
+    font-weight: bold;
+}
+
 .hidden {
     display: none;
 }
@@ -170,7 +197,7 @@ input:-webkit-autofill{
 #route-statistics {
     max-height: 70vh;
     overflow-y: auto;
-    padding: 20px;
+    padding: 1.25rem;
 }
 
 .route-header {

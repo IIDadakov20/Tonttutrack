@@ -42,81 +42,128 @@ document.addEventListener("DOMContentLoaded", function () {
     const routeNameInput = document.getElementById("route-name-input");
     const saveRouteName = document.getElementById("save-route-name");
     const deleteRoute = document.getElementById("delete-route");
+    const prevPageButton = document.getElementById("prev-page");
+    const nextPageButton = document.getElementById("next-page");
+    const pageIndicator = document.getElementById("page-indicator");
 
     let routes = [
         {name: "Route 1", date: "24/02/2025", recording: false},
-        {name: "Route 2", date: "25/02/2025", recording: false}
+        {name: "Route 2", date: "25/02/2025", recording: false},
+        {name: "Route 3", date: "26/02/2025", recording: false},
+        {name: "Route 4", date: "27/02/2025", recording: false},
+        {name: "Route 5", date: "28/02/2025", recording: false},
+        {name: "Route 6", date: "01/03/2025", recording: false},
+        {name: "Route 7", date: "01/03/2025", recording: false},
+        {name: "Route 8", date: "01/03/2025", recording: false},
+        {name: "Route 9", date: "01/03/2025", recording: false},
+        {name: "Route 10", date: "01/03/2025", recording: false},
     ];
-    let activeRouteIndex = null;
+    let activeRouteName = null;
+    let currentPage = 1;
+    const routesPerPage = 4;
 
-    // Зареждане на маршрутите в списъка
     function loadRoutes() {
-        routeList.innerHTML = ""; // Изчистване на текущия списък
-        routes.forEach((route, index) => {
+        routeList.innerHTML = "";
+        const start = (currentPage - 1) * routesPerPage;
+        const end = start + routesPerPage;
+        const paginatedRoutes = routes.slice(start, end);
+
+        paginatedRoutes.forEach((route, index) => {
             const li = document.createElement("li");
             li.classList.add("route-item");
-            if (activeRouteIndex === index) li.classList.add("active");
+            if (route.name === activeRouteName) {
+                li.classList.add("active");
+            }
 
             li.innerHTML =`
                 <div class="route-info">
-                    <span class="route-name" data-index="${index}">${route.name}</span>
+                    <span class="route-name" data-index="${start + index}">${route.name}</span>
                     <span class="route-date">${route.date}</span>
                 </div>
-                <span class="route-toggle material-icons" data-index="${index}">
+                <span class="route-toggle material-icons" data-index="${start + index}">
                     ${route.recording ? "stop" : "play_arrow"}
                 </span>
             `;
 
-            // Клик върху маршрут
             li.addEventListener("click", function () {
-                if (activeRouteIndex === index) {
+                if (route.name === activeRouteName) {
                     // Ако маршрутът вече е активен, деактивирай го
-                    activeRouteIndex = null;
+                    activeRouteName = null;
                     li.classList.remove("active");
                     routeStatistics.classList.add("hidden");
                 } else {
                     // Деактивирай предишния активен маршрут
-                    if (activeRouteIndex !== null) {
-                        const prevActiveRoute = routeList.children[activeRouteIndex];
-                        prevActiveRoute.classList.remove("active");
+                    if (activeRouteName !== null) {
+                        const prevActiveLi = routeList.querySelector(".route-item.active");
+                        if (prevActiveLi) prevActiveLi.classList.remove("active");
                     }
 
                     // Активирай текущия маршрут
-                    activeRouteIndex = index;
+                    activeRouteName = route.name;
                     li.classList.add("active");
-                    showStatistics(route); // Покажи статистиките за маршрута
+                    showStatistics(route);
                 }
             });
 
-            routeList.appendChild(li); // Добави маршрута в списъка
+            routeList.appendChild(li);
         });
+
+        updatePaginationControls();
     }
 
-    // Показване на статистиките за избрания маршрут
     function showStatistics(route) {
-        routeStatistics.classList.remove("hidden"); // Покажи секцията със статистики
-        routeNameInput.value = route.name; // Зареди името на маршрута в input полето
+        routeStatistics.classList.remove("hidden");
+        routeNameInput.value = route.name;
     }
 
-    // Запазване на новото име на маршрута
+    function updatePaginationControls() {
+        const totalPages = Math.ceil(routes.length / routesPerPage);
+        pageIndicator.textContent = `${currentPage} / ${totalPages}`;
+        prevPageButton.disabled = currentPage === 1;
+        nextPageButton.disabled = currentPage === totalPages;
+    }
+
+    prevPageButton.addEventListener("click", function () {
+        if (currentPage > 1) {
+            currentPage--;
+            loadRoutes();
+        }
+    });
+
+    nextPageButton.addEventListener("click", function () {
+        if (currentPage < Math.ceil(routes.length / routesPerPage)) {
+            currentPage++;
+            loadRoutes();
+        }
+    });
+
     saveRouteName.addEventListener("click", function () {
-        if (routeNameInput.value.trim() !== "" && activeRouteIndex !== null) {
-            routes[activeRouteIndex].name = routeNameInput.value; // Обнови името на маршрута
-            loadRoutes(); // Презареди списъка с маршрути
+        if (routeNameInput.value.trim() !== "" && activeRouteName !== null) {
+            const activeRoute = routes.find(route => route.name === activeRouteName);
+            if (activeRoute) {
+                activeRoute.name = routeNameInput.value;
+                activeRouteName = activeRoute.name; // Актуализираме името на активния маршрут
+                loadRoutes();
+            }
         }
     });
 
-    // Изтриване на маршрут
     deleteRoute.addEventListener("click", function () {
-        if (activeRouteIndex !== null) {
-            routes.splice(activeRouteIndex, 1); // Премахни маршрута от списъка
-            activeRouteIndex = null; // Нулирай активния индекс
-            routeStatistics.classList.add("hidden"); // Скрий статистиките
-            loadRoutes(); // Презареди списъка с маршрути
+        if (activeRouteName !== null) {
+            routes = routes.filter(route => route.name !== activeRouteName);
+            activeRouteName = null;
+            routeStatistics.classList.add("hidden");
+
+            // Проверка дали текущата страница е празна
+            const totalPages = Math.ceil(routes.length / routesPerPage);
+            if (currentPage > totalPages) {
+                currentPage = totalPages; // Връщане към предишната страница
+            }
+
+            loadRoutes();
         }
     });
 
-    // Зареди маршрутите при първоначално зареждане на страницата
     loadRoutes();
 });
 

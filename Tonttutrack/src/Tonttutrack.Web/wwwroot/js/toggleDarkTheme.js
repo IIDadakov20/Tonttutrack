@@ -12,7 +12,7 @@ window.enableDarkTheme=function() {
 
     // Промяна на стойностите за тракера
     document.documentElement.style.setProperty('--light-gray', '#444444');
-    document.documentElement.style.setProperty('--active-route', '#1a1a1a');
+    document.documentElement.style.setProperty('--active-route', '#415359');
     document.documentElement.style.setProperty('--text-muted', '#aaaaaa');
     document.documentElement.style.setProperty('--box-shadow-color', 'rgba(64,22,22,0.2)');
 
@@ -59,8 +59,8 @@ window.disableDarkTheme=function () {
     document.documentElement.style.setProperty('--white', 'white');
 
     // Връщане на стойностите за тракера
-    document.documentElement.style.setProperty('--light-gray', '#ddd');
-    document.documentElement.style.setProperty('--active-route', '#a0c4ff');
+    document.documentElement.style.setProperty('--light-gray', '#e9f3ef');
+    document.documentElement.style.setProperty('--active-route', '#94d4e4');
     document.documentElement.style.setProperty('--text-muted', 'gray');
     document.documentElement.style.setProperty('--box-shadow-color', 'rgba(0, 0, 0, 0.2)');
 
