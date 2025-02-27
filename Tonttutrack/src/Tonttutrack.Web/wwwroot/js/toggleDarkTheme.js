@@ -36,7 +36,8 @@ window.enableDarkTheme=function() {
     document.documentElement.style.setProperty('--disabled-color', '#b3b3b3');
     document.documentElement.style.setProperty('--negative-text-color', '#0E080B');
     document.documentElement.style.setProperty('--default-language-options-color', '#ccc');
-
+    document.documentElement.style.setProperty(' --disabled-hover', '#F2F7F6FF');
+    
     document.documentElement.style.setProperty('--input-bg', '#222222');
 
     //изображения
@@ -83,6 +84,7 @@ window.disableDarkTheme=function () {
     document.documentElement.style.setProperty('--disabled-color', '#7f7f7f');
     document.documentElement.style.setProperty('--negative-text-color', 'white');
     document.documentElement.style.setProperty('--default-language-options-color', '#333');
+    document.documentElement.style.setProperty(' --disabled-hover', '#F2F7F6FF');
 
     document.documentElement.style.setProperty('--input-bg', 'rgba(255, 255, 255, 0.5)');
 
@@ -94,6 +96,12 @@ window.disableDarkTheme=function () {
 document.addEventListener('DOMContentLoaded', function () {
     const themeToggle = document.getElementById('themeToggle');
     const logOutButton = document.getElementById('dropdown-log-out');
+   const navLogin=document.getElementById('nav-login');
+
+    if (navLogin) {
+        disableDarkTheme(); // Принудително задаване на светла тема
+        localStorage.setItem('theme', 'light'); // Запазване на светлата тема в localStorage
+    }
     
     // Проверка за запазена тема в localStorage
     const savedTheme = localStorage.getItem('theme');
@@ -112,16 +120,6 @@ document.addEventListener('DOMContentLoaded', function () {
             localStorage.setItem('theme', 'light');
         }
         if (window.updateAccountLogo) {
-            window.updateAccountLogo();
-        }
-    });
-
-    logOutButton.addEventListener('click', () => {
-        disableDarkTheme();
-        localStorage.setItem('theme', 'light');
-
-        // Ръчно актуализиране на снимката на акаунта
-        if (typeof window.updateAccountLogo === 'function') {
             window.updateAccountLogo();
         }
     });

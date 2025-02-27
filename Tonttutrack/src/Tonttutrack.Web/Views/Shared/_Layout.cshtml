@@ -4,10 +4,12 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewData["Title"] | Tonttutrack</title>
+    <link rel="icon" type="image/x-icon" href="~/logo.ico">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/Tonttutrack.Web.styles.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/css/authenticationForms.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/accountSettings.css" asp-append-version="true"/>
 </head>
 <body>
 <header>
@@ -27,15 +29,29 @@
                         <a class="nav-link text-dark" asp-area="" asp-controller="Map" asp-action="MapTrackerLayout" data-translate="layout.map">Map</a>
                     </li>
                 </ul>
-                @if (User.Identity == null || !User.Identity.IsAuthenticated) {
-                <ul class="navbar-nav">
-                    <li class="nav-item mx-sm-3 fs-5">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Authentication" asp-action="Login" data-translate="layout.logIn">Log in</a>
-                    </li>
-                </ul>
+                @if (User.Identity == null || !User.Identity.IsAuthenticated)
+                {
+                    <div id="nav-login">
+                        <div id="language-options">
+                            <label for="lang-en" class="language-option not-selected">
+                                EN
+                                <input type="radio" id="lang-en" name="language" value="en" class="language-input">
+                            </label>
+                            <label for="lang-bg" class="language-option not-selected">
+                                BG
+                                <input type="radio" id="lang-bg" name="language" value="bg" class="language-input">
+                            </label>
+                        </div>
+                        <ul class="navbar-nav">
+                            <li class="nav-item mx-sm-3 fs-5">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Authentication" asp-action="Login" data-translate="layout.logIn">Log in</a>
+                            </li>
+                        </ul>
+                    </div>
                 }
-                else {
-                @await Html.PartialAsync("_Settings")
+                else
+                {
+                    @await Html.PartialAsync("_Settings")
                 }
             </div>
         </div>
@@ -53,7 +69,8 @@
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
 <script src="~/js/toggleDarkTheme.js"></script>
-<script src="~/js/toggleLanguage.js"></script>    
+<script src="~/js/toggleLanguage.js"></script>
+<script src="~/js/accountSettings.js" asp-append-version="true"></script>
 @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

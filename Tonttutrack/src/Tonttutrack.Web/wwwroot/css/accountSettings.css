@@ -5,6 +5,7 @@
     --disabled-color: #7f7f7f;
     --negative-text-color: white;
     --default-language-options-color: #333;
+    --disabled-hover: #F2F7F6FF;
 }
 
 /* Dropdown */
@@ -270,7 +271,7 @@ html.blur-scrollbar::-webkit-scrollbar-thumb {
 }
 
 .disabled:hover {
-    color: var(--background-color);
+    color: var(--disabled-hover);
 }
 
 #theme-toggle {

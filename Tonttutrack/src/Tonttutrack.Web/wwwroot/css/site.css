@@ -81,3 +81,8 @@ a{
 .btn{
     color: white!important;
 }
+
+#nav-login{
+    display:flex;
+    flex-direction: row;
+}

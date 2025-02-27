@@ -22,7 +22,8 @@ const translations = {
             alreadyHaveAccount: "Already have an account?",
             signIn: "Sign in",
             username: "Username",
-            confirmPassword: "Confirm Password"
+            confirmPassword: "Confirm Password",
+            registerAccount: "Sign up"
         },
         accountSettings: {
             settings: "Settings",
@@ -48,6 +49,7 @@ const translations = {
             showPassword: "Show Password",
             connect: "Connect",
             startRecording: "Start recording",
+            saveRecording: "Save recording",
             savedRoutes: "Saved Routes",
             routeName: "Route Name",
             duration: "Duration",
@@ -56,7 +58,8 @@ const translations = {
             topSpeed: "Top Speed",
             deleteRoute: "Delete Route",
             viewSavedRoutes: "View Saved Routes",
-            viewLiveTracking: "View Live Tracking"
+            viewLiveTracking: "View Live Tracking",
+            disconnect: "Disconnect"
         },
         layout: {
             home: "Home",
@@ -68,7 +71,7 @@ const translations = {
     bg: {
         homePage: {
             heroHeading: "GPS проследяване в реално време и статистики на маршрути.",
-            heroLead: "ООткрийте най-добрия инструмент за точна навигация. Нашата лесна за използване уеб апликация предлага комбинация от GPS проследяване в реално време и статистики на маршрути.",
+            heroLead: "Открийте най-добрия инструмент за точна навигация. Нашата лесна за използване уеб апликация предлага комбинация от GPS проследяване в реално време и статистики на маршрути.",
             joinForFree: "Присъединете се безплатно",
             connect: "Свързване",
             track: "Проследяване",
@@ -88,7 +91,8 @@ const translations = {
             alreadyHaveAccount: "Вече имате акаунт?",
             signIn: "Вход в съществуващ акаунт",
             username: "Потребителско име",
-            confirmPassword: "Потвърди парола"
+            confirmPassword: "Потвърди парола",
+            registerAccount: "Създай"
         },
         accountSettings: {
             settings: "Настройки",
@@ -114,6 +118,7 @@ const translations = {
             showPassword: "Покажи парола",
             connect: "Свързване",
             startRecording: "Стартирай запис",
+            saveRecording: "Запази запис",
             savedRoutes: "Запазени маршрути",
             routeName: "Име на маршрута",
             duration: "Продължителност",
@@ -123,6 +128,7 @@ const translations = {
             deleteRoute: "Изтрий маршрут",
             viewSavedRoutes: "Виж запазени маршрути",
             viewLiveTracking: "Проследяване на живо",
+            disconnect: "Спри връзка"
         },
         layout: {
             home: "Начало",

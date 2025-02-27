@@ -174,7 +174,7 @@ main {
 }
 
 /* Media Queries */
-@media (max-width: 1300px) {
+@media (max-width: 1200px) {
     .hero-content {
         max-width: 100%; /* Поставя ограничение на ширината на контейнера */
         margin: 0 auto; /* Центрира контейнера */
@@ -189,6 +189,10 @@ main {
         padding: 2rem; /* Увеличава вътрешните отстояния */
         width: 40%;
         height: auto; /* Позволява височината да се адаптира към съдържанието */
+    }
+    
+    .hero-heading{
+        font-size: 2.3rem;
     }
 
     .hero-btn {
@@ -245,7 +249,7 @@ main {
     }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 992px) {
     .hero-container {
         max-width: 100%; /* Намалява ширината на контейнера */
         margin: 0 auto; /* Центрира контейнера */
@@ -319,7 +323,7 @@ main {
 }
 
 
-@media (max-width: 650px) {
+@media (max-width: 768px) {
     /* Премахване на градиент и добавяне на светъл цвят за hero section */
     .hero-section {
         background: linear-gradient(to right, #ebf5ef 65%, #ebf5ef 35%);
