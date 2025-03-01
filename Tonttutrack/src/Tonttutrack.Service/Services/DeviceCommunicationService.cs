@@ -45,34 +45,62 @@ internal class DeviceCommunicationService : IDeviceCommunicationService
         await _mqttClient.SubscribeAsync("statistics/" + deviceCode + "/latitude");
         await _mqttClient.SubscribeAsync("statistics/" + deviceCode + "/longitude");
 
-        _mqttClient.ApplicationMessageReceivedAsync += m =>
+        _mqttClient.ApplicationMessageReceivedAsync -= OnMessageReceived;
+        _mqttClient.ApplicationMessageReceivedAsync += OnMessageReceived;
+
+        return true;
+    }
+
+    private Task OnMessageReceived(MqttApplicationMessageReceivedEventArgs m)
+    {
+        string receivedTopic = m.ApplicationMessage.Topic.Substring(m.ApplicationMessage.Topic.IndexOf('/') + 1);
+        string message = Encoding.UTF8.GetString(m.ApplicationMessage.PayloadSegment);
+        _routePoints.TryAdd(receivedTopic, message);
+        return Task.CompletedTask;
+    }
+
+    public async Task<bool> DisconnectFromBrokerAsync(string deviceCode)
+    {
+        if (this._mqttClient.IsConnected)
         {
-            string receivedTopic = m.ApplicationMessage.Topic.Substring(m.ApplicationMessage.Topic.IndexOf('/') + 1);
-            string message = Encoding.UTF8.GetString(m.ApplicationMessage.PayloadSegment);
-            _routePoints.TryAdd(receivedTopic, message);
-            return Task.CompletedTask;
-        };
+            await _mqttClient.UnsubscribeAsync("statistics/" + deviceCode + "/speed");
+            await _mqttClient.UnsubscribeAsync("statistics/" + deviceCode + "/latitude");
+            await _mqttClient.UnsubscribeAsync("statistics/" + deviceCode + "/longitude");
+
+            await _mqttClient.DisconnectAsync();
+        }
+
+        var topics = _routePoints.Keys.Where(k => k.Contains(deviceCode)).ToList();
+        foreach (var topic in topics)
+        {
+            _routePoints.TryRemove(topic, out _);
+        }
+
+        _mqttClient.ApplicationMessageReceivedAsync -= OnMessageReceived;
 
         return true;
     }
 
     public RoutePointDTO? GetRoutePointData(string deviceCode)
     {
-        var topics = new List<string>
-        {
-            $"{deviceCode}/speed",
-            $"{deviceCode}/latitude",
-            $"{deviceCode}/longitude"
-        };
+        var topics = _routePoints.Keys.Where(k => k.Contains(deviceCode)).ToList();
 
-        if (_routePoints[topics[1]] != "0" &&
-            _routePoints[topics[2]] != "0")
+        if (!topics.Any())
+        {
+            return null;
+        }
+
+        _routePoints.TryGetValue(topics.FirstOrDefault(k => k.Contains("speed"))!, out var speed);
+        _routePoints.TryGetValue(topics.FirstOrDefault(k => k.Contains("latitude"))!, out var latitude);
+        _routePoints.TryGetValue(topics.FirstOrDefault(k => k.Contains("longitude"))!, out var longitude);
+
+        if (latitude != "0" && longitude != "0")
         {
             var result = new RoutePointDTO
             {
-                Latitude = decimal.Parse(_routePoints[topics[1]]),
-                Longitude = decimal.Parse(_routePoints[topics[2]]),
-                CurrentSpeed = decimal.Parse(_routePoints[topics[0]])
+                Latitude = decimal.Parse(latitude!),
+                Longitude = decimal.Parse(longitude!),
+                CurrentSpeed = decimal.Parse(speed!)
             };
 
             foreach (var topic in topics)

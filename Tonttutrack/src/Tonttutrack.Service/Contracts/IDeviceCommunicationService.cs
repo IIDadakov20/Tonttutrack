@@ -6,7 +6,7 @@ public interface IDeviceCommunicationService
 {
     Task<bool> ConnectToBrokerAsync(string deviceCode);
 
-    RoutePointDTO? GetRoutePointData(string deviceCode);
+    Task<bool> DisconnectFromBrokerAsync(string deviceCode);
 
-    //Task<bool> DisconnectDeviceAsync();
+    RoutePointDTO? GetRoutePointData(string deviceCode);
 }

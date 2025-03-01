@@ -3,8 +3,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const slideOut = document.getElementById("tracker-menu");
     const togglePassword = document.getElementById("togglePassword");
     const passwordInput = document.querySelector("input[type='password']");
-    const connectButton = document.getElementById("connect-btn");
-    const disconnectButton = document.getElementById("disconnectButton");
     const deviceConnectionForm = document.getElementById("deviceConnectionForm");
     const deviceInfoView = document.getElementById("deviceInfoView");
 
@@ -16,26 +14,8 @@ document.addEventListener("DOMContentLoaded", function () {
         toggleMenu.classList.toggle("open");
         toggleMenu.classList.toggle("active"); // Добавяме/премахваме класа
     });
-
-// При натискане на Connect бутон
-    connectButton.addEventListener("click", function (event) {
-        event.preventDefault(); // Предотвратява изпращането на формата
-        deviceConnectionForm.classList.add("hidden"); // Скрива формата за връзка
-        deviceInfoView.classList.remove("hidden"); // Показва информацията за устройството
-        deviceInfoView.classList.add("visible"); // Добавя видимост за информацията
-
-        document.getElementById("connectedDeviceName").innerText = sessionStorage.getItem('connectedDeviceName');
-    });
-
-// При натискане на Disconnect бутон
-    disconnectButton.addEventListener("click", function () {
-        deviceInfoView.classList.add("hidden"); // Скрива информацията за устройството
-        deviceConnectionForm.classList.remove("hidden"); // Показва формата за връзка
-        deviceConnectionForm.classList.add("visible"); // Добавя видимост за формата
-    });
 });
 
-// JavaScript част
 document.addEventListener("DOMContentLoaded", function () {
     const routeList = document.getElementById("route-list");
     const routeStatistics = document.getElementById("route-statistics");

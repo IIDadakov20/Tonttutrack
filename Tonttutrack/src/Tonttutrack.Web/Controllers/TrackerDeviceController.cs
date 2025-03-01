@@ -53,6 +53,19 @@ public class TrackerDeviceController : Controller
         return Json(response);
     }
 
+    [HttpDelete("disconnectDevice")]
+    public async Task<IActionResult> DisconnectDeviceAsync([FromBody] string deviceCode)
+    {
+        bool deviceIsDisconnected = await _deviceCommunicationService.DisconnectFromBrokerAsync(deviceCode);
+
+        if (!deviceIsDisconnected)
+        {
+            return BadRequest(new { message = "Problem occurred while disconnecting your device." });
+        }
+
+        return Ok();
+    }
+
     [HttpPost("createRoute")]
     public async Task<IActionResult> CreateRouteAsync()
     {
@@ -96,17 +109,4 @@ public class TrackerDeviceController : Controller
             routePoint.CurrentSpeed
         });
     }
-
-    /*[HttpDelete("disconnectDevice")]
-    public async Task<IActionResult> DisconnectDeviceAsync()
-    {
-        bool deviceIsDisconnected = await _deviceCommunicationService.DisconnectDeviceAsync();
-
-        if (!deviceIsDisconnected)
-        {
-            return BadRequest(new { message = "Problem occurred while disconnecting your device." });
-        }
-
-        return Json(true);
-    }*/
 }
