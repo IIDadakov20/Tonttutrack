@@ -17,18 +17,16 @@ $('#deviceConnectionForm').on('submit', function (e) {
         contentType: 'application/json',
         data: JSON.stringify(formData),
         success: function (response) {
-            if (response.success === true) {
-                sessionStorage.setItem('deviceCode', formData.Code)
-                sessionStorage.setItem('shouldInitReadRoutePoints', 'true');
-                sessionStorage.setItem('connectedDeviceName', response.deviceName);
-                readRoutePoints();
-                showDisconnect();
-            }
+            sessionStorage.setItem('deviceCode', formData.Code)
+            sessionStorage.setItem('shouldInitReadRoutePoints', 'true');
+            sessionStorage.setItem('connectedDeviceName', response);
+            readRoutePoints();
+            showDisconnect();
         },
         error: function (xhr) {
-            let error = xhr.responseJSON;
-            let errorMessage = error.message;
-            $(this).find('.formErrorMessage').html(errorMessage).show();
+            let errorMessage = xhr.responseJSON.message;
+            $('#deviceConnectionForm').find('.formErrorMessage')
+                .html(errorMessage).show(); 
         },
         complete: function () {
             $('#connect-btn').prop('disabled', false);
@@ -49,7 +47,7 @@ $('#disconnectButton').on('click', function (e) {
 
     let deviceCode = sessionStorage.getItem("deviceCode");
 
-    $('#deviceConnectionForm .text-danger').html('');
+    $('#deviceInfoView .text-danger').html('');
 
     $(this).find('#disconnectButton').prop('disabled', true);
 
@@ -57,7 +55,7 @@ $('#disconnectButton').on('click', function (e) {
         url: '/trackerDevice/disconnectDevice',
         type: 'DELETE',
         contentType: 'application/json',
-        data: JSON.stringify(deviceCode),
+        data: JSON.stringify(encodeURIComponent(deviceCode)),
         success: function () {
             sessionStorage.removeItem('deviceCode');
             sessionStorage.removeItem('shouldInitReadRoutePoints');
@@ -65,9 +63,9 @@ $('#disconnectButton').on('click', function (e) {
             showConnect();
         },
         error: function (xhr) {
-            let error = xhr.responseJSON;
-            let errorMessage = error.message;
-            $(this).find('.formErrorMessage').html(errorMessage).show();
+            let errorMessage = xhr.responseJSON.message;
+            $('#deviceInfoView').find('.formErrorMessage')
+                .html(errorMessage).show(); 
         },
         complete: function () {
             $('#disconnectButton').prop('disabled', false);
@@ -91,19 +89,8 @@ function readRoutePoints() {
             url: '/trackerDevice/readRoutePoint',
             type: 'GET',
             contentType: 'application/json',
-            data: { deviceCode: sessionStorage.getItem("deviceCode") },
+            data: { deviceCode: encodeURIComponent(sessionStorage.getItem("deviceCode"))},
             success: function (data) {
-                if (sessionStorage.getItem('shouldInitReadRoutePoints') != 'true') {
-                    sessionStorage.removeItem('connectedDeviceName');
-                    sessionStorage.removeItem('deviceCode')
-                    clearInterval(intervalId);
-                    if (marker) {
-                        map.removeLayer(marker);
-                    }
-                    showConnect();
-                    return;
-                }
-
                 if (sessionStorage.getItem("routeRecord")) {
                     saveRoutePoint(data);
                 }
@@ -120,8 +107,20 @@ function readRoutePoints() {
                 }
             },
             error: function (xhr) {
-                console.error(xhr.responseJSON?.message || 'Error reading route points.');
-            }
+                if (sessionStorage.getItem('shouldInitReadRoutePoints') != 'true') {
+                    sessionStorage.removeItem('connectedDeviceName');
+                    sessionStorage.removeItem('deviceCode')
+
+                    clearInterval(intervalId);
+
+                    if (marker) {
+                        map.removeLayer(marker);
+                    }
+
+                    showConnect();
+                    return;
+                }
+            },
         });
     }, 2000);
 }

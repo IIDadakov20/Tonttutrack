@@ -1,5 +1,5 @@
-﻿@using Tonttutrack.Web.Models;
-@model DeviceConnectionViewModel;
+﻿@using Tonttutrack.Domain.DTOs.Request;
+@model DeviceRequestDTO
 
 <link rel="stylesheet" href="~/css/trackerDevice.css" asp-append-version="true"/>
 
@@ -29,6 +29,7 @@
             <p id="connectedDeviceName" class="mb-1 fs-5">Connected Device</p>
             <button id="disconnectButton" class="w-100 btn btn-lg btn-primary" data-translate="tracker.disconnect">Disconnect</button>
             <button id="record-btn" class="btn btn-primary w-100" data-translate="tracker.startRecording">Start recording</button>
+            <div class="text-danger formErrorMessage"></div>
         </div>
     </div>
 

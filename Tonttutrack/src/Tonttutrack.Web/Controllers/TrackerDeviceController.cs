@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Tonttutrack.Service.Contracts;
 using Tonttutrack.Domain.DTOs.Response;
-using Tonttutrack.Web.Models;
 using System.Text.Json;
+using System.Web;
+using Tonttutrack.Domain.DTOs.Request;
 
 namespace Tonttutrack.Web.Controllers;
 
@@ -26,37 +27,24 @@ public class TrackerDeviceController : Controller
     }
 
     [HttpPost("connectDevice")]
-    public async Task<IActionResult> ConnectDeviceAsync([FromBody] DeviceConnectionViewModel userInput)
+    public async Task<IActionResult> ConnectDeviceAsync([FromBody] DeviceRequestDTO deviceInfo)
     {
-        bool areCredentialsValid = await _deviceService.VerifyDeviceCredentialsAsync(userInput.Code, userInput.Password);
+        var deviceIsConnected = await _deviceCommunicationService.ConnectToBrokerAsync(deviceInfo);
 
-        if (!areCredentialsValid)
+        if (!deviceIsConnected.Succeeded)
         {
-            return BadRequest(new { message = "Invalid device code or password." });
+            return BadRequest(new { message = deviceIsConnected.ErrorMessage.Values });
         }
 
-        bool deviceIsConnected = await _deviceCommunicationService.ConnectToBrokerAsync(userInput.Code);
-
-        if (!deviceIsConnected)
-        {
-            return BadRequest(new {message = "Problem occurred while connecting to your device." });
-        }
-
-        string? deviceName = await _deviceService.FetchConnectedDeviceNameAsync(userInput.Code);
-
-        var response = new
-        {
-            Success = true,
-            DeviceName = deviceName
-        };
-
-        return Json(response);
+        return Ok(deviceIsConnected.ErrorMessage.Values);
     }
 
     [HttpDelete("disconnectDevice")]
     public async Task<IActionResult> DisconnectDeviceAsync([FromBody] string deviceCode)
     {
-        bool deviceIsDisconnected = await _deviceCommunicationService.DisconnectFromBrokerAsync(deviceCode);
+        var code = HttpUtility.UrlDecode(deviceCode);
+
+        bool deviceIsDisconnected = await _deviceCommunicationService.DisconnectFromBrokerAsync(code);
 
         if (!deviceIsDisconnected)
         {
@@ -95,11 +83,13 @@ public class TrackerDeviceController : Controller
     [HttpGet("readRoutePoint")]
     public async Task<IActionResult> ReadFromDeviceAsync([FromQuery] string deviceCode)
     {
-        RoutePointDTO? routePoint = _deviceCommunicationService.GetRoutePointData(deviceCode);
+        var code = HttpUtility.UrlDecode(deviceCode);
+
+        RoutePointDTO? routePoint = _deviceCommunicationService.GetRoutePointData(code);
 
         if (routePoint == null)
         {
-            return Json(new { message = "No Data" });
+            return BadRequest(new { message = "No data" });
         }
 
         return Json(new

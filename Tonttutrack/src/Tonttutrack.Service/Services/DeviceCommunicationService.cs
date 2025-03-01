@@ -6,6 +6,8 @@ using Tonttutrack.Service.Contracts;
 using Tonttutrack.Domain.DTOs.Response;
 using System.Text;
 using System.Collections.Concurrent;
+using Tonttutrack.Domain.DTOs.Request;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Tonttutrack.Service.Services;
 
@@ -16,9 +18,14 @@ internal class DeviceCommunicationService : IDeviceCommunicationService
     private const string _mqttBrokerAddress = "192.168.0.102";
     private const int _mqttBrokerPort = 1883;
     private readonly ConcurrentDictionary<string, string> _routePoints = new();
+    private readonly IServiceProvider _serviceProvider;
 
-    public DeviceCommunicationService(IHttpContextAccessor httpContextAccessor)
+    public DeviceCommunicationService(
+        IHttpContextAccessor httpContextAccessor,
+        IServiceProvider serviceProvider)
     {
+        _serviceProvider = serviceProvider;
+
         string clientId = httpContextAccessor.HttpContext.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value!;
 
         var factory = new MqttFactory();
@@ -31,24 +38,48 @@ internal class DeviceCommunicationService : IDeviceCommunicationService
             .Build();
     }
 
-    public async Task<bool> ConnectToBrokerAsync(string deviceCode)
+    public async Task<ErrorDTO> ConnectToBrokerAsync(DeviceRequestDTO deviceInfo)
     {
-        if (!this._mqttClient.IsConnected)
+        var result = new ErrorDTO();
+
+        using (var scope = _serviceProvider.CreateScope())
         {
-            var connectResult = await this._mqttClient.ConnectAsync(_options);
+            var deviceService = scope.ServiceProvider.GetRequiredService<IDeviceService>();
 
-            if (connectResult.ResultCode != MqttClientConnectResultCode.Success)
-                return false;
+            bool areCredentialsValid = await deviceService.VerifyDeviceCredentialsAsync(deviceInfo.Code, deviceInfo.Password);
+
+            if (!areCredentialsValid)
+            {
+                result.Succeeded = false;
+                result.ErrorMessage.Add("", "Invalid device code or password.");
+                return result;
+            }
+
+            if (!this._mqttClient.IsConnected)
+            {
+                var connectResult = await this._mqttClient.ConnectAsync(_options);
+
+                if (connectResult.ResultCode != MqttClientConnectResultCode.Success)
+                {
+                    result.Succeeded = false;
+                    result.ErrorMessage.Add("", "Problem occurred while connecting to your device.");
+                    return result;
+                }
+            }
+
+            await _mqttClient.SubscribeAsync("statistics/" + deviceInfo.Code + "/speed");
+            await _mqttClient.SubscribeAsync("statistics/" + deviceInfo.Code + "/latitude");
+            await _mqttClient.SubscribeAsync("statistics/" + deviceInfo.Code + "/longitude");
+
+            _mqttClient.ApplicationMessageReceivedAsync -= OnMessageReceived;
+            _mqttClient.ApplicationMessageReceivedAsync += OnMessageReceived;
+
+            string? deviceName = await deviceService.FetchConnectedDeviceNameAsync(deviceInfo.Code);
+
+            result.Succeeded = true;
+            result.ErrorMessage.Add("", $"{deviceName}");
+            return result;
         }
-
-        await _mqttClient.SubscribeAsync("statistics/" + deviceCode + "/speed");
-        await _mqttClient.SubscribeAsync("statistics/" + deviceCode + "/latitude");
-        await _mqttClient.SubscribeAsync("statistics/" + deviceCode + "/longitude");
-
-        _mqttClient.ApplicationMessageReceivedAsync -= OnMessageReceived;
-        _mqttClient.ApplicationMessageReceivedAsync += OnMessageReceived;
-
-        return true;
     }
 
     private Task OnMessageReceived(MqttApplicationMessageReceivedEventArgs m)
