@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Tonttutrack.Service.Contracts;
 using Tonttutrack.Domain.DTOs.Response;
-using System.Text.Json;
 using System.Web;
 using Tonttutrack.Domain.DTOs.Request;
 
@@ -13,17 +12,10 @@ namespace Tonttutrack.Web.Controllers;
 public class TrackerDeviceController : Controller
 {
     private readonly IDeviceCommunicationService _deviceCommunicationService;
-    private readonly IDeviceService _deviceService;
-    private readonly IRouteService _routeService;
 
-    public TrackerDeviceController(
-        IDeviceCommunicationService deviceCommunicationService,
-        IDeviceService deviceService,
-        IRouteService routeService)
+    public TrackerDeviceController(IDeviceCommunicationService deviceCommunicationService)
     {
         _deviceCommunicationService = deviceCommunicationService;
-        _deviceService = deviceService;
-        _routeService = routeService;
     }
 
     [HttpPost("connectDevice")]
@@ -52,32 +44,6 @@ public class TrackerDeviceController : Controller
         }
 
         return Ok();
-    }
-
-    [HttpPost("createRoute")]
-    public async Task<IActionResult> CreateRouteAsync()
-    {
-        var routeCreationResult = await _routeService.CreateRouteAsync();
-
-        if (!routeCreationResult.Succeeded)
-        {
-            return BadRequest();
-        }
-
-        return Json(routeCreationResult.ErrorMessage.Values);
-    }
-
-    [HttpPost("saveRoutePoint")]
-    public async Task<IActionResult> ReadFromDeviceAsync([FromBody] JsonElement data)
-    {
-        var routePointSaved = await _routeService.SaveRoutePointAsync(data);
-
-        if (!routePointSaved.Succeeded)
-        {
-            return BadRequest();
-        }
-
-        return Json(true);
     }
 
     [HttpGet("readRoutePoint")]

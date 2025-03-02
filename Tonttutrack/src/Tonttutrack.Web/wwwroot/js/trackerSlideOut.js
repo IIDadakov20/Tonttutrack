@@ -1,12 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     const toggleMenu = document.getElementById("toggle-menu");
     const slideOut = document.getElementById("tracker-menu");
-    const togglePassword = document.getElementById("togglePassword");
-    const passwordInput = document.querySelector("input[type='password']");
-    const deviceConnectionForm = document.getElementById("deviceConnectionForm");
-    const deviceInfoView = document.getElementById("deviceInfoView");
-
-    let isRecording = false;
 
     // Отваряне и затваряне на менюто
     toggleMenu.addEventListener("click", function () {
@@ -168,42 +162,4 @@ document.addEventListener("DOMContentLoaded", function () {
             routesSection.classList.remove("visible");
         }
     });
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-    // Селектиране на бутона за запис
-    const recordButton = document.getElementById("record-btn");
-
-    // Проверка дали бутонът съществува в DOM-а
-    if (recordButton) {
-        let isRecording = false; // Състояние на записа
-
-        // Функция за актуализиране на текста на бутона
-        function updateRecordButtonText() {
-            const currentLang = localStorage.getItem("selectedLanguage") || "en"; // Вземане на текущия език
-            const buttonText = isRecording
-                ? translations[currentLang].tracker.saveRecording
-                : translations[currentLang].tracker.startRecording;
-            recordButton.textContent = buttonText; // Актуализиране на текста
-        }
-
-        // Превключване между "Start Recording" и "Save Recording" при кликване
-        recordButton.addEventListener("click", function () {
-            isRecording = !isRecording; // Превключване на състоянието
-            updateRecordButtonText(); // Актуализиране на текста
-        });
-
-        // Актуализиране на текста на бутона при смяна на езика
-        const languageOptions = document.querySelectorAll('.language-option input[type="radio"]');
-        languageOptions.forEach(option => {
-            option.addEventListener("change", function () {
-                updateRecordButtonText(); // Актуализиране на текста при смяна на езика
-            });
-        });
-
-        // Инициализиране на текста на бутона при зареждане на страницата
-        updateRecordButtonText();
-    } else {
-        console.warn("Бутонът за запис (record-btn) не е намерен в DOM-а.");
-    }
 });

@@ -144,37 +144,3 @@ $('#userDeleteForm').on('submit', function (e) {
         }
     });
 });
-
-document.getElementById('record-btn').addEventListener('click', () => {
-    $.ajax({
-        type: 'POST',
-        url: '/trackerDevice/createRoute',
-        contentType: 'application/json',
-        success: function (response) {
-            sessionStorage.setItem('routeRecord', true);
-            sessionStorage.setItem('route', response);
-        },
-        error: function (status, error) {
-            console.error('Error:', status, error);
-        }
-    });
-});
-
-function saveRoutePoint(routePoint) {
-    $.ajax({
-        type: 'POST',
-        url: '/trackerDevice/saveRoutePoint',
-        contentType: 'application/json',
-        data: JSON.stringify({
-            route: sessionStorage.getItem('route'),
-            routePoint: routePoint
-        }),
-        success: function (response) {
-            console.log('Success:', response);
-            sessionStorage.setItem('lastRoutePoint', routePoint);
-        },
-        error: function (status, error) {
-            console.error('Error:', status, error);
-        }
-    });
-}

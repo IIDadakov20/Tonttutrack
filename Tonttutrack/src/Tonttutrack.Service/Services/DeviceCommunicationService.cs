@@ -57,12 +57,19 @@ internal class DeviceCommunicationService : IDeviceCommunicationService
 
             if (!this._mqttClient.IsConnected)
             {
-                var connectResult = await this._mqttClient.ConnectAsync(_options);
+                try
+                {
+                    var connectResult = await this._mqttClient.ConnectAsync(_options);
 
-                if (connectResult.ResultCode != MqttClientConnectResultCode.Success)
+                    if (connectResult.ResultCode != MqttClientConnectResultCode.Success)
+                    {
+                        throw new Exception();
+                    }
+                }
+                catch
                 {
                     result.Succeeded = false;
-                    result.ErrorMessage.Add("", "Problem occurred while connecting to your device.");
+                    result.ErrorMessage.Add("", "Connection failed.");
                     return result;
                 }
             }

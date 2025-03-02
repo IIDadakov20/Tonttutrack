@@ -118,7 +118,7 @@ const translations = {
             showPassword: "Покажи парола",
             connect: "Свързване",
             startRecording: "Стартирай запис",
-            saveRecording: "Запази запис",
+            saveRecording: "Запази маршрут",
             savedRoutes: "Запазени маршрути",
             routeName: "Име на маршрута",
             duration: "Продължителност",

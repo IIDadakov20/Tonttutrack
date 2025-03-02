@@ -130,4 +130,8 @@ $(window).on('load', function () {
         readRoutePoints();
         showDisconnect();
     }
+
+    if (sessionStorage.getItem('routeRecord') === 'true') {
+        toggleRouteRecord();
+    }
 });

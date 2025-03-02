@@ -108,17 +108,3 @@ input#togglePassword:focus {
 #deviceConnectionForm, #deviceInfoView {
     height: auto;
 }
-
-@media (max-width: 767px) {
-    .card {
-        margin: 1rem;
-    }
-
-    #deviceConnectionForm > div {
-        margin-bottom: 1rem;
-    }
-
-    #map {
-        height: 75% !important;
-    }
-}
