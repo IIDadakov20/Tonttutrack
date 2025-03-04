@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Tonttutrack.Domain.DTOs.Request;
 using Tonttutrack.Service.Contracts;
 
 namespace Tonttutrack.Web.Controllers;
@@ -27,6 +28,19 @@ public class RouteController : Controller
         }
 
         return Json(routeCreationResult.ErrorMessage.Values);
+    }
+
+    [HttpPatch("updateRoute")]
+    public async Task<IActionResult> UpdateRouteAsync([FromBody]RouteRequestDTO route)
+    {
+        var routeUpdateResult = await _routeService.UpdateRouteAsync(route);
+
+        if (!routeUpdateResult.Succeeded)
+        {
+            return BadRequest();
+        }
+
+        return Ok();
     }
 
     [HttpGet("getRoutes")]

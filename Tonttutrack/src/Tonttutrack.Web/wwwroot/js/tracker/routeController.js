@@ -1,4 +1,5 @@
-﻿$('#record-btn').on('click', function () {
+﻿// Стартира запис на маршрут
+$('#record-btn').on('click', function () {
     $('#deviceInfoView .text-danger').html('');
 
     $(this).find('#record-btn').prop('disabled', true);
@@ -23,6 +24,36 @@
     });
 });
 
+// Запази маршрут
+$('#saveRecord-btn').on('click', function () {
+    $('#deviceInfoView .text-danger').html('');
+
+    $(this).find('#saveRecord-btn').prop('disabled', true);
+
+    sessionStorage.removeItem('routeRecord');
+    $.ajax({
+        type: 'PATCH',
+        url: '/route/updateRoute',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            Id: sessionStorage.getItem('route'),
+            Name: "new"
+        }),
+        success: function () {
+            sessionStorage.removeItem('route');
+            toggleRouteRecord();
+        },
+        error: function (xhr) {
+            sessionStorage.setItem('routeRecord', true);
+            let errorMessage = xhr.responseJSON.message;
+            $('#deviceInfoView').find('.formErrorMessage')
+                .html(errorMessage).show();
+        },
+        complete: function () {
+            $('#saveRecord-btn').prop('disabled', false);
+        }
+    });
+});
 function toggleRouteRecord() {
     if (sessionStorage.getItem('routeRecord') === 'true') {
         $('#saveRecord-btn').removeClass('hidden').addClass('visible');

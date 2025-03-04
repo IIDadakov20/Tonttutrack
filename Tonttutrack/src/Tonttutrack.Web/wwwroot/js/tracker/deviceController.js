@@ -103,10 +103,10 @@ function readRoutePoints() {
                     marker = L.marker([data.latitude, data.longitude]);
                     marker.bindPopup(`${data.latitude} <br> ${data.longitude} <br> ${data.currentSpeed}`).openPopup();
                     map.addLayer(marker);
-                    map.setView(new L.LatLng(data.latitude, data.longitude), 16);
+                    map.setView(new L.LatLng(data.latitude, data.longitude));
                 }
             },
-            error: function (xhr) {
+            error: function () {
                 if (sessionStorage.getItem('shouldInitReadRoutePoints') != 'true') {
                     sessionStorage.removeItem('connectedDeviceName');
                     sessionStorage.removeItem('deviceCode')
