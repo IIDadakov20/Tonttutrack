@@ -42,7 +42,14 @@ window.enableDarkTheme=function() {
 
     //изображения
     const homepageImage = document.getElementById('homepageImage');
-    homepageImage.src = `${window.location.origin}/assets/homepagePhotoDark.jpg`;
+    const photoSection1 = document.getElementById('step-one');
+    const photoSection2 = document.getElementById('step-two');
+    const photoSection3 = document.getElementById('step-three');
+
+    homepageImage.src = `${window.location.origin}/assets/homepagePhotoDark.webp`;
+    photoSection1.src = `${window.location.origin}/assets/photoSection1Dark.webp`;
+    photoSection2.src = `${window.location.origin}/assets/photoSection2Dark.webp`;
+    photoSection3.src = `${window.location.origin}/assets/photoSection3Dark.webp`;
 
 }
 
@@ -90,7 +97,14 @@ window.disableDarkTheme=function () {
 
     //изображения
     const homepageImage = document.getElementById('homepageImage');
-    homepageImage.src = `${window.location.origin}/assets/homepagePhotoLight.jpg`;
+    const photoSection1 = document.getElementById('step-one');
+    const photoSection2 = document.getElementById('step-two');
+    const photoSection3 = document.getElementById('step-three');
+
+    homepageImage.src = `${window.location.origin}/assets/homepagePhotoLight.webp`;
+    photoSection1.src = `${window.location.origin}/assets/photoSection1Light.webp`;
+    photoSection2.src = `${window.location.origin}/assets/photoSection2Light.webp`;
+    photoSection3.src = `${window.location.origin}/assets/photoSection3Light.webp`;
 }
 
 document.addEventListener('DOMContentLoaded', function () {

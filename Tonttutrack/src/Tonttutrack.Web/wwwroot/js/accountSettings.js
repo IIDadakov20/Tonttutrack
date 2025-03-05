@@ -26,7 +26,6 @@ document.addEventListener("DOMContentLoaded", function() {
     function enableScroll() {
         document.body.style.position = "";
         document.body.style.top = "";
-        window.scrollTo(0, scrollY);
         document.documentElement.classList.remove("blur-scrollbar");
     }
 
