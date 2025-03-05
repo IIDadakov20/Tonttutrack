@@ -27,8 +27,6 @@ internal class RouteService : IRouteService
 
     public async Task<List<RouteResponseDTO>> GetUserRoutesAsync(int pageNumber)
     {
-        var result = new ErrorDTO();
-
         var user = (await _userManager.FindByEmailAsync(_currentUserService.CurrentUser.Email))!;
 
         var skip = (pageNumber - 1) * 3;
@@ -36,6 +34,7 @@ internal class RouteService : IRouteService
         return await _context.Routes
             .Where(r => r.UserId == user.Id)
             .OrderBy(r => r.Date)
+            .ThenBy(r => r.Id)
             .Skip(skip)
             .Take(3)
             .Select(r => new RouteResponseDTO
@@ -49,6 +48,15 @@ internal class RouteService : IRouteService
             })
             .ToListAsync()
             .ConfigureAwait(false);
+    }
+
+    public async Task<int> GetUserRoutesNumberAsync()
+    {
+        var user = (await _userManager.FindByEmailAsync(_currentUserService.CurrentUser.Email))!;
+
+        return await _context.Routes
+            .Where(r => r.UserId == user.Id)
+            .CountAsync();
     }
 
     public async Task<ErrorDTO> CreateRouteAsync()

@@ -9,6 +9,8 @@ public interface IRouteService
 {
     Task<List<RouteResponseDTO>> GetUserRoutesAsync(int pageNumber);
 
+    Task<int> GetUserRoutesNumberAsync();
+
     Task<ErrorDTO> CreateRouteAsync();
 
     Task<ErrorDTO> UpdateRouteAsync(RouteRequestDTO route);

@@ -43,6 +43,19 @@ public class RouteController : Controller
         return Ok();
     }
 
+    [HttpGet("getRoutesNumber")]
+    public async Task<IActionResult> GetUserRoutesNumberAsync()
+    {
+        int routesNumber = await _routeService.GetUserRoutesNumberAsync();
+
+        if (routesNumber == 0)
+        {
+            return BadRequest(new { message = "No routes found" });
+        }
+
+        return Ok(routesNumber);
+    }
+
     [HttpGet("getRoutes")]
     public async Task<IActionResult> GetUserRoutesAsync([FromQuery]int pageNumber)
     {
@@ -53,7 +66,7 @@ public class RouteController : Controller
             return BadRequest(new { message = "No routes found" });
         }
 
-        return Json(routes);
+        return Ok(routes);
     }
 
     [HttpPost("saveRoutePoint")]

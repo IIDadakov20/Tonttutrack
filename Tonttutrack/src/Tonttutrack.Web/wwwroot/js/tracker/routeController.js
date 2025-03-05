@@ -54,6 +54,7 @@ $('#saveRecord-btn').on('click', function () {
         }
     });
 });
+
 function toggleRouteRecord() {
     if (sessionStorage.getItem('routeRecord') === 'true') {
         $('#saveRecord-btn').removeClass('hidden').addClass('visible');
@@ -80,6 +81,28 @@ function saveRoutePoint(routePoint) {
         },
         error: function (status, error) {
             console.error('Error:', status, error);
+        }
+    });
+}
+
+function fetchUserRoutes(pageNumber) {
+    return $.ajax({
+        url: '/route/getRoutes',
+        type: 'GET',
+        contentType: 'application/json',
+        data: { pageNumber: pageNumber }
+    }).fail(function () {
+        console.error('Failed to fetch routes');
+    });
+}
+
+function fetchUserRoutesNumber() {
+    $.ajax({
+        url: '/route/getRoutesNumber',
+        type: 'GET',
+        contentType: 'application/json',
+        success: function (response) {
+            sessionStorage.setItem('totalRoutes', response);
         }
     });
 }

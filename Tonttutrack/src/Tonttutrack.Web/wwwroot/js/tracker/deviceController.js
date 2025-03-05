@@ -17,7 +17,7 @@ $('#deviceConnectionForm').on('submit', function (e) {
         contentType: 'application/json',
         data: JSON.stringify(formData),
         success: function (response) {
-            sessionStorage.setItem('deviceCode', formData.Code)
+            sessionStorage.setItem('deviceCode', formData.Code);
             sessionStorage.setItem('shouldInitReadRoutePoints', 'true');
             sessionStorage.setItem('connectedDeviceName', response);
             readRoutePoints();
