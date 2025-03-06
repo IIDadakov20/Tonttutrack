@@ -28,22 +28,28 @@ $("#toggle-view-btn").on("click", function () {
 
 function setupPaginationControls() {
     $("#prev-page").on("click", function () {
+        $(this).prop('disabled', true);
+
         if (currentPage > 1) {
             currentPage--;
             fetchAndRenderRoutes();
         }
+        $(this).prop('disabled', false);
     });
 
     $("#next-page").on("click", function () {
+        $(this).prop('disabled', true);
+
         if (currentPage < Math.ceil(sessionStorage.getItem('totalRoutes') / routesPerPage)) {
             currentPage++;
             fetchAndRenderRoutes();
         }
+        $(this).prop('disabled', false);
     });
 }
 
 function fetchAndRenderRoutes() {
-    fetchUserRoutes(currentPage).then(fetchedRoutes => {
+    fetchUserRoutes(currentPage).done(function (fetchedRoutes) {
         fetchedRoutes.forEach(route => {
             if (!routes.some(r => r.id === route.id)) {
                 routes.push(route);
@@ -114,6 +120,9 @@ function handleRouteClick(route, listItem) {
 function showStatistics(route) {
     $("#route-statistics").removeClass("hidden");
     $("#route-name-input").val(route.name);
+    $("#route-duration").text(route.duration);
+    $("#route-distance").text(route.distance + " km");
+    $("#route-top-speed").text(route.topSpeed + " km/h");
 }
 
 function updatePaginationControls() {

@@ -16,5 +16,7 @@ public class RouteResponseDTO
 
     public TimeSpan Duration { get; set; }
 
+    public decimal TopSpeed { get; set; }
+
     public ICollection<RoutePoint> RoutePoints { get; set; } = null!;
 }

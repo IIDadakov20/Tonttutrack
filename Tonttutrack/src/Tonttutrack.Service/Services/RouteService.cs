@@ -45,6 +45,7 @@ internal class RouteService : IRouteService
                 Distance = r.Distance,
                 Duration = r.Duration,
                 RoutePoints = r.RoutePoints,
+                TopSpeed = r.RoutePoints.Any() ? r.RoutePoints.Max(rp => rp.CurrentSpeed) : 0
             })
             .ToListAsync()
             .ConfigureAwait(false);

@@ -85,12 +85,15 @@ function readRoutePoints() {
     let marker;
 
     let intervalId = setInterval(function () {
+        $('#deviceInfoView .text-danger').html('');
+
         $.ajax({
             url: '/trackerDevice/readRoutePoint',
             type: 'GET',
             contentType: 'application/json',
             data: { deviceCode: encodeURIComponent(sessionStorage.getItem("deviceCode"))},
             success: function (data) {
+                sessionStorage.setItem('recordAccess', true);
                 if (sessionStorage.getItem("routeRecord")) {
                     saveRoutePoint(data);
                 }
@@ -106,20 +109,23 @@ function readRoutePoints() {
                     map.setView(new L.LatLng(data.latitude, data.longitude));
                 }
             },
-            error: function () {
+            error: function (xhr) {
+                sessionStorage.removeItem('recordAccess');
+                if (marker) {
+                    map.removeLayer(marker);
+                }
+
                 if (sessionStorage.getItem('shouldInitReadRoutePoints') != 'true') {
                     sessionStorage.removeItem('connectedDeviceName');
                     sessionStorage.removeItem('deviceCode')
 
                     clearInterval(intervalId);
-
-                    if (marker) {
-                        map.removeLayer(marker);
-                    }
-
                     showConnect();
                     return;
                 }
+                let errorMessage = xhr.responseJSON.message;
+                $('#deviceInfoView').find('.formErrorMessage')
+                    .html(errorMessage).show(); 
             },
         });
     }, 2000);

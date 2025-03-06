@@ -37,10 +37,10 @@ public class RouteController : Controller
 
         if (!routeUpdateResult.Succeeded)
         {
-            return BadRequest();
+            return BadRequest(new { message = "Problem occured during route update" });
         }
 
-        return Ok();
+        return Ok(true);
     }
 
     [HttpGet("getRoutesNumber")]
@@ -70,15 +70,15 @@ public class RouteController : Controller
     }
 
     [HttpPost("saveRoutePoint")]
-    public async Task<IActionResult> ReadFromDeviceAsync([FromBody] JsonElement data)
+    public async Task<IActionResult> SaveRoutePointAsync([FromBody] JsonElement data)
     {
         var routePointSaved = await _routeService.SaveRoutePointAsync(data);
 
         if (!routePointSaved.Succeeded)
         {
-            return BadRequest();
+            return BadRequest(new { message = "Problem occured with route point saving" });
         }
 
-        return Json(true);
+        return Ok(new { message = "Route point saved" });
     }
 }

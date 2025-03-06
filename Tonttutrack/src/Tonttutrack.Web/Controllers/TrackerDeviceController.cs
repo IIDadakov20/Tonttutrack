@@ -55,10 +55,10 @@ public class TrackerDeviceController : Controller
 
         if (routePoint == null)
         {
-            return BadRequest(new { message = "No data" });
+            return BadRequest(new { message = "Unable to read route point. Please ensure your device is connected." });
         }
 
-        return Json(new
+        return Ok(new
         {
             routePoint.Latitude,
             routePoint.Longitude,
