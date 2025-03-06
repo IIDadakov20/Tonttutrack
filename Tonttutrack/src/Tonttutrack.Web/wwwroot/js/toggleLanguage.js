@@ -48,6 +48,7 @@ const translations = {
             password: "Password",
             showPassword: "Show Password",
             connect: "Connect",
+            connectedDevice: "Connected Device",
             startRecording: "Start recording",
             saveRecording: "Save recording",
             savedRoutes: "Saved Routes",
@@ -117,6 +118,7 @@ const translations = {
             password: "Парола",
             showPassword: "Покажи парола",
             connect: "Свързване",
+            connectedDevice: "Свързано устройство",
             startRecording: "Стартирай запис",
             saveRecording: "Запази маршрут",
             savedRoutes: "Запазени маршрути",
@@ -142,6 +144,7 @@ const translations = {
 document.addEventListener("DOMContentLoaded", function () {
     const languageOptions = document.querySelectorAll('.language-option input[type="radio"]');
 
+    // смяна на езика на страницата
     function changeLanguage(lang) {
         document.querySelectorAll("[data-translate]").forEach(element => {
             const key = element.getAttribute("data-translate");
@@ -158,11 +161,13 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.setItem("selectedLanguage", lang);
     }
 
+    // Променяме езика при зареждане на страницата според запазения език
     const savedLanguage = localStorage.getItem("selectedLanguage") || "en";
     changeLanguage(savedLanguage);
 
     document.querySelector(`input[type="radio"][value="${savedLanguage}"]`).checked = true;
 
+    // За всяка опция за език добавяме събитие, което сменя езика при промяна
     languageOptions.forEach(option => {
         option.addEventListener("change", function () {
             const selectedLanguage = this.value;

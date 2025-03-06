@@ -1,13 +1,9 @@
+﻿/* Основни стилове за страницата */
 .form {
     display: flex;
     justify-content: center;
     min-height: 100vh;
     width: 100%; 
-}
-
-input{
-    background-color: var(--white)!important;
-    color: var(--text-color);
 }
 
 .background-image {
@@ -21,7 +17,7 @@ input{
     filter: blur(5px) brightness(1);
 }
 
-/* Card styling */
+/* стил на форми за автентикация */
 .cardBox {
     align-self: start;
     position: relative;
@@ -73,7 +69,7 @@ button.btn-primary:focus:active {
     box-shadow: 0 0 0 0;
 }
 
-/* Link styling */
+/*  Стилове за опции */
 a.text-decoration-none {
     color: var(--secondary-color);
     text-decoration: none;

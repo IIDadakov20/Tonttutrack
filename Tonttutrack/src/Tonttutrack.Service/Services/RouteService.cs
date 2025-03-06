@@ -33,7 +33,7 @@ internal class RouteService : IRouteService
 
         return await _context.Routes
             .Where(r => r.UserId == user.Id)
-            .OrderBy(r => r.Date)
+            .OrderByDescending(r => r.Date)
             .ThenBy(r => r.Id)
             .Skip(skip)
             .Take(3)

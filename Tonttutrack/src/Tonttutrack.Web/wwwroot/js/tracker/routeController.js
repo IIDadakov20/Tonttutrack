@@ -149,9 +149,11 @@ $("#save-route-name ").on("click", function () {
                 renderRoutes();
             }
         });
+        $(this).find('#save-route-name').prop('disabled', false);
     }
 });
 
+// заявка за обновяване на име на маршрут към сървара
 function updateRouteName(currentRoute, name) {
     return $.ajax({
         type: 'PATCH',
@@ -167,5 +169,53 @@ function updateRouteName(currentRoute, name) {
             $('#routes-section').find('.formErrorMessage')
                 .html(errorMessage).show();
         },
+    });
+}
+
+// изтриване на маршрут
+$("#delete-route").on("click", function () {
+    $('#routes-section .text-danger').html('');
+
+    $(this).prop('disabled', true);
+
+    if (activeRoute !== null) {
+        const currentRoute = routes.find(route => route.id === activeRoute);
+        if (!currentRoute) {
+            $('#routes-section').find('.formErrorMessage')
+                .html("Problem occurred during route deletion").show();
+            return;
+        }
+
+        deleteRouteRequest(currentRoute).done(function (success) {
+            if (success) {
+                routes = routes.filter(route => route.id !== activeRoute);
+                activeRoute = null;
+                let lastPage = currentPage === Math.ceil(sessionStorage.getItem('totalRoutes') / routesPerPage);
+                let lastPageRoute = (currentPage - 1) * routesPerPage === routes.length;
+                if (lastPage && lastPageRoute) {
+                    currentPage--;
+                }
+                fetchUserRoutesNumber();
+                fetchAndRenderRoutes();
+                $("#route-statistics").addClass("hidden");
+            }
+        });
+        $(this).prop('disabled', false);
+    }
+});
+
+// заявка за изтриване на маршрут
+function deleteRouteRequest(currentRoute) {
+    return $.ajax({
+        type: 'DELETE',
+        url: '/route/deleteRoute',
+        contentType: 'application/json',
+        data: JSON.stringify(currentRoute.id),
+        error: function (xhr) {
+            sessionStorage.setItem('routeRecord', true);
+            let errorMessage = xhr.responseJSON.message;
+            $('#routes-section').find('.formErrorMessage')
+                .html(errorMessage).show();
+        }
     });
 }

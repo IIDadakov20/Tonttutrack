@@ -1,3 +1,4 @@
+/* Основни   стилове*/
 * {
     margin: 0;
     padding: 0;
@@ -14,6 +15,7 @@ main {
     flex-direction: column;
 }
 
+/* Hero секция */
 .hero-section {
     width: 100%;
     height: 80vh;
@@ -35,7 +37,7 @@ main {
     padding: 5% 0;
 }
 
-/* Hero Text */
+/* Hero информация */
 .hero-text {
     display: flex;
     align-items: flex-start;
@@ -77,7 +79,7 @@ main {
     background-color: var(--primary-color);
 }
 
-/* Hero Image */
+/* Hero снимка */
 .hero-image-container {
     display: flex;
     justify-content: center;
@@ -92,7 +94,7 @@ main {
     height: 100%;
 }
 
-/* Photo Section */
+/* Секция за снимки */
 .photo-section {
     width: 100%;
     height: 70vh;
@@ -168,19 +170,19 @@ main {
 /* Media Queries */
 @media (max-width: 1200px) {
     .hero-content {
-        max-width: 100%; /* Поставя ограничение на ширината на контейнера */
-        margin: 0 auto; /* Центрира контейнера */
-        padding: 0 5%; /* Намалява разстоянието от двете страни */
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 0 5%;
         display: flex;
-        justify-content: space-between; /* Разстоянието между елементите остава равномерно */
-        align-items: center; /* Центрира съдържанието вертикално */
-        gap: 5%; /* Добавя фиксирано разстояние между текст и изображение */
+        justify-content: space-between;
+        align-items: center;
+        gap: 5%;
     }
 
     .hero-text {
-        padding: 2rem; /* Увеличава вътрешните отстояния */
+        padding: 2rem;
         width: 40%;
-        height: auto; /* Позволява височината да се адаптира към съдържанието */
+        height: auto;
     }
     
     .hero-heading{
@@ -194,35 +196,34 @@ main {
     }
 
     .hero-image-container {
-        width: 45%; /* Намалява ширината на изображението */
+        width: 45%;
         height: auto;
     }
 
     .hero-image {
-        width: 400px; /* Същия размер за снимката */
+        width: 400px;
         height: auto;
     }
 
-    /* Промени за photo-content */
     .photo-section {
-        padding: 0 5%; /* Намалява разстоянието от страните на екрана */
-        height: 80vh; /* Задава височината на секцията да е 80% от височината на екрана */
+        padding: 0 5%;
+        height: 80vh;
     }
 
     .photo-content {
         display: flex;
         flex-direction: row;
         justify-content: center;
-        gap: 2rem; /* Намалява разстоянието между елементите */
+        gap: 2rem;
         align-items: center;
         padding: 3% 0;
         width: 100%;
-        height: 100%; /* Позволява височината да се адаптира */
+        height: 100%;
     }
 
     .photo-box {
         width: 25%;
-        height: 80%; /* Позволява височината на снимката да се адаптира */
+        height: 80%;
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         overflow: hidden;
@@ -231,8 +232,8 @@ main {
 
     .photo-image {
         width: 100%;
-        height: 82%; /* Височината ще се адаптира към контейнера */
-        object-fit: cover; /* Поддържа съотношението на изображението, като го приспособява към контейнера */
+        height: 82%;
+        object-fit: cover;
         transition: transform 0.3s ease, filter 0.3s ease;
     }
 
@@ -243,24 +244,24 @@ main {
 
 @media (max-width: 992px) {
     .hero-container {
-        max-width: 100%; /* Намалява ширината на контейнера */
-        margin: 0 auto; /* Центрира контейнера */
-        padding: 0 5%; /* Намалява разстоянието от страните */
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 0 5%;
         display: flex;
-        justify-content: space-between; /* Равномерно разстояние между елементите */
-        align-items: center; /* Центрира съдържанието вертикално */
+        justify-content: space-between;
+        align-items: center;
         flex-direction: column;
     }
 
     .hero-text {
-        width: 40%; /* Намалява ширината на текстовия контейнер */
-        padding: 1rem; /* Намалява вътрешните отстояния */
-        font-size: 1.1rem; /* Намалява размера на текста */
+        width: 40%;
+        padding: 1rem;
+        font-size: 1.1rem;
     }
 
     .hero-title {
-        font-size: 1.3rem; /* Намалява размера на заглавието */
-        margin-bottom: 0.5rem; /* Намалява разстоянието под заглавието */
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
     }
 
     .hero-heading {
@@ -272,18 +273,18 @@ main {
     }
 
     .hero-btn {
-        font-size: 1.1rem; /* Намалява още размера на бутона */
-        padding: 7px 12px; /* Намалява размерите на бутона */
+        font-size: 1.1rem;
+        padding: 7px 12px;
         width: 80%;
     }
 
     .hero-image-container {
-        width: 45%; /* Намалява ширината на контейнера за изображението */
+        width: 45%;
     }
 
     .hero-image {
-        width: 280px; /* Намалява размерите на изображението */
-        height: auto; /* Поддържа пропорциите на снимката */
+        width: 280px;
+        height: auto;
     }
 
     .photo-section {
@@ -307,7 +308,7 @@ main {
     }
 
     .photo-text {
-        font-size: 0.9rem; /* Намалява размера на текста */
+        font-size: 0.9rem;
     }
     .photo-box:hover .overlay {
         height: 80%;
@@ -318,66 +319,62 @@ main {
 @media (max-width: 768px) {
     /* Премахване на градиент и добавяне на светъл цвят за hero section */
     .hero-section {
-        background: linear-gradient(to right, #ebf5ef 65%, #ebf5ef 35%);
-        padding: 4rem 0 55rem; /* Можеш да настроиш това за допълнителен отстъп */
+        background: linear-gradient(to right, var(--primary-gradient-color) 65%, var(--primary-gradient-color) 35%);
+        padding: 4rem 0 55rem;
     }
 
     /* Hero Content - разположени един под друг */
     .hero-content {
-        flex-direction: column; /* Променя посоката на елементите, така че да бъдат един под друг */
-        align-items: center; /* Центрира елементите по хоризонтала */
+        flex-direction: column;
+        align-items: center;
     }
     .hero-btn{
         align-self: center;
     }
 
-    /* Hero Text - настройваме ширината */
     .hero-text {
-        width: 100%; /* Запълва цялото пространство */
-        padding: 1rem; /* Поддържа разстояния около текста */
-        font-size: 0.8rem; /* Намалява размера на шрифта */
+        width: 100%;
+        padding: 1rem;
+        font-size: 0.8rem;
         text-align: center;
         align-items: center;
     }
 
-    /* Hero Image Container */
     .hero-image-container {
-        width: 100%; /* Запълва цялото пространство */
-        margin-top: 1rem; /* Разстояние между текст и изображение */
+        width: 100%;
+        margin-top: 1rem;
     }
 
-    /* Hero Image */
     .hero-image {
-        width: 90%; /* Понижава ширината на изображението */
-        height: auto; /* Поддържа пропорциите на снимката */
+        width: 90%;
+        height: auto;
     }
 
-    /* Увеличаваме разстоянието между hero секцията и photo секцията */
     .photo-section {
-        margin-top: 3rem; /* Увеличаваме разстоянието между hero секцията и photo секцията */
+        margin-top: 3rem;
         height: auto;
         padding: 4rem;
     }
 
     /* Photo Section - снимките да са една под друга */
     .photo-content {
-        flex-direction: column; /* Променя реда на снимките да бъдат подредени вертикално */
-        gap: 1.5rem; /* Добавя разстояние между снимките */
+        flex-direction: column;
+        gap: 1.5rem;
         height: auto;
     }
 
     .photo-box {
-        width: 100%; /* Запълва цялото пространство */
-        height: auto; /* Височината се адаптира към съдържанието */
+        width: 100%;
+        height: auto;
     }
 
     .photo-image {
-        width: 100%; /* Изображението заема цялата ширина */
-        height: auto; /* Височината се адаптира */
-        object-fit: cover; /* Поддържа съотношението на изображението */
+        width: 100%;
+        height: auto;
+        object-fit: cover;
     }
 
     .photo-text {
-        font-size: 0.9rem; /* Намалява шрифта на текста */
+        font-size: 0.9rem;
     }
 }

@@ -69,6 +69,19 @@ public class RouteController : Controller
         return Ok(routes);
     }
 
+    [HttpDelete("deleteRoute")]
+    public async Task<IActionResult> DeleteeRouteAsync([FromBody] Guid routeId)
+    {
+        var routeDeleteResult = await _routeService.DeleteRouteAsync(routeId);
+
+        if (!routeDeleteResult.Succeeded)
+        {
+            return BadRequest(new { message = "Problem occurred during route deletion" });
+        }
+
+        return Ok(true);
+    }
+
     [HttpPost("saveRoutePoint")]
     public async Task<IActionResult> SaveRoutePointAsync([FromBody] JsonElement data)
     {

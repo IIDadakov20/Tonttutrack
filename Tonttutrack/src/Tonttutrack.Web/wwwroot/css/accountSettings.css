@@ -1,4 +1,4 @@
-/* Dropdown */
+/* Основни стилове за dropdown менюто */
 #custom-dropdown {
     position: relative;
     display: inline-block;
@@ -22,19 +22,19 @@
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    min-width: 12rem; /* 150px -> 9.38rem */
+    min-width: 12rem;
     background-color: var(--background-color);
     border-radius: var(--border-radius);
     z-index: 200;
     max-height: 0;
     opacity: 0;
-    padding: 0 0.5rem; /* 0.5rem остава същото */
+    padding: 0 0.5rem;
     overflow: hidden;
-    transition: max-height 0.3s ease-out, padding 0.3s ease-out; /* 0.3s остава същото */
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
 }
 
 #account-name {
-    padding: 0.5rem 1rem; /* 0.5rem и 1rem остават същите */
+    padding: 0.5rem 1rem;
     color: var(--text-color);
     text-decoration: none;
     display: block;
@@ -54,7 +54,7 @@
 }
 
 .custom-dropdown-item {
-    padding: 0.5rem 1rem; /* 0.5rem и 1rem остават същите */
+    padding: 0.5rem 1rem;
     color: var(--text-color)!important;
     text-decoration: none;
     display: block;
@@ -69,18 +69,18 @@
 #custom-dropdown-divider {
     width: 90%;
     background-color: var(--secondary-color);
-    margin: 0.5rem auto; /* 0.5rem остава същото */
+    margin: 0.5rem auto;
     opacity: 0.6;
 }
 
-/* Клас за отваряне */
+/* Клас за отваряне на падащо меню*/
 #custom-dropdown-menu.show {
-    max-height: 12.5rem; /* 200px -> 12.5rem */
+    max-height: 12.5rem;
     opacity: 1;
-    padding: 0.5rem; /* 0.5rem остава същото */
+    padding: 0.5rem;
 }
 
-/* General Popup Styling */
+/* Стилове за прозорци, които се издигат (popups) */
 .popup {
     position: fixed;
     inset: 0;
@@ -139,6 +139,7 @@
     display: none;
 }
 
+/* Стилове за настройки на акаунта */
 .update-btn, .delete-btn {
     display: block;
     width: 100%;
@@ -150,7 +151,7 @@
     cursor: pointer;
     transition: background-color var(--transition-speed) ease;
     margin-top: 1rem;
-    user-select: none; /* Prevents text selection */
+    user-select: none;
 }
 
 .update-btn {
@@ -263,6 +264,7 @@ html.blur-scrollbar::-webkit-scrollbar-thumb {
     color: var(--disabled-hover);
 }
 
+/* Стилове за превключване на тема (тъмна/светла) */
 #theme-toggle {
     display: flex;
     align-items: center;
@@ -276,7 +278,7 @@ html.blur-scrollbar::-webkit-scrollbar-thumb {
     width: 3.1rem;
     height: 1.6rem;
     cursor: pointer;
-    user-select: none; /* Prevents text selection */
+    user-select: none;
 }
 
 .theme-input {
@@ -314,7 +316,7 @@ html.blur-scrollbar::-webkit-scrollbar-thumb {
     transform: translateX(1.5rem);
 }
 
-/* Language Selection */
+/* Стил за настройки за езика */
 #language-selection {
     display: flex;
     align-items: center;
@@ -412,30 +414,12 @@ html.blur-scrollbar::-webkit-scrollbar-thumb {
     left: 1rem;
 }
 
-.update-btn, .delete-btn {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 0.75rem 1.5rem;
-    font-size: 1.1rem !important;
-    text-align: center;
-    border-radius: var(--border-radius);
-    border: none;
-    cursor: pointer;
-    transition: background-color var(--transition-speed) ease;
-    margin-top: 1rem;
-    user-select: none;
-}
-
 i {
     font-size: 1rem;
     vertical-align: middle;
     margin-right: 1rem;
 }
 
-/*Центриране на иконките в контейнерите */
 .custom-dropdown-item,
 .update-btn,
 .delete-btn,
@@ -445,7 +429,6 @@ i {
     align-items: center;
 }
 
-/* Коригиране на разположението на иконките в popup */
 #theme-toggle,
 #language-selection {
     display: flex;

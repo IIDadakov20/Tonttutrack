@@ -1,4 +1,5 @@
-document.getElementById('togglePassword').addEventListener('change', function() {
+﻿// функционалност за визуализация на въведаната от потребителя парола
+document.getElementById('togglePassword').addEventListener('change', function () {
     var passwordInput = document.getElementById('passwordInput');
     var confirmPasswordInput = document.getElementById('confirmPasswordInput');
 

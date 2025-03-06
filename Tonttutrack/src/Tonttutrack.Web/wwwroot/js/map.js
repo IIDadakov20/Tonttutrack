@@ -31,24 +31,24 @@ const savedTheme = localStorage.getItem('theme');
 
 // Проверяваме текущата тема и добавяме съответния слой
 if (savedTheme === 'dark') {
-    baselayers['dark'].addTo(map);  // Ако е тъмната тема, добавяме dark слой
-    baselayers['sunny'].removeFrom(map);  // Премахваме sunny слой
-    themeToggle.checked = true; // Отбелязваме, че е тъмната тема
+    baselayers['dark'].addTo(map);
+    baselayers['sunny'].removeFrom(map);
+    themeToggle.checked = true;
 } else {
-    baselayers['sunny'].addTo(map);  // По подразбиране добавяме sunny слой
-    baselayers['dark'].removeFrom(map);  // Премахваме dark слой
+    baselayers['sunny'].addTo(map);
+    baselayers['dark'].removeFrom(map);
 }
 
 // Слушател за промяна на toggle бутона
 themeToggle.addEventListener('change', function() {
     if (this.checked) {
         baselayers['dark'].addTo(map);  // Превключваме към dark слой
-        baselayers['sunny'].removeFrom(map);  // Премахваме sunny слой
+        baselayers['sunny'].removeFrom(map);
         localStorage.setItem('theme', 'dark');
         enableDarkTheme()
     } else {
         baselayers['sunny'].addTo(map);  // Превключваме към sunny слой
-        baselayers['dark'].removeFrom(map);  // Премахваме dark слой
+        baselayers['dark'].removeFrom(map);
         localStorage.setItem('theme', 'light');
         disableDarkTheme()
     }

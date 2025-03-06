@@ -56,8 +56,9 @@ void loop()
 
     while (gpsSerial.available())
     {
-        if (gps.encode(gpsSerial.read()))
-        {
+        char data = gpsSerial.read();
+        if (data) {
+            gps.encode(data);
             latitude = String(gps.location.lat(), 6);
             longitude = String(gps.location.lng(), 6);
             speed = String(gps.speed.kmph());
