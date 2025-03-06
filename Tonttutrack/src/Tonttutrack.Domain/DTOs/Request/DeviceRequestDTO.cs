@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Tonttutrack.Web.Models;
+namespace Tonttutrack.Domain.DTOs.Request;
 
-public class DeviceConnectionViewModel
+public class DeviceRequestDTO
 {
     [Required(ErrorMessage = "This field is required.")]
-    public string Code { get; set; } = string.Empty;
+    public string Code { get; set; } = null!;
 
     [Required(ErrorMessage = "This field is required.")]
     [DataType(DataType.Password)]
-    public string Password { get; set; } = string.Empty;
+    public string Password { get; set; } = null!;
 }

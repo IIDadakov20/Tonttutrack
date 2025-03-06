@@ -1,5 +1,5 @@
-﻿@using Tonttutrack.Web.Models;
-@model DeviceConnectionViewModel;
+﻿@using Tonttutrack.Domain.DTOs.Request;
+@model DeviceRequestDTO
 
 <link rel="stylesheet" href="~/css/trackerDevice.css" asp-append-version="true"/>
 
@@ -29,10 +29,13 @@
             <p id="connectedDeviceName" class="mb-1 fs-5">Connected Device</p>
             <button id="disconnectButton" class="w-100 btn btn-lg btn-primary" data-translate="tracker.disconnect">Disconnect</button>
             <button id="record-btn" class="btn btn-primary w-100" data-translate="tracker.startRecording">Start recording</button>
+            <button id="saveRecord-btn" class="btn btn-primary w-100 hidden" data-translate="tracker.saveRecording">Save recording</button>
+            <div class="text-danger formErrorMessage"></div>
         </div>
     </div>
 
     <div id="routes-section">
+        <div class="text-danger formErrorMessage"></div>
         <div class="tracker-routes">
             <h3 data-translate="tracker.savedRoutes">Saved Routes</h3>
             <ul id="route-list"></ul>
@@ -57,10 +60,19 @@
                 </button>
             </span>
             </div>
-            <p data-translate="tracker.duration">Duration: <span id="route-duration">00:00:00</span></p>
-            <p data-translate="tracker.distance">Distance: <span id="route-distance">0 km</span></p>
-            <p data-translate="tracker.avgSpeed">Avg. Speed: <span id="route-avg-speed">0 km/h</span></p>
-            <p data-translate="tracker.topSpeed">Top Speed: <span id="route-top-speed">0 km/h</span></p>
+            <p>
+                <span data-translate="tracker.duration">Duration:</span>
+                <span id="route-duration">00:00:00</span>
+            </p>
+            <p>
+                <span data-translate="tracker.distance">Distance:</span>
+                <span id="route-distance">0 km</span>
+            </p>
+            <p>
+                <span data-translate="tracker.topSpeed">Top Speed:</span>
+                <span id="route-top-speed">0 km/h</span>
+            </p>
+
             <button id="delete-route" class="btn btn-danger btn-lg" data-translate="tracker.deleteRoute">Delete Route</button>
         </div>
     </div>
