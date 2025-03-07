@@ -1,13 +1,12 @@
-﻿﻿
-<h1 align = "center"> Tonttutrack </h1>
+﻿﻿﻿<h1 align = "center"> Tonttutrack </h1>
 
 ## 💻 Description
 
 The Tonttutrack project is an innovative system for tracking a person's location and speed in real time using a combination of hardware and software components. The main goal is to provide reliable and accurate tracking through a web application that visualizes the data on an interactive map. 
 
  - User Registration and Login;
- - Connect and Disconnect tracker device;
- - View your current location and statistics
+ - Connect to tracker device and view current location;
+ - Save routes and view statistics;
  
 <br>
 
@@ -15,14 +14,13 @@ The Tonttutrack project is an innovative system for tracking a person's location
 
 <p align="left">
   <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=github,git,visualstudio,cs,net,html,css,js" />
+    <img src="https://skillicons.dev/icons?i=github,git,docker,raspberrypi,postgres,arduino,cpp,visualstudio,cs,net,html,css,js" />
   </a>
 </p>
 
 <br>
 
-## ⚙ Installation
+## ⚙ Project demo
 
-To download the project paste the following code in your CMD:
-<pre>https://github.com/codingburgas/arduino-projects-11a-IIDadakov20.git
-Select Tonttutrack.Pl as Startup Project and start the project</pre>
+To open the project demo click the following link or paste it into your browser:
+<pre><a href="http://84.54.179.81:5001">84.54.179.81:5001</a></pre>
