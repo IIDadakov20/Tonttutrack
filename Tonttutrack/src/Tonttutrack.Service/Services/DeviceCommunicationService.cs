@@ -15,6 +15,7 @@ namespace Tonttutrack.Service.Services;
 internal class DeviceCommunicationService : IDeviceCommunicationService
 {
     private readonly ConcurrentDictionary<string, (IMqttClient Client, ConcurrentDictionary<string, string> RoutePoints)> _mqttClients = new();
+    private const string _mqttBrokerAddress = "";
     private const int _mqttBrokerPort = 1883;
     private readonly IServiceProvider _serviceProvider;
     private readonly IHttpContextAccessor _httpContextAccessor;
@@ -27,7 +28,7 @@ internal class DeviceCommunicationService : IDeviceCommunicationService
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public async Task<ErrorDTO> ConnectToBrokerAsync(DeviceRequestDTO deviceInfo)
+    public async Task<ErrorDTO> ConnectToBrokerAsync(DeviceConnectionRequestDTO deviceInfo)
     {
         var result = new ErrorDTO();
 

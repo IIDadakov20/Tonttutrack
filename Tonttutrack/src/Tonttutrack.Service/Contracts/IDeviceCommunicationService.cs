@@ -5,7 +5,7 @@ namespace Tonttutrack.Service.Contracts;
 
 public interface IDeviceCommunicationService
 {
-    Task<ErrorDTO> ConnectToBrokerAsync(DeviceRequestDTO deviceInfo);
+    Task<ErrorDTO> ConnectToBrokerAsync(DeviceConnectionRequestDTO deviceInfo);
 
     Task<bool> DisconnectFromBrokerAsync(string deviceCode);
 

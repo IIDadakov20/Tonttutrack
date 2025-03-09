@@ -19,7 +19,7 @@ public class TrackerDeviceController : Controller
     }
 
     [HttpPost("connectDevice")]
-    public async Task<IActionResult> ConnectDeviceAsync([FromBody] DeviceRequestDTO deviceInfo)
+    public async Task<IActionResult> ConnectDeviceAsync([FromBody] DeviceConnectionRequestDTO deviceInfo)
     {
         var deviceIsConnected = await _deviceCommunicationService.ConnectToBrokerAsync(deviceInfo);
 
