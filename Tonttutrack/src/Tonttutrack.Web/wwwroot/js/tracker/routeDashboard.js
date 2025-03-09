@@ -2,9 +2,10 @@
 let activeRoute = null;
 let currentPage = 1;
 const routesPerPage = 3;
+let searchTerm = '';
 
 $(function () {
-    fetchUserRoutesNumber();
+    fetchUserRoutesNumber(searchTerm);
     $("#connection-section").addClass("visible");
     $("#routes-section").addClass("hidden");
     setupPaginationControls();
@@ -23,7 +24,9 @@ $("#toggle-view-btn").on("click", function () {
     $("#connection-section").toggleClass("hidden", isSavedRoutes).toggleClass("visible", !isSavedRoutes);
     $("#routes-section").toggleClass("visible", isSavedRoutes).toggleClass("hidden", !isSavedRoutes);
 
-    fetchAndRenderRoutes();
+    fetchUserRoutesNumber(searchTerm).done(function () {
+        fetchAndRenderRoutes(searchTerm);
+    });
 });
 
 // задаване на настрйки за странициране на маршрути
@@ -34,7 +37,7 @@ function setupPaginationControls() {
 
         if (currentPage > 1) {
             currentPage--;
-            fetchAndRenderRoutes();
+            fetchAndRenderRoutes(searchTerm);
         }
         $(this).prop('disabled', false);
     });
@@ -45,15 +48,15 @@ function setupPaginationControls() {
 
         if (currentPage < Math.ceil(sessionStorage.getItem('totalRoutes') / routesPerPage)) {
             currentPage++;
-            fetchAndRenderRoutes();
+            fetchAndRenderRoutes(searchTerm);
         }
         $(this).prop('disabled', false);
     });
 }
 
-// извличане и визуализиране на маршрути
-function fetchAndRenderRoutes() {
-    fetchUserRoutes(currentPage).done(function (fetchedRoutes) {
+// извличане и визуализиране на маршрути    
+function fetchAndRenderRoutes(searchTerm = '') {
+    fetchUserRoutes(currentPage, searchTerm).done(function (fetchedRoutes) {
         fetchedRoutes.forEach(route => {
             if (!routes.some(r => r.id === route.id)) {
                 routes.push(route);
@@ -145,4 +148,13 @@ function updatePaginationControls() {
 $('#toggle-menu').on('click', function () {
     $('#tracker-menu').toggleClass('open');
     $('#toggle-menu').toggleClass('open active');
+});
+
+$('#search-btn').on('click', function () {
+    searchTerm = $('#route-search').val();
+    currentPage = 1;
+    routes = [];
+    fetchUserRoutesNumber(searchTerm).done(function () {
+        fetchAndRenderRoutes(searchTerm);
+    });
 });

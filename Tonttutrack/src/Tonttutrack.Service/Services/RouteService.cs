@@ -6,6 +6,7 @@ using Tonttutrack.DataAccess.Data.Models;
 using Tonttutrack.Domain.DTOs.Request;
 using Tonttutrack.Domain.DTOs.Response;
 using Tonttutrack.Service.Contracts;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Tonttutrack.Service.Services;
 
@@ -25,14 +26,20 @@ internal class RouteService : IRouteService
         _userManager = userManager;
     }
 
-    public async Task<List<RouteResponseDTO>> GetUserRoutesAsync(int pageNumber)
+    public async Task<List<RouteResponseDTO>> GetUserRoutesAsync(int pageNumber, string? searchTerm)
     {
         var user = (await _userManager.FindByEmailAsync(_currentUserService.CurrentUser.Email))!;
-
         var skip = (pageNumber - 1) * 3;
 
-        return await _context.Routes
-            .Where(r => r.UserId == user.Id)
+        var query = _context.Routes
+        .Where(r => r.UserId == user.Id);
+
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            query = query.Where(r => r.Name.ToLower().Contains(searchTerm.ToLower()));
+        }
+
+        return await query
             .OrderByDescending(r => r.Date)
             .ThenBy(r => r.Id)
             .Skip(skip)
@@ -51,13 +58,18 @@ internal class RouteService : IRouteService
             .ConfigureAwait(false);
     }
 
-    public async Task<int> GetUserRoutesNumberAsync()
+    public async Task<int> GetUserRoutesNumberAsync(string? searchTerm)
     {
         var user = (await _userManager.FindByEmailAsync(_currentUserService.CurrentUser.Email))!;
+        var query = _context.Routes
+               .Where(r => r.UserId == user.Id);
 
-        return await _context.Routes
-            .Where(r => r.UserId == user.Id)
-            .CountAsync();
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            query = query.Where(r => r.Name.ToLower().Contains(searchTerm.ToLower()));
+        }
+
+        return await query.CountAsync();
     }
 
     public async Task<ErrorDTO> CreateRouteAsync()

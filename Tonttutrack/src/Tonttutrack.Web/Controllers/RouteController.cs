@@ -44,9 +44,9 @@ public class RouteController : Controller
     }
 
     [HttpGet("getRoutesNumber")]
-    public async Task<IActionResult> GetUserRoutesNumberAsync()
+    public async Task<IActionResult> GetUserRoutesNumberAsync([FromQuery] string searchTerm)
     {
-        int routesNumber = await _routeService.GetUserRoutesNumberAsync();
+        int routesNumber = await _routeService.GetUserRoutesNumberAsync(searchTerm);
 
         if (routesNumber == 0)
         {
@@ -57,9 +57,9 @@ public class RouteController : Controller
     }
 
     [HttpGet("getRoutes")]
-    public async Task<IActionResult> GetUserRoutesAsync([FromQuery]int pageNumber)
+    public async Task<IActionResult> GetUserRoutesAsync([FromQuery]int pageNumber, [FromQuery]string searchTerm)
     {
-        var routes = await _routeService.GetUserRoutesAsync(pageNumber);
+        var routes = await _routeService.GetUserRoutesAsync(pageNumber, searchTerm);
 
         if (!routes.Any())
         {

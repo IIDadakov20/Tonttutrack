@@ -7,9 +7,9 @@ namespace Tonttutrack.Service.Contracts;
 
 public interface IRouteService
 {
-    Task<List<RouteResponseDTO>> GetUserRoutesAsync(int pageNumber);
+    Task<List<RouteResponseDTO>> GetUserRoutesAsync(int pageNumber, string searchTerm);
 
-    Task<int> GetUserRoutesNumberAsync();
+    Task<int> GetUserRoutesNumberAsync(string searchTerm);
 
     Task<ErrorDTO> CreateRouteAsync();
 

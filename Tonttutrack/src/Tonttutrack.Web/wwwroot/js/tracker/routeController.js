@@ -96,12 +96,12 @@ function saveRoutePoint(routePoint) {
 }
 
 // извличане на маршрути на потребителя
-function fetchUserRoutes(pageNumber) {
+function fetchUserRoutes(pageNumber, searchTerm = '') {
     return $.ajax({
         url: '/route/getRoutes',
         type: 'GET',
         contentType: 'application/json',
-        data: { pageNumber: pageNumber }
+        data: { pageNumber: pageNumber, searchTerm: searchTerm }
     }).fail(function (xhr) {
         let errorMessage = xhr.responseJSON.message;
         $('#routes-section').find('.formErrorMessage')
@@ -110,13 +110,14 @@ function fetchUserRoutes(pageNumber) {
 }
 
 // извичане на общия брой на маршрутите на поребителя
-function fetchUserRoutesNumber() {
+function fetchUserRoutesNumber(searchTerm) {
     $('#routes-section .text-danger').html('');
 
-    $.ajax({
+    return $.ajax({
         url: '/route/getRoutesNumber',
         type: 'GET',
         contentType: 'application/json',
+        data: {searchTerm: searchTerm },
         success: function (response) {
             sessionStorage.setItem('totalRoutes', response);
         },
@@ -195,8 +196,9 @@ $("#delete-route").on("click", function () {
                 if (lastPage && lastPageRoute) {
                     currentPage--;
                 }
-                fetchUserRoutesNumber();
-                fetchAndRenderRoutes();
+                fetchUserRoutesNumber(searchTerm).done(function () {
+                    fetchAndRenderRoutes(searchTerm);
+                });
                 $("#route-statistics").addClass("hidden");
             }
         });
