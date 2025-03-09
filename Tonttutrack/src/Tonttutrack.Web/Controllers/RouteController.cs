@@ -27,7 +27,7 @@ public class RouteController : Controller
             return BadRequest();
         }
 
-        return Json(routeCreationResult.ErrorMessage.Values);
+        return Ok(routeCreationResult.ErrorMessage.Values);
     }
 
     [HttpPatch("updateRoute")]

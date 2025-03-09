@@ -3,7 +3,6 @@ using Tonttutrack.Service.Contracts;
 using Tonttutrack.DataAccess.Data.Models;
 using Tonttutrack.Domain.DTOs.Authentication;
 using Tonttutrack.Domain.DTOs.Response;
-using AutoMapper;
 
 namespace Tonttutrack.Service.Services;
 
@@ -11,16 +10,13 @@ internal class AuthenticationService : IAuthenticationService
 {
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
-    private readonly IMapper _mapper;
 
     public AuthenticationService(
         UserManager<User> userManager,
-        SignInManager<User> signInManager,
-        IMapper mapper)
+        SignInManager<User> signInManager)
     {
         _userManager = userManager;
         _signInManager = signInManager;
-        _mapper = mapper;
     }
 
     public async Task<ErrorDTO> RegisterUserAsync(RegisterDTO registerInfo)
@@ -44,7 +40,13 @@ internal class AuthenticationService : IAuthenticationService
             return result;
         }
 
-        var user = _mapper.Map<User>(registerInfo);
+        User user = new User()
+        {
+            Email = registerInfo.Email,
+            UserName = registerInfo.Username,
+            PasswordHash = registerInfo.Password,
+        };
+
         var identityResult = await _userManager.CreateAsync(user, registerInfo.Password);
 
         if (!identityResult.Succeeded)

@@ -13,7 +13,6 @@ public class Program
         builder.AddCookie();
 
         builder.Services.AddServices();
-        builder.Services.AddAutoMapper(typeof(ModelMapper));
 
         builder.Services.AddControllersWithViews();
 

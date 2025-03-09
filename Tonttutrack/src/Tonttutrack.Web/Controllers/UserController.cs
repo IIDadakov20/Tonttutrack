@@ -67,6 +67,6 @@ public class UserController : Controller
             return BadRequest(ModelState);
         }
 
-        return Json(true);
+        return Ok(true);
     }
 }
