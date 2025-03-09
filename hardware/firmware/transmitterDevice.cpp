@@ -29,7 +29,7 @@ void connect()
         delay(1000);
     }
 
-    while (!client.connect("arduino", "public", "public")) {
+    while (!client.connect(mac.c_str(), "public", "public")) {
         delay(1000);
     }
 }

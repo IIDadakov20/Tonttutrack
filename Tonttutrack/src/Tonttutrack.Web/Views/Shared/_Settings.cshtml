@@ -44,6 +44,7 @@
             </div>
         </div>
 
+
         <!-- Език -->
         <div id="language-selection">
             <span id="language-label"><i class="material-icons">translate</i> <span data-translate="accountSettings.language">Language</span></span>
@@ -60,78 +61,80 @@
         </div>
 
         <hr>
+        @if (!User.IsInRole("Admin"))
+        {
+            <!-- Бутони за обновяване и изтриване на акаунт -->
+            <button id="updateAccountButton" class="update-btn">
+                <i class="material-icons">person</i> <span data-translate="accountSettings.updateAccountDetails">Update Account Details</span>
+            </button>
 
-        <!-- Бутони за обновяване и изтриване на акаунт -->
-        <button id="updateAccountButton" class="update-btn">
-            <i class="material-icons">person</i> <span data-translate="accountSettings.updateAccountDetails">Update Account Details</span>
-        </button>
+            <!-- Разкриване на полета за Update Account -->
+            <div id="updateAccountFields" class="hidden">
+                <form id="userUpdateForm" novalidate>
+                    <div class="text-danger formErrorMessage"></div>
+                    <div class="mb-3">
+                        <label asp-for="Item1.Username" class="mb-1" data-translate="accountSettings.username">Username</label>
+                        <input asp-for="Item1.Username" id="newUserUsername" class="form-control" value="@User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value" />
+                        <span asp-validation-for="Item1.Username" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Item1.Email" class="mb-1"data-translate="accountSettings.email">Email</label>
+                        <input asp-for="Item1.Email" id="newUserEmail" class="form-control" value="@User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value" />
+                        <span asp-validation-for="Item1.Email" class="text-danger"></span>
+                    </div>
+                    <div class="col-4">
+                        <button type="submit" class="submitButton btn btn-lg btn-primary" data-translate="accountSettings.update">Update</button>
+                    </div>
+                </form>
+            </div>
 
-        <!-- Разкриване на полета за Update Account -->
-        <div id="updateAccountFields" class="hidden">
-            <form id="userUpdateForm" novalidate>
-                <div class="text-danger formErrorMessage"></div>
-                <div class="mb-3">
-                    <label asp-for="Item1.Username" class="mb-1" data-translate="accountSettings.username">Username</label>
-                    <input asp-for="Item1.Username" id="newUserUsername" class="form-control" value="@User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value" />
-                    <span asp-validation-for="Item1.Username" class="text-danger"></span>
-                </div>
-                <div class="mb-3">
-                    <label asp-for="Item1.Email" class="mb-1"data-translate="accountSettings.email">Email</label>
-                    <input asp-for="Item1.Email" id="newUserEmail" class="form-control" value="@User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value" />
-                    <span asp-validation-for="Item1.Email" class="text-danger"></span>
-                </div>
-                <div class="col-4">
-                    <button type="submit" class="submitButton btn btn-lg btn-primary" data-translate="accountSettings.update">Update</button>
-                </div>
-            </form>
-        </div>
+            <button id="updatePasswordFieldsButton" class="update-btn">
+                <i class="material-icons">lock</i> <span data-translate="accountSettings.changeAccountPassword">Change Account Password</span>
+            </button>
 
-        <button id="updatePasswordFieldsButton" class="update-btn">
-            <i class="material-icons">lock</i> <span data-translate="accountSettings.changeAccountPassword">Change Account Password</span>
-        </button>
+            <!-- Разкриване на полета за Update Password -->
+            <div id="updatePasswordFields" class="hidden">
+                <form id="userPasswordUpdateForm" novalidate>
+                    <div class="text-danger formErrorMessage"></div>
+                    <div class="mb-3">
+                        <label asp-for="Item2.CurrentPassword" class="mb-1" data-translate="accountSettings.currentPassword">Current Password</label>
+                        <input asp-for="Item2.CurrentPassword" id="currentPassword" class="form-control" type="password" />
+                        <span asp-validation-for="Item2.CurrentPassword" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Item2.NewPassword" class="mb-1" data-translate="accountSettings.newPassword">New Password</label>
+                        <input asp-for="Item2.NewPassword" id="newPassword" class="form-control" type="password" />
+                        <span asp-validation-for="Item2.NewPassword" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Item2.ConfirmPassword" class="mb-1" data-translate="accountSettings.confirmPassword">Confirm Password</label>
+                        <input asp-for="Item2.ConfirmPassword" id="confirmPassword" class="form-control" type="password" />
+                        <span asp-validation-for="Item2.ConfirmPassword" class="text-danger"></span>
+                    </div>
+                    <div class="col-4">
+                        <button type="submit" class="submitButton btn btn-lg btn-primary" data-translate="accountSettings.change">Change</button>
+                    </div>
+                </form>
+            </div>
 
-        <!-- Разкриване на полета за Update Password -->
-        <div id="updatePasswordFields" class="hidden">
-            <form id="userPasswordUpdateForm" novalidate>
-                <div class="text-danger formErrorMessage"></div>
-                <div class="mb-3">
-                    <label asp-for="Item2.CurrentPassword" class="mb-1" data-translate="accountSettings.currentPassword">Current Password</label>
-                    <input asp-for="Item2.CurrentPassword" id="currentPassword" class="form-control" type="password" />
-                    <span asp-validation-for="Item2.CurrentPassword" class="text-danger"></span>
-                </div>
-                <div class="mb-3">
-                    <label asp-for="Item2.NewPassword" class="mb-1" data-translate="accountSettings.newPassword">New Password</label>
-                    <input asp-for="Item2.NewPassword" id="newPassword" class="form-control" type="password" />
-                    <span asp-validation-for="Item2.NewPassword" class="text-danger"></span>
-                </div>
-                <div class="mb-3">
-                    <label asp-for="Item2.ConfirmPassword" class="mb-1" data-translate="accountSettings.confirmPassword">Confirm Password</label>
-                    <input asp-for="Item2.ConfirmPassword" id="confirmPassword" class="form-control" type="password" />
-                    <span asp-validation-for="Item2.ConfirmPassword" class="text-danger"></span>
-                </div>
-                <div class="col-4">
-                    <button type="submit" class="submitButton btn btn-lg btn-primary" data-translate="accountSettings.change">Change</button>
-                </div>
-            </form>
-        </div>
+            <button id="deleteAccountButton" class="delete-btn">
+                <i class="material-icons">delete</i> <span data-translate="accountSettings.deleteAccount">Delete Account</span>
+            </button>
 
-        <button id="deleteAccountButton" class="delete-btn">
-            <i class="material-icons">delete</i> <span data-translate="accountSettings.deleteAccount">Delete Account</span>
-        </button>
-
-        <!-- Разкриване на поле за Delete Account -->
-        <div id="deleteAccountFields" class="hidden">
-            <form id="userDeleteForm" novalidate>
-                <div class="text-danger formErrorMessage"></div>
-                <div class="mb-3">
-                    <label for="deletePassword" class="mb-1" data-translate="accountSettings.enterPasswordToDelete">Enter Password to Delete</label>
-                    <input type="password" id="deletePassword" class="form-control" />
-                </div>
-                <div class="col-4">
-                    <button type="submit" class="btn btn-lg btn-primary delete-account-button" data-translate="accountSettings.delete">Delete</button>
-                </div>
-            </form>
-        </div>
+            <!-- Разкриване на поле за Delete Account -->
+            <div id="deleteAccountFields" class="hidden">
+                <form id="userDeleteForm" novalidate>
+                    <div class="text-danger formErrorMessage"></div>
+                    <div class="mb-3">
+                        <label for="deletePassword" class="mb-1" data-translate="accountSettings.enterPasswordToDelete">Enter Password to Delete</label>
+                        <input type="password" id="deletePassword" class="form-control" />
+                    </div>
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-lg btn-primary delete-account-button" data-translate="accountSettings.delete">Delete</button>
+                    </div>
+                </form>
+            </div>
+        }
     </div>
 </div>
 

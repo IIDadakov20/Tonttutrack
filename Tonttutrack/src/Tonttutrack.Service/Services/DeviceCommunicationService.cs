@@ -8,34 +8,23 @@ using System.Text;
 using System.Collections.Concurrent;
 using Tonttutrack.Domain.DTOs.Request;
 using Microsoft.Extensions.DependencyInjection;
+using MQTTnet.Server;
 
 namespace Tonttutrack.Service.Services;
 
 internal class DeviceCommunicationService : IDeviceCommunicationService
 {
-    private readonly IMqttClient _mqttClient;
-    private readonly MqttClientOptions _options;
-    private const string _mqttBrokerAddress = "192.168.0.102";
+    private readonly ConcurrentDictionary<string, (IMqttClient Client, ConcurrentDictionary<string, string> RoutePoints)> _mqttClients = new();
     private const int _mqttBrokerPort = 1883;
-    private readonly ConcurrentDictionary<string, string> _routePoints = new();
     private readonly IServiceProvider _serviceProvider;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
     public DeviceCommunicationService(
         IHttpContextAccessor httpContextAccessor,
         IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
-
-        string clientId = httpContextAccessor.HttpContext.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value!;
-
-        var factory = new MqttFactory();
-        _mqttClient = factory.CreateMqttClient();
-
-        _options = new MqttClientOptionsBuilder()
-            .WithTcpServer(_mqttBrokerAddress, _mqttBrokerPort)
-            .WithClientId(clientId.ToString())
-            .WithCleanSession()
-            .Build();
+        _httpContextAccessor = httpContextAccessor;
     }
 
     public async Task<ErrorDTO> ConnectToBrokerAsync(DeviceRequestDTO deviceInfo)
@@ -55,11 +44,22 @@ internal class DeviceCommunicationService : IDeviceCommunicationService
                 return result;
             }
 
-            if (!this._mqttClient.IsConnected)
+            string clientId = _httpContextAccessor.HttpContext.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value!;
+
+            if (!_mqttClients.ContainsKey(clientId))
             {
+                var factory = new MqttFactory();
+                var mqttClient = factory.CreateMqttClient();
+
+                var _options = new MqttClientOptionsBuilder()
+                    .WithTcpServer(_mqttBrokerAddress, _mqttBrokerPort)
+                    .WithClientId(clientId.ToString())
+                    .WithCleanSession()
+                    .Build();
+
                 try
                 {
-                    var connectResult = await this._mqttClient.ConnectAsync(_options);
+                    var connectResult = await mqttClient.ConnectAsync(_options);
 
                     if (connectResult.ResultCode != MqttClientConnectResultCode.Success)
                     {
@@ -72,14 +72,18 @@ internal class DeviceCommunicationService : IDeviceCommunicationService
                     result.ErrorMessage.Add("", "Connection failed.");
                     return result;
                 }
+
+                _mqttClients.TryAdd(clientId, (mqttClient, new ConcurrentDictionary<string, string>()));
             }
 
-            await _mqttClient.SubscribeAsync("statistics/" + deviceInfo.Code + "/speed");
-            await _mqttClient.SubscribeAsync("statistics/" + deviceInfo.Code + "/latitude");
-            await _mqttClient.SubscribeAsync("statistics/" + deviceInfo.Code + "/longitude");
+            var client = _mqttClients[clientId].Client;
 
-            _mqttClient.ApplicationMessageReceivedAsync -= OnMessageReceived;
-            _mqttClient.ApplicationMessageReceivedAsync += OnMessageReceived;
+            await client.SubscribeAsync("statistics/" + deviceInfo.Code + "/speed");
+            await client.SubscribeAsync("statistics/" + deviceInfo.Code + "/latitude");
+            await client.SubscribeAsync("statistics/" + deviceInfo.Code + "/longitude");
+
+            client.ApplicationMessageReceivedAsync -= async m => await OnMessageReceived(clientId, m);
+            client.ApplicationMessageReceivedAsync += async m => await OnMessageReceived(clientId, m);
 
             string? deviceName = await deviceService.FetchConnectedDeviceNameAsync(deviceInfo.Code);
 
@@ -89,48 +93,57 @@ internal class DeviceCommunicationService : IDeviceCommunicationService
         }
     }
 
-    private Task OnMessageReceived(MqttApplicationMessageReceivedEventArgs m)
+    private Task OnMessageReceived(string userId, MqttApplicationMessageReceivedEventArgs m)
     {
-        string receivedTopic = m.ApplicationMessage.Topic.Substring(m.ApplicationMessage.Topic.IndexOf('/') + 1);
-        string message = Encoding.UTF8.GetString(m.ApplicationMessage.PayloadSegment);
-        _routePoints.TryAdd(receivedTopic, message);
+        if (_mqttClients.TryGetValue(userId, out var clientData))
+        {
+            string receivedTopic = m.ApplicationMessage.Topic.Substring(m.ApplicationMessage.Topic.IndexOf('/') + 1);
+            string message = Encoding.UTF8.GetString(m.ApplicationMessage.PayloadSegment);
+            clientData.RoutePoints.TryAdd(receivedTopic, message);
+        }
         return Task.CompletedTask;
     }
 
     public async Task<bool> DisconnectFromBrokerAsync(string deviceCode)
     {
-        if (this._mqttClient.IsConnected)
-        {
-            await _mqttClient.UnsubscribeAsync("statistics/" + deviceCode + "/speed");
-            await _mqttClient.UnsubscribeAsync("statistics/" + deviceCode + "/latitude");
-            await _mqttClient.UnsubscribeAsync("statistics/" + deviceCode + "/longitude");
+        string clientId = _httpContextAccessor.HttpContext.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value!;
 
-            await _mqttClient.DisconnectAsync();
+        if (_mqttClients.TryGetValue(clientId, out var clientData))
+        {
+            var client = clientData.Client;
+            if (client.IsConnected)
+            {
+                await client.UnsubscribeAsync($"statistics/{deviceCode}/speed");
+                await client.UnsubscribeAsync($"statistics/{deviceCode}/latitude");
+                await client.UnsubscribeAsync($"statistics/{deviceCode}/longitude");
+
+                await client.DisconnectAsync();
+            }
+
+            _mqttClients.TryRemove(clientId, out _);
+            return true;
         }
 
-        var topics = _routePoints.Keys.Where(k => k.Contains(deviceCode)).ToList();
-        foreach (var topic in topics)
-        {
-            _routePoints.TryRemove(topic, out _);
-        }
-
-        _mqttClient.ApplicationMessageReceivedAsync -= OnMessageReceived;
-
-        return true;
+        return false;
     }
 
     public RoutePointDTO? GetRoutePointData(string deviceCode)
     {
-        var topics = _routePoints.Keys.Where(k => k.Contains(deviceCode)).ToList();
+        var clientId = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value!;
 
-        if (!topics.Any())
+        _mqttClients.TryGetValue(clientId, out var clientData);
+        var routePoints = clientData.RoutePoints;
+        
+        if (routePoints == null)
         {
             return null;
         }
 
-        _routePoints.TryGetValue(topics.FirstOrDefault(k => k.Contains("speed"))!, out var speed);
-        _routePoints.TryGetValue(topics.FirstOrDefault(k => k.Contains("latitude"))!, out var latitude);
-        _routePoints.TryGetValue(topics.FirstOrDefault(k => k.Contains("longitude"))!, out var longitude);
+        var topics = routePoints.Keys.Where(k => k.Contains(deviceCode)).ToList();
+
+        routePoints.TryGetValue(topics.FirstOrDefault(k => k.Contains("speed"))!, out var speed);
+        routePoints.TryGetValue(topics.FirstOrDefault(k => k.Contains("latitude"))!, out var latitude);
+        routePoints.TryGetValue(topics.FirstOrDefault(k => k.Contains("longitude"))!, out var longitude);
 
         if (latitude != "0" && longitude != "0")
         {
@@ -143,7 +156,7 @@ internal class DeviceCommunicationService : IDeviceCommunicationService
 
             foreach (var topic in topics)
             {
-                _routePoints.TryRemove(topic, out _);
+                routePoints.TryRemove(topic, out _);
             }
 
             return result;
