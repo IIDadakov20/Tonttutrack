@@ -332,3 +332,50 @@ a{
     color: var(--text-color) !important;
     background-color: var(--background-color)!important;
 }
+
+#search-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+/* Стилизиране на полето за търсене и бутона */
+#route-search {
+    width: calc(100% - 3.5rem); /* Остави място за бутона */
+    flex-grow: 1;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0.5rem 0 0.5rem 0;
+}
+
+#route-search:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+#search-btn {
+    width: 3rem; /* Стандартен размер на бутона */
+    height: 3rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 30%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-items: center; 
+    transform: translateY(0.25rem);
+}
+
+#search-btn:hover {
+    background-color: var(--secondary-color);
+}
+
+#search-btn .material-icons {
+    font-size: 1.5rem;
+    padding-top: 0.2rem;
+}
