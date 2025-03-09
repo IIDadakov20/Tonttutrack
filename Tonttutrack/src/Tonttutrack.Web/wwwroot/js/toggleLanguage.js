@@ -66,7 +66,21 @@ const translations = {
             home: "Home",
             map: "Map",
             logIn: "Log in",
-            privacy: "Privacy"
+            privacy: "Admin"
+        },
+        dashboard: {
+            heading: "Device Management",
+            name: "Name",
+            code: "Code",
+            actions: "Actions",
+            updateD: "Update Device",
+            delete: "DeleteDevice",
+            add: "Add",
+            update: "Update",
+            devName: "Device Name",
+            devCode: "Device Code",
+            devPassword: "Device Password",
+            newPassword: "New Password",
         }
     },
     bg: {
@@ -136,7 +150,21 @@ const translations = {
             home: "Начало",
             map: "Карта",
             logIn: "Вход",
-            privacy: "Поверителност"
+            privacy: "Админ"
+        },
+        dashboard: {
+            heading: "Управление на устройства",
+            name: "Име",
+            code: "Код",
+            actions: "Действия",
+            updateD: "Обнови устройство",
+            delete: "Изтрий устройство",
+            add: "Добави",
+            update: "Обнови",
+            devName: "Име на устройство",
+            devCode: "Код на устройство",
+            devPassword: "Парола на устройство",
+            newPassword: "Нова парола",
         }
     }
 };
@@ -144,7 +172,7 @@ const translations = {
 document.addEventListener("DOMContentLoaded", function () {
     const languageOptions = document.querySelectorAll('.language-option input[type="radio"]');
 
-    // смяна на езика на страницата
+    // Функция за смяна на езика на страницата
     function changeLanguage(lang) {
         document.querySelectorAll("[data-translate]").forEach(element => {
             const key = element.getAttribute("data-translate");
@@ -158,7 +186,19 @@ document.addEventListener("DOMContentLoaded", function () {
             element.textContent = translations[lang][section][translationKey];
         });
 
+        // Обновяване на placeholder-ите
+        updatePlaceholders(lang);
+
         localStorage.setItem("selectedLanguage", lang);
+    }
+
+    // Функция за обновяване на placeholder-ите
+    function updatePlaceholders(lang) {
+        document.querySelectorAll('[data-placeholder]').forEach(input => {
+            const placeholderKey = input.getAttribute('data-placeholder');
+            const [section, key] = placeholderKey.split('.');
+            input.setAttribute('placeholder', translations[lang][section][key]);
+        });
     }
 
     // Променяме езика при зареждане на страницата според запазения език
