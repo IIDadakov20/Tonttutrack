@@ -30,7 +30,7 @@ public class DeviceController : Controller
     }
 
     [HttpGet("getDevices")]
-    public async Task<IActionResult> GetDevicesAsync([FromQuery] int pageNumber)
+    public async Task<IActionResult> GetDevicesAsync([FromQuery] int pageNumber = 1)
     {
         var devices = await _deviceService.GetDevicesAsync(pageNumber);
 
@@ -39,7 +39,7 @@ public class DeviceController : Controller
             return BadRequest(new { message = "No devices found" });
         }
 
-        return Ok(devices);
+        return Ok(devices.Item1);
     }
 
     [HttpDelete("deleteDevice")]

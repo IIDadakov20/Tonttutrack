@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Tonttutrack.Domain.DTOs.Response;
 using Tonttutrack.Domain.DTOs.Request;
 using Tonttutrack.DataAccess.Data.Models;
+using Npgsql;
 
 namespace Tonttutrack.Service.Services;
 
@@ -18,12 +19,16 @@ internal class DeviceService : IDeviceService
 
     public async Task<bool> VerifyDeviceCredentialsAsync(string code, string password)
     {
-        var device = await _context.Devices.FirstOrDefaultAsync(d => d.Code == code);
+        var deviceCode = new NpgsqlParameter("@device_code", System.Data.SqlDbType.Text);
+        var devicePassword = new NpgsqlParameter("@password", System.Data.SqlDbType.Text);
+        deviceCode.Value = code;
+        devicePassword.Value = password;
 
-        if (device == null)
-            return false;
+        var device = await _context.Devices
+            .FromSqlRaw("SELECT * FROM verify_device_password(@device_code, @password)", deviceCode, devicePassword)
+            .FirstOrDefaultAsync();
 
-        return device.PasswordHash == password;
+        return device != null;
     }
 
     public async Task<string?> FetchConnectedDeviceNameAsync(string code)
@@ -38,14 +43,14 @@ internal class DeviceService : IDeviceService
 
     public async Task<(List<DeviceResponseDTO>, int)> GetDevicesAsync(int pageNumber)
     {
-        var skip = (pageNumber - 1) * 3;
+        var skip = (pageNumber - 1) * 4;
 
         var totalDevices = await _context.Devices.CountAsync();
 
         var devices = await _context.Devices
             .OrderBy(d => d.Id)
             .Skip(skip)
-            .Take(3)
+            .Take(4)
             .Select(d => new DeviceResponseDTO
             {
                 Id = d.Id,

@@ -135,7 +135,7 @@ internal class DeviceCommunicationService : IDeviceCommunicationService
         _mqttClients.TryGetValue(clientId, out var clientData);
         var routePoints = clientData.RoutePoints;
         
-        if (routePoints == null)
+        if (!routePoints.Any())
         {
             return null;
         }
