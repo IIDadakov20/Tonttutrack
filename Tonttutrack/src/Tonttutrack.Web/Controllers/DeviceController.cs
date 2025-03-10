@@ -17,7 +17,7 @@ public class DeviceController : Controller
     }
 
     [HttpPost("createOrUpdateDevice")]
-    public async Task<IActionResult> CreateDeviceAsync(DeviceRequestDTO deviceInfo)
+    public async Task<IActionResult> CreateDeviceAsync([FromBody]DeviceRequestDTO deviceInfo)
     {
         var deviceResult = await _deviceService.AddOrUpdateDeviceAsync(deviceInfo);
 
@@ -43,7 +43,7 @@ public class DeviceController : Controller
     }
 
     [HttpDelete("deleteDevice")]
-    public async Task<IActionResult> DeleteeRouteAsync([FromBody] Guid deviceId)
+    public async Task<IActionResult> DeleteDeviceAsync([FromBody] Guid deviceId)
     {
         var routeDeleteResult = await _deviceService.DeleteDeviceAsync(deviceId);
 
