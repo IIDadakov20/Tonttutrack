@@ -4,33 +4,17 @@ ViewData["Title"] = "Admin";
 <link rel="stylesheet" href="~/css/adminDashboard.css" />
 
 <div id="admin-container">
-    <!-- Заглавие - центрирано -->
     <h2 class="device-title" data-translate="dashboard.heading">Device Management</h2>
-
+    
     <!-- Таблица с устройствата -->
     <section class="table-section">
+        <div class="device-header">
+            <div class="device-column">Name</div>
+            <div class="device-column">Code</div>
+            <div class="device-column">Actions</div>
+        </div>
         <div class="device-container">
-            <div class="device-header">
-                <div class="device-column" data-translate="dashboard.name">Name</div>
-                <div class="device-column" data-translate="dashboard.code">Code</div>
-                <div class="device-column" data-translate="dashboard.actions">Actions</div>
-            </div>
-
-            <div class="device-row" id="row-123">
-                <div class="device-column">
-                    <span class="device-name">Device 1</span>
-                    <input type="text" class="device-edit-name device-hidden" value="Example Device">
-                </div>
-                <div class="device-column device-code">123</div>
-                <div class="device-column">
-                    <button class="device-btn device-edit-btn" data-code="123" data-translate="dashboard.updateD">Update Device</button>
-                    <button class="device-btn device-remove-btn" data-code="123" data-translate="dashboard.delete">Delete Device</button>
-                    <div class="device-update-container device-hidden">
-                        <input type="password" class="device-password-input" placeholder="New Password" data-placeholder="dashboard.newPassword">
-                        <button class="device-btn device-save-btn" data-code="123" data-translate="dashboard.update">Update</button>
-                    </div>
-                </div>
-            </div>
+            
         </div>
     </section>
 
@@ -44,21 +28,20 @@ ViewData["Title"] = "Admin";
         <div class="device-add-container device-hidden">
             <div class="device-row-new">
                 <div class="device-column">
-                    <input type="text" id="new-device-name" class="device-edit-name input-device-name" placeholder="Device Name" data-placeholder="dashboard.devName">
+                    <input type="text" id="new-device-name" class="device-edit-name input-device-name" placeholder="Device Name">
                 </div>
                 <div class="device-column">
-                    <input type="text" id="new-device-code" placeholder="Device Code" data-placeholder="dashboard.devCode">
+                    <input type="text" id="new-device-code" placeholder="Device Code">
                 </div>
                 <div class="device-column">
-                    <input type="password" id="new-device-password" data-placeholder="dashboard.devPassword" placeholder="Device Password">
-                    <button id="save-new-device-btn" class="device-btn device-save-btn" data-translate="dashboard.add">Add</button>
+                    <input type="password" id="new-device-password" placeholder="Device Password">
+                    <button id="save-new-device-btn" class="device-btn device-save-btn">Add</button>
                 </div>
             </div>
         </div>
     </section>
-
 </div>
 
 @section Scripts {
-<script src="~/js/adminDashboard.js"></script>
+<script src="~/js/admin/adminDashboard.js"></script>
 }
