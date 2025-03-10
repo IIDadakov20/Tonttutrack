@@ -66,7 +66,8 @@ const translations = {
             home: "Home",
             map: "Map",
             logIn: "Log in",
-            privacy: "Admin"
+            adDash: "Admin",
+            heko: "Help"
         },
         dashboard: {
             heading: "Device Management",
@@ -150,7 +151,8 @@ const translations = {
             home: "Начало",
             map: "Карта",
             logIn: "Вход",
-            privacy: "Админ"
+            adDash: "Админ",
+            heko: "Помощ"
         },
         dashboard: {
             heading: "Управление на устройства",

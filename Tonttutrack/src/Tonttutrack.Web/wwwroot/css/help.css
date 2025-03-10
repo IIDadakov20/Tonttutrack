@@ -1,0 +1,33 @@
+#vid-container {
+    height: calc(100vh - 130px);
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Центрираме хоризонтално */
+    align-items: center; /* Центрираме вертикално */
+}
+
+#demo-vid {
+    width: 80rem;
+    height: 45rem;
+    background-color: var(--background-color);
+}
+
+@media (max-width: 1090px) {
+    #demo-vid {
+        width: 53rem;
+        height: 30rem;
+    }
+}
+@media (max-width: 768px) {
+    #demo-vid {
+        width: 40rem;
+        height: 22.5rem;
+    }
+}
+@media (max-width: 590px) {
+    #demo-vid {
+        width: 16rem;
+        height: 9rem;
+    }
+}
+

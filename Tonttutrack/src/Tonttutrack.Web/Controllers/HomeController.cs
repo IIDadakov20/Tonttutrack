@@ -18,6 +18,11 @@ public class HomeController : Controller
     {
         return View();
     }
+    
+    public IActionResult Help()
+    {
+        return View();
+    }
 
     [Authorize(Roles = "Admin")]
     public IActionResult Admin()
@@ -28,6 +33,8 @@ public class HomeController : Controller
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        var statusCode = HttpContext.Response.StatusCode;
+        return View((object)statusCode);  // Изпращаме статус кода към изгледа
     }
+
 }

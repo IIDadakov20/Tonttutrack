@@ -31,7 +31,7 @@
                     @if (User.IsInRole("Admin"))
                     {
                         <li class="nav-item mx-sm-3 fs-5">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Admin">Admin</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Admin" data-translate="layout.adDash">Admin</a>
                         </li>
                     }
                 </ul>
@@ -68,7 +68,8 @@
 </main>
 <footer class="border-top footer text-muted">
     <div class="container">
-        &copy; 2025 - Tonttutrack <a asp-area="" asp-controller="" asp-action=""></a>
+        &copy; 2025 - Tonttutrack -
+        <a asp-area="" asp-controller="Home" asp-action="Help" data-translate="layout.heko">Help</a>
     </div>
 </footer>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
