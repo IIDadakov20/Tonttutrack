@@ -4,6 +4,8 @@ $(function () {
     fetchAndRenderDevices();
 });
 
+
+// извличане на устройствата и онбновява на листа
 function fetchAndRenderDevices() {
     fetchDevices().done(function (fetchedDevices) {
         fetchedDevices.forEach(device => {
@@ -15,7 +17,7 @@ function fetchAndRenderDevices() {
     });
 }
 
-// Обновяване на интерфейса
+// Обновяване на листа с устройствата
 function renderDevices() {
     $(".device-container").empty();
     devices.forEach(device => {
@@ -39,7 +41,7 @@ function createDeviceRow(device) {
                 <button class="device-btn device-remove-btn" data-id="${device.id}">Delete Device</button>
                 <div class="device-update-container device-hidden">
                     <input type="password" class="device-password-input" placeholder="New Password">
-                    <button class="device-btn device-save-btn" data-code="${device.code}">Update</button>
+                    <button class="device-btn device-save-btn device-update-save-btn" data-code="${device.code}">Update</button>
                 </div>
             </div>
         </div>
@@ -51,7 +53,7 @@ $("#add-device-btn").on('click', function () {
     $(".device-add-container").toggleClass("device-hidden");
 });
 
-// изпращане на форма за добавяне на ново устройство
+// верифициране на форма за добавяне на ново устройство при натискане на бутона
 $("#save-new-device-btn").on('click', function () {
     let newName = $("#new-device-name").val().trim();
     let newCode = $("#new-device-code").val().trim();
@@ -69,10 +71,24 @@ $("#save-new-device-btn").on('click', function () {
     }
 });
 
+// изпращане на заявка за добавяне на ново устройство
+function addDevice(name, code, password) {
+    let existingDevice = devices.find(d => d.code === code);
+    if (existingDevice) {
+        alert("Device with this code already exists!");
+        return;
+    }
+
+    addDeviceRequest(name, code, password).done(function () {
+        devices = [];
+        fetchAndRenderDevices();
+    });
+}
+
+// изпращане на заявка за изтриване на устройство при натискане на бутона
 $(document).on("click", ".device-remove-btn", function () {
     if (confirm("Are you sure you want to delete this device?")) {
         const deviceId = $(this).data("id");
-        devices = devices.filter(d => d.id !== deviceId);
         deleteDeviceRequest(deviceId).done(function () {
             devices = [];
             fetchAndRenderDevices();
@@ -80,16 +96,15 @@ $(document).on("click", ".device-remove-btn", function () {
     }
 });
 
-
-
-
-
-
-
-
-
 // Показване на форма за редактиране на устройство
-/*function showUpdateForm(code) {
+$(document).on("click", ".device-edit-btn", function () {
+    if (confirm("Are you sure you want to update this device?")) {
+        const deviceCode = $(this).data("code");
+        showUpdateForm(deviceCode);
+    }
+});
+
+function showUpdateForm(code) {
     let escapedCode = code.replace(/:/g, "-");
     let row = $("#row-" + escapedCode);
     if (row.length === 0) {
@@ -102,25 +117,12 @@ $(document).on("click", ".device-remove-btn", function () {
     row.find(".device-edit-btn, .device-remove-btn").addClass("device-hidden");
 }
 
-// Добавяне на Event Listener за бутона "Update Device"
-$(document).on("click", ".device-edit-btn", function () {
-    let code = $(this).data("code");
-    showUpdateForm(code);
-});
-
-
-
-
-
-
-
-// Инициализация на Event Listeners
-$(document).ready(function () {
-    renderDevices();
-
-    // Event Listener за бутона за редактиране
-    $(document).on("click", ".device-edit-btn", function () {
-        let code = $(this).data("code");
-        showUpdateForm(code);
+// изпращане на заявка за обновяване на устройство при натискане на бутона
+$(document).on("click", ".device-update-save-btn", function () {
+    const deviceCode = $(this).data("code");
+    let device = devices.find(d => String(d.code).trim() === deviceCode);
+    updateDeviceRequest(deviceCode, device.name, device.password).done(function () {
+        devices = [];
+        fetchAndRenderDevices();
     });
-});*/
+});

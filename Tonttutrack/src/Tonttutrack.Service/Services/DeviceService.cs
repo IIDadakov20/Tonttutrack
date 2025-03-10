@@ -71,6 +71,8 @@ internal class DeviceService : IDeviceService
             .Where(d => d.Code == deviceInfo.Code)
             .FirstOrDefaultAsync();
 
+        int deviceResult;
+
         if (device == null)
         {
             Device newDevice = new Device
@@ -81,14 +83,19 @@ internal class DeviceService : IDeviceService
             };
 
             await _context.Devices.AddAsync(newDevice);
+            deviceResult = await _context.SaveChangesAsync();
         }
         else
         {
-            device.Name = deviceInfo.Name;
-            device.PasswordHash = deviceInfo.PasswordHash;
+            var name = deviceInfo.Name != null ? deviceInfo.Name : device.Name;
+            var password = deviceInfo.PasswordHash != null ? deviceInfo.PasswordHash : device.PasswordHash;
+            deviceResult = await _context.Devices
+                .Where(d => d.Id == device.Id)
+                .ExecuteUpdateAsync(d => d
+                    .SetProperty(d => d.Name, name)
+                    .SetProperty(d => d.PasswordHash, password)
+                );
         }
-
-        var deviceResult = await _context.SaveChangesAsync();
 
         if (deviceResult > 0)
         {

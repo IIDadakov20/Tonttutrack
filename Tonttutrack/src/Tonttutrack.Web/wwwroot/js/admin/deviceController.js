@@ -10,20 +10,7 @@ function fetchDevices() {
     });
 }
 
-// Добавяне на ново устройство
-function addDevice(name, code, password) {
-    let existingDevice = devices.find(d => d.code === code);
-    if (existingDevice) {
-        alert("Device with this code already exists!");
-        return;
-    }
-
-    addDeviceRequest(name, code, password).done(function () {
-        devices = [];
-        fetchAndRenderDevices();
-    });
-}
-
+// добавяне на устройство
 function addDeviceRequest(name, code, password) {
     let formData = {
         Name: name,
@@ -42,8 +29,26 @@ function addDeviceRequest(name, code, password) {
     });
 }
 
+// Обновяване на устройство
+function updateDeviceRequest(deviceCode, deviceName, devicePassword) {
+    let formData = {
+        Name: deviceName,
+        PasswordHash: devicePassword,
+        Code: deviceCode
+    };
 
-// Изтриване на устройство
+    return $.ajax({
+        type: 'POST',
+        url: '/device/createOrUpdateDevice',
+        contentType: 'application/json',
+        data: JSON.stringify(formData)
+    }).fail(function (xhr) {
+        let errorMessage = xhr.responseJSON.message;
+        alert(errorMessage);
+    });
+}
+
+// изтриване на устройство
 function deleteDeviceRequest(id) {
     return $.ajax({
         type: 'DELETE',
@@ -54,18 +59,4 @@ function deleteDeviceRequest(id) {
         let errorMessage = xhr.responseJSON.message;
         alert(errorMessage);
     });
-}
-
-
-
-// Обновяване на устройство
-function updateDevice(code, newName, newPassword) {
-    code = String(code).trim();
-    let device = devices.find(d => String(d.code).trim() === code);
-    if (device) {
-        device.name = newName;
-        device.password = newPassword;
-        renderDevices();
-    } else {
-    }
 }
