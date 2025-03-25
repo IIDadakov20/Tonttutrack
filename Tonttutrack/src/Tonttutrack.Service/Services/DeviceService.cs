@@ -88,12 +88,11 @@ internal class DeviceService : IDeviceService
         else
         {
             var name = deviceInfo.Name != null ? deviceInfo.Name : device.Name;
-            var password = deviceInfo.PasswordHash != null ? deviceInfo.PasswordHash : device.PasswordHash;
             deviceResult = await _context.Devices
                 .Where(d => d.Id == device.Id)
                 .ExecuteUpdateAsync(d => d
                     .SetProperty(d => d.Name, name)
-                    .SetProperty(d => d.PasswordHash, password)
+                    .SetProperty(d => d.PasswordHash, deviceInfo.PasswordHash)
                 );
         }
 

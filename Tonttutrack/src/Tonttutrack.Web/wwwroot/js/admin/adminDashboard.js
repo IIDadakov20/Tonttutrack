@@ -120,8 +120,10 @@ function showUpdateForm(code) {
 // изпращане на заявка за обновяване на устройство при натискане на бутона
 $(document).on("click", ".device-update-save-btn", function () {
     const deviceCode = $(this).data("code");
-    let device = devices.find(d => String(d.code).trim() === deviceCode);
-    updateDeviceRequest(deviceCode, device.name, device.password).done(function () {
+    let row = $("#row-" + deviceCode.replace(/:/g, "-"));
+    const updatedName = row.find(".device-edit-name").val().trim();
+    const updatedPassword = row.find(".device-password-input").val().trim();
+    updateDeviceRequest(deviceCode, updatedName, updatedPassword).done(function () {
         devices = [];
         fetchAndRenderDevices();
     });

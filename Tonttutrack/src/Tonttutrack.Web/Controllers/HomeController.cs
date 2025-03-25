@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using Tonttutrack.Web.Models;
 
 namespace Tonttutrack.Web.Controllers;
 
